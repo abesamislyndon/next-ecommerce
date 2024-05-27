@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../NextJs-Auth-Mysql-CRUD"
+		},
+		{
+			"path": "../../ecom-with-nextjs"
+		}
+	],
+	"settings": {}
+}
