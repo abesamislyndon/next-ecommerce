@@ -9,6 +9,7 @@ import {
   fetchCartDetails,
   fetchCartEmpty,
   removeItemFromCart,
+  updateItemQuantity,
 } from "../../features/cart/cartSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -19,11 +20,7 @@ export default function CartPage() {
   const globalstate = useSelector((state) => state.cart);
   const router = useRouter();
 
-
 console.log('global ni', globalstate);
-
-
-
 
   const [isClient, setIsClient] = useState(false);
 
@@ -63,9 +60,20 @@ console.log('global ni', globalstate);
     dispatch(removeItemFromCart(item));
   };
 
+
+  const handleQtyIncrease = (item) =>{
+      dispatch(increaseItem(item));
+      dispatch(updateItemQuantity(item));
+  }
+
+  const handleQtyDecrease = (item) =>{
+     dispatch(decreaseItem(item));
+     dispatch(updateItemQuantity(item));
+  }
+
   const handleCheckout = () => {
     router.push({
-      pathname: "/checkout",
+      pathname: "/billing",
       query: { cart: JSON.stringify(globalstate.cart) },
     });
   };
@@ -148,7 +156,8 @@ console.log('global ni', globalstate);
                         className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"
                         onClick={() => {
                           if (item.quantity > 1) {
-                            dispatch(decreaseItem(item));
+                            
+                            handleQtyDecrease(item);
                           } else {
                             dispatch(removeFromCart(item));
                           }
@@ -159,15 +168,14 @@ console.log('global ni', globalstate);
                       <span className="text-center p-4"> {item.quantity}</span>
                       <button
                         className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"
-                        onClick={() => dispatch(increaseItem(item))}
+                        onClick={() => handleQtyIncrease(item)}
                       >
                         +
                       </button>
                     </td>
                     <td> ₱ {calculateSubtotal(item).toFixed(2)}</td>
                     <td>
-                      <button onClick={() => 
-                      removeItem(item)}>Remove</button>
+                      <button onClick={() => removeItem(item)}>Remove</button>
                     </td>
                   </tr>
                 ))}

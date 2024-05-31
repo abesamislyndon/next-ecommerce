@@ -1,8 +1,5 @@
-// pages/index.js
-import { useDispatch, useSelector } from "react-redux";
-// import ProductList from "../components/ProductList";
+
 import { useEffect, useState, lazy, Suspense } from "react"; 
-import cartSlice from "../features/cart/cartSlice";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
 
 

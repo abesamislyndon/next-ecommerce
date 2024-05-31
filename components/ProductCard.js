@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
   }, []);
 
   useEffect(() => {
-    const cartItems = localStorage.getItem("cartItems");
+    const cartItems = localStorage.getItem("ApiCartDetails");
     if (cartItems) {
       dispatch(setCart(JSON.parse(cartItems)));
     }
