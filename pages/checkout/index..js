@@ -148,10 +148,10 @@ export default function CheckoutPage() {
   return (
     <div className="font-[sans-serif] bg-white p-4 min-h-screen">
       <form onSubmit={handleSubmit} className="mt-0 max-w-full">
-        <div className="lg:max-w-7xl max-w-xl mx-auto p-20 mb-10">
+        <div className="lg:max-w-7xl max-w-xl mx-auto p-2 lg:p-20 mb-2 lg:mb-10">
           <div className="grid lg:grid-cols-3 gap-0">
-            <div className="lg:col-span-2 max-lg:order-1  p-10">
-              <h2 className="text-2xl font-extrabold text-[#333] mb-7">
+            <div className="lg:col-span-2 max-lg:order-1  lg:p-10">
+              <h2 className="text-2xl font-extrabold text-[#333] mb-7 mt-10">
                 Customer Details
               </h2>
               <hr className="h-px my-8 mt-[-17px] bg-gray-200 border-0 dark:bg-gray-100" />
@@ -296,6 +296,13 @@ export default function CheckoutPage() {
                 globalstate.cart.map((item) => (
                   <ul key={item.id} className="text-[#333] mt-3 space-y-6">
                     <li className="flex flex-wrap gap-4 text-base">
+                      {item.product.base_image &&
+                        item.product.base_image.small_image_url && (
+                          <img
+                            src={item.product.base_image.small_image_url}
+                            alt=""
+                          className="w-10 h2 rounded-sm" />
+                        )}
                       {item.name}
                       <span className="font-bold">X {item.quantity}</span>
                       <span className="ml-auto font-bold">

@@ -6,30 +6,42 @@ import {
   increaseItem,
   decreaseItem,
   setCart,
-  fetchCartDetails,
   fetchCartEmpty,
   removeItemFromCart,
   updateItemQuantity,
 } from "../../features/cart/cartSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { CartIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const globalstate = useSelector((state) => state.cart);
   const router = useRouter();
 
-console.log('global ni', globalstate);
-
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
-    const cartItems = localStorage.getItem("ApiCartDetails");
-    if (cartItems) {
-      dispatch(setCart(JSON.parse(cartItems)));
-    }
+    const fetchCartFromLocalStorage = async () => {
+      setIsClient(true);
+      const cartItems = localStorage.getItem("ApiCartDetails");
+      if (cartItems) {
+        try {
+          const parsedCartItems = JSON.parse(cartItems);
+          if (Array.isArray(parsedCartItems)) {
+            dispatch(setCart(parsedCartItems));
+          } else {
+            console.error("Parsed cart items are not an array");
+          }
+        } catch (error) {
+          console.error("Error parsing cart items from localStorage", error);
+        }
+      }
+      setLoading(false); // Set loading to false after fetching and setting the cart
+    };
+
+    fetchCartFromLocalStorage();
   }, [dispatch]);
 
   const calculateSubtotal = (item) => {
@@ -60,16 +72,19 @@ console.log('global ni', globalstate);
     dispatch(removeItemFromCart(item));
   };
 
+  const handleQtyIncrease = (item) => {
+    dispatch(increaseItem(item));
+    dispatch(updateItemQuantity(item));
+  };
 
-  const handleQtyIncrease = (item) =>{
-      dispatch(increaseItem(item));
+  const handleQtyDecrease = (item) => {
+    if (item.quantity > 1) {
+      dispatch(decreaseItem(item));
       dispatch(updateItemQuantity(item));
-  }
-
-  const handleQtyDecrease = (item) =>{
-     dispatch(decreaseItem(item));
-     dispatch(updateItemQuantity(item));
-  }
+    } else {
+      removeItem(item);
+    }
+  };
 
   const handleCheckout = () => {
     router.push({
@@ -77,6 +92,14 @@ console.log('global ni', globalstate);
       query: { cart: JSON.stringify(globalstate.cart) },
     });
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-2xl">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-3 lg:p-0 mt-20">
@@ -103,7 +126,7 @@ console.log('global ni', globalstate);
                   scope="col"
                   className="py-3 px-5 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
                 >
-                  Name
+                  Image
                 </th>
                 <th
                   scope="col"
@@ -145,23 +168,20 @@ console.log('global ni', globalstate);
                     key={index}
                   >
                     <td className="p-4">
-                      {item.base_image && item.base_image.small_image_url && (
-                        <img src={item.base_image.small_image_url} alt="" />
-                      )}
+                      {item.product.base_image &&
+                        item.product.base_image.small_image_url && (
+                          <img
+                            src={item.product.base_image.small_image_url}
+                            alt=""
+                          />
+                        )}
                     </td>
                     <td className="p-4">{item.name}</td>
                     <td> ₱ {item.price}</td>
                     <td className="p-3">
                       <button
                         className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"
-                        onClick={() => {
-                          if (item.quantity > 1) {
-                            
-                            handleQtyDecrease(item);
-                          } else {
-                            dispatch(removeFromCart(item));
-                          }
-                        }}
+                        onClick={() => handleQtyDecrease(item)}
                       >
                         -
                       </button>
@@ -188,7 +208,7 @@ console.log('global ni', globalstate);
       )}
 
       <Link
-        className="float-end w-full bg-black mt-[0px] py-2 px-4 text-[#fff]"
+        className="float-end w-full bg-black mt-[0px] py-2 px-4 text-[#fff] text-center"
         href="/checkout"
       >
         Proceed to Checkout

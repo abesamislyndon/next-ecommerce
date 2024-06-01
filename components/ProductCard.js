@@ -13,6 +13,8 @@ import {
 
 export default function ProductCard({ product }) {
 
+
+
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
@@ -52,28 +54,34 @@ export default function ProductCard({ product }) {
   return (
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
-        <div className="mt-4 my-5 rounded-lg border border-gray-100 bg-white shadow-md">
-          <img src={product.base_image.large_image_url} alt="" />
+        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white  p-[0.1em]">
+          <img
+            src={product.base_image.large_image_url}
+            alt=""
+            className="rounded-tl-lg rounded-tr-lg"
+          />
           <div className="p-2">
-            <h5 className="text-[0.9em] font-bold  tracking-tight text-slate-900">
+            <h5 className="text-md lg:text-md font-bold  tracking-tight text-slate-900">
               {product.name}
             </h5>
           </div>
 
           <div className="mt-2 mb-5 flex items-center justify-between">
-            <p>
-              <span className="p-5 text-3xl font-bold text-slate-900">
-                ₱ {product.formated_price.replace(/\$/g, "")}
+            <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-1">
+              <span className=" text-sm px-2 lg:py-5 lg:text-sm font-bold text-slate-900">
+                {product.formated_price.replace(/\$/g, "")}
               </span>
-              {/* <span className="text-sm text-slate-900 line-through">$699</span> */}
-            </p>
+              <span className="text-xl px-2 lg:text-sm text-rose-600 font-bold line-through lg:mt-5">
+                {product.formated_regular_price}
+              </span>
+            </div>
           </div>
-          <button
+          {/* <button
             className="flex w-full items-center justify-center  bg-slate-900 px-5 py-3.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
             onClick={() => setShowModal(true)}
           >
             Add to Cart
-          </button>
+          </button> */}
         </div>
       </span>
       {/* Modal */}
@@ -93,9 +101,15 @@ export default function ProductCard({ product }) {
               </div>
               <div className="h-[45vh">
                 <h2 className="text-[1.2em] font-extrabold">{product.name}</h2>
-                <span className="py-5 text-5xl font-bold text-slate-900">
-                  ₱ {product.formated_price.replace(/\$/g, "")}
-                </span>
+                <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2">
+                  <span className="py-5 text-5xl font-bold text-slate-900">
+                    {product.formated_price.replace(/\$/g, "")}
+                  </span>
+                  <span className="text-lg text-rose-600 font-bold line-through">
+                    {product.regular_price}
+                  </span>
+                </div>
+
                 <p
                   className="p-0 mt-4"
                   dangerouslySetInnerHTML={{ __html: product.description }}
