@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import Link from "next/link";
-import { useAuth } from "../../hooks/useAuth";
+import withAuth from "../../hooks/withAuth";
 
-export default function DashboardPage() {
+const  DashboardPage = () => {
+
   const { user, handleLogout, checkAuthentication } = useAuth();
 
   useEffect(() => {
@@ -28,3 +28,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+export default withAuth(DashboardPage);

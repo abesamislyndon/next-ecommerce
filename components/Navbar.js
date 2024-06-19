@@ -1,44 +1,60 @@
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar() {
- const [currentCartItemCount, setCurrentCartItemCount] = useState(0);
- const cart = useSelector((state) => state.cart.cart);
+  const [currentCartItemCount, setCurrentCartItemCount] = useState(0);
+  const [userinfo, setUserinfo] = useState(null);
+  const cart = useSelector((state) => state.cart.cart);
+ const { handleLogout } = useAuth();
 
- 
-//  useEffect(() => {
-//    const itemCount = cart.reduce((acc, item) => {
-//      return acc + (item.quantity || 0);
-//    }, 0);
-//    setCurrentCartItemCount(itemCount);
-//  }, [cart]);
+  // Retrieve user information from sessionStorage only on the client-side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const get_user_logedIn = sessionStorage.getItem("BasicInfo");
+      setUserinfo(get_user_logedIn);
+    }
+  }, []);
 
-
- useEffect(() => {
-  // Ensure cart is an array before calling reduce
-  if (Array.isArray(cart)) {
-       const itemCount = cart.reduce((acc, item) => {
-         return acc + (item.quantity || 0);
-       }, 0);
-       setCurrentCartItemCount(itemCount);
-
-  } else {
-    console.error('Cart is not an array:', cart);
-  }
-}, [cart]); // Ensure the useEffect reruns whenever cart changes
+  useEffect(() => {
+    // Ensure cart is an array before calling reduce
+    if (Array.isArray(cart)) {
+      const itemCount = cart.reduce((acc, item) => {
+        return acc + (item.quantity || 0);
+      }, 0);
+      setCurrentCartItemCount(itemCount);
+    } else {
+      console.error("Cart is not an array:", cart);
+    }
+  }, [cart]);
 
   return (
     <nav className="flex justify-between bg-[#FFDC52] text-dark w-screen">
       <div className="xl:px-12 py-6 flex w-full items-center">
         <Link className="text-3xl font-bold font-heading" href="/">
-          Pik and Pak
+          PET WORLD PH
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-          {/* Your navigation links */}
+          <Link href="/">Home</Link>
+          <Link href="">About</Link>
+          <Link href="">Products</Link>
+          <Link href="">Contact us</Link>
         </ul>
         <div className="hidden xl:flex  space-x-5 items-center">
+          {userinfo === null ? (
+            <>
+              <Link href="/signup">Sign up</Link>
+              <Link href="/login">Login</Link>
+            </>
+          ) : (
+            <>
+              <Link href="/userinfo">{userinfo}</Link>
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          )}
           <Link className="flex items-center hover:text-gray-200" href="/cart">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +76,6 @@ export default function Navbar() {
               </span>
             </span>
           </Link>
-          {/* Your other navigation items */}
         </div>
       </div>
       {/* Your other navigation items */}

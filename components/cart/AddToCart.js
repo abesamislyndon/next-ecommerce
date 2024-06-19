@@ -4,7 +4,7 @@ import { addItemToCart } from "../../features/cart/cartSlice";
 
 const AddToCartButton = ({ variantId, quantity }) => {
   const dispatch = useDispatch();
-
+  
   const handleAddToCart = () => {
     dispatch(addItemToCart({ variantId, quantity }));
   };

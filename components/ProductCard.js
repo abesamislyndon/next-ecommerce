@@ -1,22 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Link from "next/link";
 import {
   add,
-  removeFromCart,
-  clearCart,
-  increaseItem,
-  decreaseItem,
   addItemToCart,
   setCart
 } from "../features/cart/cartSlice";
 
 export default function ProductCard({ product }) {
 
-
-
   const dispatch = useDispatch();
-
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -106,7 +98,7 @@ export default function ProductCard({ product }) {
                     {product.formated_price.replace(/\$/g, "")}
                   </span>
                   <span className="text-lg text-rose-600 font-bold line-through">
-                    {product.regular_price}
+                    {product.regular_price} dondon
                   </span>
                 </div>
 

@@ -1,5 +1,6 @@
 import { useEffect, useState, lazy, Suspense } from "react";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
+import Search from "../components/search";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
@@ -10,33 +11,32 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-useEffect(() => {
-  async function fetchProducts(page) {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/products?limit=10&page=${page}`);
-      if (!res.ok) {
-        throw new Error(`Failed to fetch data: ${res.statusText}`);
+  useEffect(() => {
+    async function fetchProducts(page) {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/products?limit=10&page=${page}`);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch data: ${res.statusText}`);
+        }
+        const data = await res.json();
+        console.log("API Response:", data.meta); // Add this line to check API response
+
+        setProducts(data || []);
+        setTotalPages(data.meta.last_page || 1);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
-      const data = await res.json();
-      console.log("API Response:", data.meta); // Add this line to check API response
-
-      setProducts(data|| []);
-      setTotalPages(data.meta.last_page || 1);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
     }
-  }
 
-  fetchProducts(currentPage);
-}, [currentPage]);
+    fetchProducts(currentPage);
+  }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
 
   return (
     <div className="mx-auto max-w-screen-lg">
@@ -46,6 +46,7 @@ useEffect(() => {
         <div className="text-red-500">{error}</div>
       ) : (
         <Suspense fallback={<LoadingSpinner />}>
+          <Search />
           <ProductList products={products} />
           <Pagination
             currentPage={currentPage}

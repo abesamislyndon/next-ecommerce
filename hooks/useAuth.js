@@ -1,6 +1,7 @@
 // hooks/useAuth.js
 import { useState, useEffect, useContext, createContext } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext(null);
 
@@ -18,11 +19,11 @@ const useProvideAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       const checkUser = async () => {
         try {
-          const response = await fetch("/api/auth/check-auth", {
+          const response = await fetch("/api/customer/get", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -41,20 +42,20 @@ const useProvideAuth = () => {
 
   const checkAuthentication = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       if (!token) {
         router.push("/login");
       } else {
-        const response = await fetch("/api/auth/check-auth", {
+        const response = await fetch("/api/customer/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         const data = await response.json();
-        if (!response.ok) {
-          router.push("/login");
-        } else {
+        if (response.ok) {
           setUser(data.user);
+        } else {
+          router.push("/login");
         }
       }
     } catch (error) {
@@ -63,12 +64,18 @@ const useProvideAuth = () => {
   };
 
   const handleLogout = async () => {
+    const token = Cookies.get("token");
     try {
-      const response = await fetch("/api/auth/logout", {
-        method: "POST",
-      });
+       const response = await fetch("/api/customer/logout?token=true", {
+         headers: {
+           Acccept: "application/json",
+           Authorization: `Bearer ${token}`,
+         },
+       });
+      console.log(response);
       if (response.ok) {
-        localStorage.removeItem("token");
+        Cookies.remove("token");
+        sessionStorage.removeItem("BasicInfo");
         setUser(null);
         router.push("/login");
       } else {

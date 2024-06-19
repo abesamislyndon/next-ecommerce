@@ -7,8 +7,16 @@ const nextConfig = {
         destination: "/user/login",
       },
       {
+        source: "/signup",
+        destination: "/user/signup",
+      },
+      {
         source: "/api/:path*",
-        destination: "http://127.0.0.1:8000/api/:path*", // Proxy to Backend
+        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
+      },
+      {
+        source: "/api/customer/:path*",
+        destination: "http://localhost:8000/api/customer/:path*", // Proxy to Backend
       },
     ];
   },
