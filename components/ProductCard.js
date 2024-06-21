@@ -53,7 +53,7 @@ export default function ProductCard({ product }) {
             className="rounded-tl-lg rounded-tr-lg"
           />
           <div className="p-2">
-            <h5 className="text-md lg:text-md font-bold  tracking-tight text-slate-900">
+            <h5 className="text-md lg:text-sm font-normal  tracking-tight text-slate-900">
               {product.name}
             </h5>
           </div>

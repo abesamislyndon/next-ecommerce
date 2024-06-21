@@ -17,7 +17,6 @@ const withAuth = (WrappedComponent) => {
     if (!user) {
       return null; // or a loading spinner
     }
-
     return <WrappedComponent {...props} />;
   };
 };

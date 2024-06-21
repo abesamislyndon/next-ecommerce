@@ -27,13 +27,12 @@ const Login = () => {
         credentials: "include", // This will include the cookies in the request
       });
       const data = await res.json();
-      // console.log("----Login API Response---\n", data);
       if (res.ok) {
-        console.log(data);
         Cookies.set("token", data.token, { expires: 1 }); // expires in 1 day
         sessionStorage.setItem("BasicInfo", data.data.first_name);
         setApiResponse("Redirecting . . . .");
-        router.push("/");
+        router.back();
+        // router.push("/");
       } else {
         setApiResponse(data.message);
       }

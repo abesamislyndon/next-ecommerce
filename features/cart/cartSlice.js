@@ -12,7 +12,6 @@ import {
   getCurrentCart as apiGetCurrentCart,
 } from "../../utils/spreeAPI";
 
-
 const initialState = {
   cart: [],
   status: "idle",
@@ -23,7 +22,7 @@ export const fetchCartDetails = createAsyncThunk(
   "cart/cartDetails",
   async () => {
     const response = await apiCartDetails();
-    localStorage.setItem("ApiCartDetails", JSON.stringify(response.data)); // Set response directly into local storage
+    localStorage.setItem("ApiCartDetails", JSON.stringify(response.data)); 
     return response;
   }
 );
@@ -141,10 +140,15 @@ const cartSlice = createSlice({
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
+
     clearCart(state) {
       state.cart = [];
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
       localStorage.setItem("ApiCartDetails", JSON.stringify(state.cart));
+      localStorage.setItem("FinalCart", JSON.stringify(state.cart));
+      localStorage.setItem("deliveryMethod", JSON.stringify(state.cart));
+       localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
+      
     },
     setCart(state, action) {
       let validCartItems = [];

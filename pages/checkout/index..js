@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Modal from "../../components/modals/Modals";
 import {
   setCart,
   saveAddress,
@@ -9,12 +10,13 @@ import {
   saveOrder,
   getCurrentCart,
 } from "../../features/cart/cartSlice";
+import { useAuth } from "../../hooks/useAuth"; 
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const globalstate = useSelector((state) => state.cart);
   const router = useRouter();
-
+  const { user, checkAuthentication } = useAuth();
   const [billingInfo, setBillingInfo] = useState({
     address1: "",
     use_for_shipping: "true",
@@ -27,13 +29,35 @@ export default function CheckoutPage() {
     country: "PHIL",
     phone: "",
   });
-
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [pickupDate, setPickupDate] = useState("");
   const [pickupTime, setPickupTime] = useState("");
   const [errors, setErrors] = useState({});
+  const [showModal, setShowModal] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      const defaultAddress =
+        user.data.addresses.length > 0 ? user.data.addresses[0] : {};
+
+      setBillingInfo({
+        ...billingInfo,
+        first_name: user.data.first_name || "",
+        last_name: user.data.last_name || "",
+        email: user.data.email || "",
+        phone: user.data.phone || defaultAddress.phone || "",
+        address1: defaultAddress.address1 ? defaultAddress.address1.join(" ") : "",
+        use_for_shipping: "true",
+        city: defaultAddress.city || "cdo",
+        state: defaultAddress.state || "cdo",
+        postcode: defaultAddress.postcode || "9000",
+        country: defaultAddress.country_name || "PHIL",
+      });
+    }
+    console.log("this", user);
+  }, [user]);
 
   useEffect(() => {
     const cartItems = localStorage.getItem("ApiCartDetails");
@@ -113,7 +137,9 @@ export default function CheckoutPage() {
   };
 
   const handleSubmit = async (e) => {
+   
     e.preventDefault();
+
     if (!validateForm()) {
       return;
     }
@@ -145,8 +171,31 @@ export default function CheckoutPage() {
     }
   };
 
+  const handleCloseModal = () => setShowModal(false);
+  const handleGuestOrder = () => {
+    setShowModal(false);
+    handleSubmit();
+  };
+  const handleRegister = () => {
+    setShowModal(false);
+    router.push("/signup");
+  };
+
+  const handleLogin = () =>{
+    setShowModal(false);
+    router.push("/login")
+  }
+ 
+
   return (
     <div className="font-[sans-serif] bg-white p-4 min-h-screen">
+      <Modal
+        show={showModal}
+        onClose={handleCloseModal}
+        onGuest={handleGuestOrder}
+        onRegister={handleRegister}
+        onLogin={handleLogin}
+      />
       <form onSubmit={handleSubmit} className="mt-0 max-w-full">
         <div className="lg:max-w-7xl max-w-xl mx-auto p-2 lg:p-20 mb-2 lg:mb-10">
           <div className="grid lg:grid-cols-3 gap-0">
@@ -271,7 +320,6 @@ export default function CheckoutPage() {
                   )}
                 </>
               )}
-
               <h2 className="text-2xl font-extrabold text-[#333] mb-7 mt-20">
                 Payment Details
               </h2>
@@ -301,7 +349,8 @@ export default function CheckoutPage() {
                           <img
                             src={item.product.base_image.small_image_url}
                             alt=""
-                          className="w-10 h2 rounded-sm" />
+                            className="w-10 h2 rounded-sm"
+                          />
                         )}
                       {item.name}
                       <span className="font-bold">X {item.quantity}</span>

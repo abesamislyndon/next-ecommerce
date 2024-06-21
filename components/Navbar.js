@@ -6,21 +6,20 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar() {
+  
   const [currentCartItemCount, setCurrentCartItemCount] = useState(0);
   const [userinfo, setUserinfo] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
- const { handleLogout } = useAuth();
+  const { handleLogout } = useAuth();
 
-  // Retrieve user information from sessionStorage only on the client-side
   useEffect(() => {
     if (typeof window !== "undefined") {
       const get_user_logedIn = sessionStorage.getItem("BasicInfo");
       setUserinfo(get_user_logedIn);
-    }
+    } 
   }, []);
 
   useEffect(() => {
-    // Ensure cart is an array before calling reduce
     if (Array.isArray(cart)) {
       const itemCount = cart.reduce((acc, item) => {
         return acc + (item.quantity || 0);
@@ -51,7 +50,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/userinfo">{userinfo}</Link>
+              <Link href="/userinfo">Hi, {userinfo}</Link>
               <button onClick={handleLogout}>Logout</button>
             </>
           )}

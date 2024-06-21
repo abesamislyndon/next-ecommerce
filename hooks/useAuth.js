@@ -23,14 +23,17 @@ const useProvideAuth = () => {
     if (token) {
       const checkUser = async () => {
         try {
-          const response = await fetch("/api/customer/get", {
+          const response = await fetch("/api/customer/get?token=true", {
+            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
+              Accept: "application/json",
             },
           });
+
           const data = await response.json();
           if (response.ok) {
-            setUser(data.user);
+            setUser(data);
           }
         } catch (error) {
           console.error("An error occurred:", error);
@@ -47,13 +50,14 @@ const useProvideAuth = () => {
         router.push("/login");
       } else {
         const response = await fetch("/api/customer/get", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         const data = await response.json();
         if (response.ok) {
-          setUser(data.user);
+          setUser(data);
         } else {
           router.push("/login");
         }
@@ -66,13 +70,12 @@ const useProvideAuth = () => {
   const handleLogout = async () => {
     const token = Cookies.get("token");
     try {
-       const response = await fetch("/api/customer/logout?token=true", {
-         headers: {
-           Acccept: "application/json",
-           Authorization: `Bearer ${token}`,
-         },
-       });
-      console.log(response);
+      const response = await fetch("/api/customer/logout?token=true", {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.ok) {
         Cookies.remove("token");
         sessionStorage.removeItem("BasicInfo");
