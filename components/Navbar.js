@@ -34,7 +34,7 @@ export default function Navbar() {
     <nav className="flex justify-between bg-[#FFDC52] text-dark w-screen">
       <div className="xl:px-12 py-6 flex w-full items-center">
         <Link className="text-3xl font-bold font-heading" href="/">
-          PET WORLD PH
+          PET WORLD 
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
           <Link href="/">Home</Link>

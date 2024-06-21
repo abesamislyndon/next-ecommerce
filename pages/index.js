@@ -20,7 +20,7 @@ export default function Home() {
           throw new Error(`Failed to fetch data: ${res.statusText}`);
         }
         const data = await res.json();
-        console.log("API Response:", data.meta); // Add this line to check API response
+        // console.log("API Response:", data.meta); // Add this line to check API response
 
         setProducts(data || []);
         setTotalPages(data.meta.last_page || 1);
