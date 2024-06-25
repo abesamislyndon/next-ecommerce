@@ -12,6 +12,12 @@ export default function Navbar() {
   const cart = useSelector((state) => state.cart.cart);
   const { handleLogout } = useAuth();
 
+    const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const get_user_logedIn = sessionStorage.getItem("BasicInfo");
@@ -30,22 +36,31 @@ export default function Navbar() {
     }
   }, [cart]);
 
+
   return (
-    <nav className="flex justify-between bg-[#FFDC52] text-dark w-screen">
+    <nav className="flex justify-between bg-[#FFDC52] text-dark w-full">
       <div className="xl:px-12 py-6 flex w-full items-center">
-        <Link className="text-3xl font-bold font-heading" href="/">
-          PET WORLD 
+        <Link className="text-3xl p-2 mr-1 font-bold font-heading" href="/">
+          PET WORLD
         </Link>
-        <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-          <Link href="/">Home</Link>
-          <Link href="">About</Link>
-          <Link href="">Products</Link>
-          <Link href="">Contact us</Link>
+        <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-10">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="">About</Link>
+          </li>
+          <li>
+            <Link href="">Products</Link>
+          </li>
+          <li>
+            <Link href="">Contact us</Link>
+          </li>
         </ul>
-        <div className="hidden xl:flex  space-x-5 items-center">
+        <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-3">
           {userinfo === null ? (
             <>
-              <Link href="/signup">Sign up</Link>
+              {/* <Link href="/signup">Sign up</Link> */}
               <Link href="/login">Login</Link>
             </>
           ) : (
@@ -76,8 +91,82 @@ export default function Navbar() {
             </span>
           </Link>
         </div>
+        <div className="md:hidden flex items-center ml-10">
+          <button onClick={toggleMenu}>
+            <svg
+              className="w-9 h-9"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
       </div>
-      {/* Your other navigation items */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[50%] bg-[#000] text-white shadow-lg z-50 transform transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex justify-end p-10">
+          <button onClick={toggleMenu}>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <ul className="flex flex-col items-left space-y-4 pl-10 text-lg">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="">About</Link>
+          </li>
+          <li>
+            <Link href="">Products</Link>
+          </li>
+          <li>
+            <Link href="">Contact us</Link>
+          </li>
+          {userinfo === null ? (
+            <>
+              <li className="text-sm gap-2">
+                <Link href="/signup">Sign up</Link>
+              </li>
+              <li>
+                <Link href="/login">Login</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link href="/userinfo">Hi, {userinfo}</Link>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
     </nav>
   );
 }

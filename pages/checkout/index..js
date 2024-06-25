@@ -235,6 +235,7 @@ export default function CheckoutPage() {
                   ))}
                 </div>
                 <AutocompleteInput
+                  address_info={billingInfo}
                   onChangeadd={handleChange}
                 />
                 {["email", "phone"].map((field) => (

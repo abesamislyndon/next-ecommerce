@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   add,
   addItemToCart,
@@ -41,12 +41,12 @@ export default function ProductCard({ product }) {
     }
   };
 
-  if (!mounted) return null; // Render nothing on the server
+  if (!mounted) return null; 
 
   return (
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
-        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white  p-[0.1em]">
+        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white  p-[0.7em]">
           <img
             src={product.base_image.large_image_url}
             alt=""
@@ -60,7 +60,7 @@ export default function ProductCard({ product }) {
 
           <div className="mt-2 mb-5 flex items-center justify-between">
             <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-1">
-              <span className=" text-sm px-2 lg:py-5 lg:text-sm font-bold text-slate-900">
+              <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900">
                 {product.formated_price.replace(/\$/g, "")}
               </span>
               <span className="text-xl px-2 lg:text-sm text-rose-600 font-bold line-through lg:mt-5">
@@ -83,7 +83,7 @@ export default function ProductCard({ product }) {
             <span className="close" onClick={() => setShowModal(false)}>
               &times;
             </span>
-            <div className="grid grid-flow-col grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               <div>
                 <img
                   src={product.base_image.large_image_url}
@@ -91,30 +91,22 @@ export default function ProductCard({ product }) {
                   className="relative w-auto h-auto"
                 />
               </div>
-              <div className="h-[45vh">
+              <div className="h-[100vh">
                 <h2 className="text-[1.2em] font-extrabold">{product.name}</h2>
                 <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2">
                   <span className="py-5 text-5xl font-bold text-slate-900">
                     {product.formated_price.replace(/\$/g, "")}
                   </span>
                   <span className="text-lg text-rose-600 font-bold line-through">
-                    {product.regular_price} dondon
+                    {product.regular_price}
                   </span>
                 </div>
 
-                <p
-                  className="p-0 mt-4"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
+                <p className="p-0 mt-4"  dangerouslySetInnerHTML={{ __html: product.description }}/>
 
-                <div className="grid grid-flow-col">
+                <div className="grid grid-cols-2 lg:grid-cols-2">
                   <div className="mt-10">
-                    <button
-                      className="pt-4 pb-4 pl-6 pr-6 -ml-20 lg:ml-0 bg-black text-[#fff]"
-                      onClick={decreaseQuantity}
-                    >
-                      -
-                    </button>
+                    <button className="pt-4 pb-4 pl-6 pr-6 -ml-0 lg:ml-0 bg-black text-[#fff]" onClick={decreaseQuantity}>-</button>
                     <input
                       type="text"
                       value={quantity}
@@ -123,12 +115,7 @@ export default function ProductCard({ product }) {
                       //                        max={toString}
                       className="w-12 text-center text-lg font-extrabold"
                     />
-                    <button
-                      className="pt-4 pb-4 pl-6 pr-6 bg-black text-[#fff]"
-                      onClick={() => increaseQuantity()}
-                    >
-                      +
-                    </button>
+                    <button className="pt-4 pb-4 pl-6 pr-6 bg-black text-[#fff]" onClick={() => increaseQuantity()}>+</button>
                   </div>
                   <div>
                     <button
@@ -161,11 +148,9 @@ export default function ProductCard({ product }) {
           background-color: #fefefe;
           margin: 10% auto;
           padding: 20px;
-          margin-top: 190px;
-          border: 1px solid #888;
+           border: 1px solid #888;
           width: 100%;
           max-width: 800px;
-          max-height: 80%;
           overflow-y: auto;
         }
         .close {

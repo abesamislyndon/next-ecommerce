@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-lg">
+    <div className="mx-auto max-w-screen-xl p-2">
       {loading ? (
         <LoadingSpinner />
       ) : error ? (

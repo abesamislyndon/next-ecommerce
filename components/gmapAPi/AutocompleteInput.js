@@ -3,7 +3,7 @@ import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const libraries = ["places"];
 
-const AutocompleteInput = ({ value, onChangeadd }) => {
+const AutocompleteInput = ({ value, onChangeadd, address_info }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "",
     libraries,
@@ -39,7 +39,7 @@ const AutocompleteInput = ({ value, onChangeadd }) => {
         inputRef.current = ref;
       }}
       name="address1"
-      value={value}
+      value={address_info.address1}
       onChange={(e) => onChangeadd(e)}
       className="px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none"
       placeholder="Address"

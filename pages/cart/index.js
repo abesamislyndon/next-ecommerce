@@ -12,8 +12,10 @@ import {
 } from "../../features/cart/cartSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon, TrashIcon } from "@heroicons/react/24/solid";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
+
+
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -133,7 +135,7 @@ export default function CartPage() {
               </th>
               <th
                 scope="col"
-                className="py-3 px-5 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                className="w-[30%] py-3 px-5 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
               >
                 Name
               </th>
@@ -202,7 +204,9 @@ export default function CartPage() {
                   </td>
                   <td> ₱ {calculateSubtotal(item).toFixed(2)}</td>
                   <td>
-                    <button onClick={() => removeItem(item)}>Remove</button>
+                    <button onClick={() => removeItem(item)}>
+                      <TrashIcon className="text-black-700 w-5 h-5" />
+                    </button>
                   </td>
                 </tr>
               ))}
