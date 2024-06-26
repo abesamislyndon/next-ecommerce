@@ -4,7 +4,7 @@ import withAuth from "../../hooks/withAuth";
 const  DashboardPage = () => {
 
   const { user, handleLogout, checkAuthentication } = useAuth();
-
+  
   useEffect(() => {
     checkAuthentication();
   }, []);

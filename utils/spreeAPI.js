@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const createCart = async () => {
   try {
@@ -20,11 +21,16 @@ export const createCart = async () => {
 };
 
 export const addToCart = async (product_id, quantity) => {
+  const token = Cookies.get("token");
+   const endpoint = token
+     ? `api/checkout/cart/add/${product_id}?token=true`
+     : `api/checkout/cart/add/${product_id}`;
   try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         product_id: product_id,
@@ -32,10 +38,8 @@ export const addToCart = async (product_id, quantity) => {
       }),
     };
 
-    const response = await fetch(
-      `api/checkout/cart/add/${product_id}`,
-      options
-    );
+    const response = await fetch(endpoint,options);
+
     if (!response.ok) {
       throw new Error("Failed to add item to cart");
     }
@@ -50,11 +54,16 @@ export const addToCart = async (product_id, quantity) => {
 };
 
 export const cartDetails = async () => {
+    const token = Cookies.get("token");
+     const endpoint = token
+       ? `api/checkout/cart?token=true`
+       : `api/checkout/cart`;
   try {
     const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       // body: JSON.stringify({
       //   product_id: productId,
@@ -62,7 +71,7 @@ export const cartDetails = async () => {
       // }),
     };
 
-    const response = await fetch(`api/checkout/cart`, options);
+    const response = await fetch(endpoint, options);
     if (!response.ok) {
       throw new Error("Failed to add item to cart");
     }
@@ -77,19 +86,20 @@ export const cartDetails = async () => {
 };
 
 export const cartEmpty = async () => {
+   const token = Cookies.get("token");
+   const endpoint = token
+     ? `api/checkout/cart/empty?token=true`
+     : `api/checkout/cart/empty`;
   try {
     const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
-      // body: JSON.stringify({
-      //   product_id: productId,
-      //   quantity: quantity,
-      // }),
     };
 
-    const response = await fetch(`api/checkout/cart/empty`, options);
+    const response = await fetch(endpoint, options);
     console.log(response);
     if (!response.ok) {
       throw new Error("Failed empty cart");
@@ -105,22 +115,23 @@ export const cartEmpty = async () => {
 };
 
 export const removeItemFromCart = async (item) => {
-  console.log("remove me item", item.id);
+  const token = Cookies.get("token");
+   const endpoint = token
+     ? `api/checkout/cart/remove-item/${item.id}?token=true`
+     : `api/checkout/cart/remove-item/${item.id}`;
   try {
     const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       // body: JSON.stringify({
       //   cart_item_id: item.id,
       // }),
     };
 
-    const response = await fetch(
-      `api/checkout/cart/remove-item/${item.id}`,
-      options
-    );
+    const response = await fetch(endpoint, options);
 
     console.log("last", response.data);
     if (!response.ok) {
@@ -136,11 +147,16 @@ export const removeItemFromCart = async (item) => {
 };
 
 export const updateItemQuantity = async (item) => {
+   const token = Cookies.get("token");
+     const endpoint = token
+       ? `api/checkout/cart/update?token=true`
+       : `api/checkout/cart/update`;
   try {
     const options = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         qty: {
@@ -149,7 +165,7 @@ export const updateItemQuantity = async (item) => {
       }),
     };
 
-    const response = await fetch(`api/checkout/cart/update`, options);
+    const response = await fetch(endpoint, options);
 
     if (!response.ok) {
       throw new Error("Failed to update item");
@@ -163,19 +179,22 @@ export const updateItemQuantity = async (item) => {
 };
 
 export const saveAddress = async (billingInfo) => {
-  try {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(billingInfo),
-    };
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? "/api/checkout/save-address?token=true"
+    : "/api/checkout/save-address";
 
-    const response = await fetch(
-      "/api/checkout/save-address", // Add leading slash
-      options
-    );
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify(billingInfo),
+  };
+
+  try {
+    const response = await fetch(endpoint, options);
 
     if (!response.ok) {
       throw new Error("Failed to save address");
@@ -190,21 +209,23 @@ export const saveAddress = async (billingInfo) => {
 };
 
 export const saveShiping = async () => {
+    const token = Cookies.get("token");
+    const endpoint = token
+      ? `/api/checkout/save-shipping?token=true`
+      : `/api/checkout/save-shipping`;
   try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         shipping_method: "free_free",
       }),
     };
 
-    const response = await fetch(
-      "/api/checkout/save-shipping", // Add leading slash
-      options
-    );
+    const response = await fetch(endpoint, options);
     console.log("shipping save", response);
     if (!response.ok) {
       throw new Error("Failed to save shipping");
@@ -218,11 +239,16 @@ export const saveShiping = async () => {
 };
 
 export const savePayment = async () => {
+   const token = Cookies.get("token");
+   const endpoint = token
+     ? `/api/checkout/save-payment?token=true"`
+     : `/api/checkout/save-payment`;
   try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         payment: {
@@ -231,10 +257,7 @@ export const savePayment = async () => {
       }),
     };
 
-    const response = await fetch(
-      "/api/checkout/save-payment", // Add leading slash
-      options
-    );
+    const response = await fetch(endpoint, options);
     console.log("payment save", response);
     if (!response.ok) {
       throw new Error("Failed to Save Payment");
@@ -248,16 +271,20 @@ export const savePayment = async () => {
 };
 
 export const getCurrentCart = async () => {
+  const token = Cookies.get("token");
+   const endpoint = token
+     ? `/api/checkout/save-payment?token=true"`
+     : `/api/checkout/save-payment`;
   try {
     const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     };
 
-    const response = await fetch(
-      "/api/checkout/cart", // Add leading slash
+    const response = await fetch(endpoint, // Add leading slash
       options
     );
     console.log("current cart", response);
@@ -273,17 +300,22 @@ export const getCurrentCart = async () => {
 };
 
 export const saveOrder = async (cartInfo) => {
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? "/api/checkout/save-order?token=true"
+    : "/api/checkout/save-order";
   try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(cartInfo), // Directly stringify cartParsed
     };
 
     console.log("cart info:", cartInfo);
-    const response = await fetch("api/checkout/save-order", options);
+    const response = await fetch(endpoint, options);
     console.log("order save response:", response);
 
     if (!response.ok) {

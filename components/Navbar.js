@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar() {
@@ -65,8 +65,12 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/userinfo">Hi, {userinfo}</Link>
-              <button onClick={handleLogout}>Logout</button>
+              <Link href="/userprofile" className="font-bold">
+                Hi, {userinfo}
+              </Link>
+              <button onClick={handleLogout}>
+                <ArrowLeftStartOnRectangleIcon  className="w-6 h-6"/>
+              </button>
             </>
           )}
           <Link className="flex items-center hover:text-gray-200" href="/cart">

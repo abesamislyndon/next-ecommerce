@@ -1,11 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 
-const libraries = ["places"];
-
-const AutocompleteInput = ({ value, onChangeadd, address_info }) => {
+  const libraries = ["places"];
+  const AutocompleteInput = ({ value, onChangeadd, address_info }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "",
+    googleMapsApiKey: "AIzaSyBgW4smeFRcnbrMroULpr2oJ1yuK0erZzY",
     libraries,
   });
 

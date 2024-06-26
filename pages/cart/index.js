@@ -109,7 +109,7 @@ export default function CartPage() {
         <p className="mt-20 mb-20 text-[2rem] font-extrabold text-center">
           Your cart is empty.
         </p>
-        <ShoppingCartIcon className="size-20 text-yellow-500 mx-auto mt-[-60px]" />
+        <ShoppingCartIcon className="size-10 text-yellow-500 mx-auto mt-[-60px]" />
       </div>
     );
   }
