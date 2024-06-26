@@ -4,7 +4,7 @@ import { useLoadScript } from "@react-google-maps/api";
   const libraries = ["places"];
   const AutocompleteInput = ({ value, onChangeadd, address_info }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBgW4smeFRcnbrMroULpr2oJ1yuK0erZzY",
+    googleMapsApiKey: "",
     libraries,
   });
 
