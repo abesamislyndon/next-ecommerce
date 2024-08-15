@@ -29,7 +29,13 @@ const Login = () => {
       const data = await res.json();
       if (res.ok) {
         Cookies.set("token", data.token, { expires: 1 }); // expires in 1 day
-        sessionStorage.setItem("BasicInfo", data.data.first_name);
+        const basicInfo = {
+  id: data.data.id,
+  first_name: data.data.first_name
+};
+
+sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
+        
         setApiResponse("Redirecting . . . .");
         router.back();
         // router.push("/");

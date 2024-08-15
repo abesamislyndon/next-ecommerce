@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
               <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900">
                 {product.formated_price.replace(/\$/g, "")}
               </span>
-              <span className="text-xl px-2 lg:text-sm text-rose-600 font-bold line-through lg:mt-5">
+              <span className="text-xl px-2 lg:text-lg text-rose-600 font-bold line-through lg:mt-5 ml-4">
                 {product.formated_regular_price}
               </span>
             </div>

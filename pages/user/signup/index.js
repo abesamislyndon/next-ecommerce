@@ -112,72 +112,82 @@ const Signup = () => {
   return (
     <div className="h-24 min-h-screen  flex fle-col items-center justify-center py-6 px-4">
       <div className="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
-        <h1 className="card-title p-4">Sign Up</h1>
-        <form onSubmit={handleSubmit} className="was-validated">
-          {error && (
-            <div className="alert alert-danger" role="alert">
-              {error}
+        <div>
+          <div className="h-screen flex items-center justify-cente">
+            <p className="mt-1 font-bold text-3xl">
+              Join us today for a personalized shopping experience—sign up in
+              seconds and unlock exclusive deals and seamless checkouts!
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <form onSubmit={handleSubmit} className="was-validated">
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
+            <div className="mb-3">
+              <input
+                type="text"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
+                placeholder="Enter your first name"
+                value={first_name}
+                onChange={(e) => setFName(e.target.value)}
+                required
+              />
             </div>
-          )}
-          <div className="mb-3">
-            <input
-              type="text"
-              className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
-              placeholder="Enter your first name"
-              value={first_name}
-              onChange={(e) => setFName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
-              placeholder="Enter your last name"
-              value={last_name}
-              onChange={(e) => setLName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="email"
-              className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="d-flex gap-2">
-            <button
-              type="submit"
-              className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-black hover:bg-gray-700 focus:outline-none"
-            >
-              <Link href="/login">Login</Link>
-            </button>
-          </div>
-        </form>
+            <div className="mb-3">
+              <input
+                type="text"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
+                placeholder="Enter your last name"
+                value={last_name}
+                onChange={(e) => setLName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="email"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="password"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="password"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md border border-black-100"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                type="submit"
+                className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-black hover:bg-gray-700 focus:outline-none"
+              >
+                <Link href="/login">Sign Up</Link>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

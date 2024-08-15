@@ -22,9 +22,9 @@ export const createCart = async () => {
 
 export const addToCart = async (product_id, quantity) => {
   const token = Cookies.get("token");
-   const endpoint = token
-     ? `api/checkout/cart/add/${product_id}?token=true`
-     : `api/checkout/cart/add/${product_id}`;
+  const endpoint = token
+    ? `api/checkout/cart/add/${product_id}?token=true`
+    : `api/checkout/cart/add/${product_id}`;
   try {
     const options = {
       method: "POST",
@@ -38,12 +38,12 @@ export const addToCart = async (product_id, quantity) => {
       }),
     };
 
-    const response = await fetch(endpoint,options);
+    const response = await fetch(endpoint, options);
 
     if (!response.ok) {
       throw new Error("Failed to add item to cart");
     }
-    console.log("added cart from api ", response);
+    // console.log("added cart from api ", response);
     return response.json();
   } catch (error) {
     // Handle errors
@@ -54,10 +54,10 @@ export const addToCart = async (product_id, quantity) => {
 };
 
 export const cartDetails = async () => {
-    const token = Cookies.get("token");
-     const endpoint = token
-       ? `api/checkout/cart?token=true`
-       : `api/checkout/cart`;
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? `api/checkout/cart?token=true`
+    : `api/checkout/cart`;
   try {
     const options = {
       method: "GET",
@@ -86,10 +86,10 @@ export const cartDetails = async () => {
 };
 
 export const cartEmpty = async () => {
-   const token = Cookies.get("token");
-   const endpoint = token
-     ? `api/checkout/cart/empty?token=true`
-     : `api/checkout/cart/empty`;
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? `api/checkout/cart/empty?token=true`
+    : `api/checkout/cart/empty`;
   try {
     const options = {
       method: "GET",
@@ -100,7 +100,7 @@ export const cartEmpty = async () => {
     };
 
     const response = await fetch(endpoint, options);
-    console.log(response);
+    // console.log(response);
     if (!response.ok) {
       throw new Error("Failed empty cart");
     }
@@ -116,9 +116,9 @@ export const cartEmpty = async () => {
 
 export const removeItemFromCart = async (item) => {
   const token = Cookies.get("token");
-   const endpoint = token
-     ? `api/checkout/cart/remove-item/${item.id}?token=true`
-     : `api/checkout/cart/remove-item/${item.id}`;
+  const endpoint = token
+    ? `api/checkout/cart/remove-item/${item.id}?token=true`
+    : `api/checkout/cart/remove-item/${item.id}`;
   try {
     const options = {
       method: "GET",
@@ -133,7 +133,7 @@ export const removeItemFromCart = async (item) => {
 
     const response = await fetch(endpoint, options);
 
-    console.log("last", response.data);
+    // console.log("last", response.data);
     if (!response.ok) {
       throw new Error("Failed empty cart");
     }
@@ -147,10 +147,10 @@ export const removeItemFromCart = async (item) => {
 };
 
 export const updateItemQuantity = async (item) => {
-   const token = Cookies.get("token");
-     const endpoint = token
-       ? `api/checkout/cart/update?token=true`
-       : `api/checkout/cart/update`;
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? `api/checkout/cart/update?token=true`
+    : `api/checkout/cart/update`;
   try {
     const options = {
       method: "PUT",
@@ -202,35 +202,44 @@ export const saveAddress = async (billingInfo) => {
     return await response.json();
   } catch (error) {
     console.error("Error Save Address:", error);
-    console.log(billingInfo);
+    // console.log(billingInfo);
 
     throw error;
   }
 };
 
-export const saveShiping = async () => {
-    const token = Cookies.get("token");
-    const endpoint = token
-      ? `/api/checkout/save-shipping?token=true`
-      : `/api/checkout/save-shipping`;
+export const saveShiping = async ({ deliveryMethod, pickupLocation }) => {
+  const delivery_details = localStorage.getItem("deliveryMethod");
+  console.log("from api", delivery_details);
+
+  const shippingMethod =
+    delivery_details === "delivery" ? "flatrate_flatrate" : "pickup_1";
+
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? `/api/checkout/save-shipping?token=true`
+    : `/api/checkout/save-shipping`;
   try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        shipping_method: "free_free",
+        shipping_method: shippingMethod,
+        pickup_location: pickupLocation,
+        delivery_type: delivery_details,
       }),
     };
 
     const response = await fetch(endpoint, options);
-    console.log("shipping save", response);
+
     if (!response.ok) {
       throw new Error("Failed to save shipping");
     }
     return await response.json();
+    console.log("shipping save", response.json());
   } catch (error) {
     console.error("Error Save Shipping:", error);
 
@@ -239,10 +248,10 @@ export const saveShiping = async () => {
 };
 
 export const savePayment = async () => {
-   const token = Cookies.get("token");
-   const endpoint = token
-     ? `/api/checkout/save-payment?token=true"`
-     : `/api/checkout/save-payment`;
+  const token = Cookies.get("token");
+  const endpoint = token
+    ? `/api/checkout/save-payment?token=true"`
+    : `/api/checkout/save-payment`;
   try {
     const options = {
       method: "POST",
@@ -258,7 +267,7 @@ export const savePayment = async () => {
     };
 
     const response = await fetch(endpoint, options);
-    console.log("payment save", response);
+    // console.log("payment save", response);
     if (!response.ok) {
       throw new Error("Failed to Save Payment");
     }
@@ -272,9 +281,9 @@ export const savePayment = async () => {
 
 export const getCurrentCart = async () => {
   const token = Cookies.get("token");
-   const endpoint = token
-     ? `/api/checkout/save-payment?token=true"`
-     : `/api/checkout/save-payment`;
+  const endpoint = token
+    ? `/api/checkout/save-payment?token=true"`
+    : `/api/checkout/save-payment`;
   try {
     const options = {
       method: "GET",
@@ -287,13 +296,8 @@ export const getCurrentCart = async () => {
     const response = await fetch(endpoint, // Add leading slash
       options
     );
-    console.log("current cart", response);
-    if (!response.ok) {
-      throw new Error("Failed to Save Order");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error Save Order:", error);
+
+  } catch (error) {    console.error("Error Save Order:", error);
 
     throw error;
   }
@@ -309,12 +313,15 @@ export const saveOrder = async (cartInfo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(cartInfo), // Directly stringify cartParsed
+      body: JSON.stringify({
+        pickup_location: cartInfo,
+        delivery_type: "pickup",
+      }), // Directly stringify cartParsed
     };
 
-    console.log("cart info:", cartInfo);
+    console.log("cart info:", options);
     const response = await fetch(endpoint, options);
     console.log("order save response:", response);
 
@@ -327,4 +334,38 @@ export const saveOrder = async (cartInfo) => {
     console.error("Error Save Order:", error);
     throw error;
   }
+
 };
+
+export const searchProducts = async (query) => {
+ 
+  console.log("Query:", query);
+  const endpoint = `api/products?name=${encodeURIComponent(query)}`;
+
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    console.log("Fetching from:", endpoint); // Log the endpoint being fetched
+
+    const response = await fetch(endpoint, options);
+    console.log("Search response status:", response.status); // Log status code
+
+    if (!response.ok) {
+      throw new Error(`Failed to Search: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Search response data:", data.data); // Log the response data
+    return data;
+  } catch (error) {
+    console.error("Error in searchProducts:", error);
+    throw error;
+  }
+};
+
+

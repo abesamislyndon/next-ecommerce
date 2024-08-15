@@ -11,8 +11,7 @@ export default function Navbar() {
   const [userinfo, setUserinfo] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
   const { handleLogout } = useAuth();
-
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -20,9 +19,16 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const get_user_logedIn = sessionStorage.getItem("BasicInfo");
-      setUserinfo(get_user_logedIn);
-    } 
+      const get_user_loggedIn = sessionStorage.getItem("BasicInfo");
+      if (get_user_loggedIn) {
+        try {
+          const parsedUserInfo = JSON.parse(get_user_loggedIn);
+          setUserinfo(parsedUserInfo);
+        } catch (error) {
+          console.error("Error parsing user info from sessionStorage:", error);
+        }
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -36,25 +42,24 @@ export default function Navbar() {
     }
   }, [cart]);
 
-
   return (
     <nav className="flex justify-between bg-[#FFDC52] text-dark w-full">
       <div className="xl:px-12 py-6 flex w-full items-center">
         <Link className="text-3xl p-2 mr-1 font-bold font-heading" href="/">
-          PET WORLD
+          
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-10">
           <li>
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="">About</Link>
+            <Link href="about">About</Link>
           </li>
           <li>
             <Link href="">Products</Link>
           </li>
           <li>
-            <Link href="">Contact us</Link>
+            <Link href="contact">Contact us</Link>
           </li>
         </ul>
         <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-3">
@@ -66,7 +71,7 @@ export default function Navbar() {
           ) : (
             <>
               <Link href="/userprofile" className="font-bold">
-                Hi, {userinfo}
+                Hi, {userinfo.first_name}
               </Link>
               <button onClick={handleLogout}>
                 <ArrowLeftStartOnRectangleIcon  className="w-6 h-6"/>
@@ -162,7 +167,7 @@ export default function Navbar() {
           ) : (
             <>
               <li>
-                <Link href="/userinfo">Hi, {userinfo}</Link>
+                <Link href="/userinfo">Hi, {userinfo.first_name}</Link>
               </li>
               <li>
                 <button onClick={handleLogout}>Logout</button>

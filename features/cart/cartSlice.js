@@ -10,13 +10,30 @@ import {
   savePayment as apiSavedPayment,
   saveOrder as apiSavedOrder,
   getCurrentCart as apiGetCurrentCart,
+  searchProducts as apiSearchProducts,
 } from "../../utils/spreeAPI";
 
 const initialState = {
   cart: [],
   status: "idle",
+  searchQuery: "",
   error: null,
 };
+
+export const searchProducts = createAsyncThunk(
+  "cart/searchProducts",
+  async (query) => {
+    const response = await apiSearchProducts(query);
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+
+    const data = await response.json();
+     return data; // Ensure that this returns the array of products
+  }
+);
 
 export const fetchCartDetails = createAsyncThunk(
   "cart/cartDetails",
@@ -66,10 +83,17 @@ export const saveAddress = createAsyncThunk(
 );
 
 export const saveShiping = createAsyncThunk(
-  "cart/saveShiping",
-  async () => {
-    const response = await apiSavedShipping();
-    return response;
+  "cart/saveShipping",
+  async ({ deliveryMethod, pickupLocation }, { rejectWithValue }) => {
+    try {
+      const response = await apiSavedShipping({
+        deliveryMethod,
+        pickupLocation,
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data); // Handle errors from the API
+    }
   }
 );
 
@@ -92,7 +116,6 @@ export const saveOrder = createAsyncThunk("cart/saveOrder", async (cartInfo) => 
   const response = await apiSavedOrder(cartInfo);
   return response;
 });
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -131,6 +154,7 @@ const cartSlice = createSlice({
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
+
     decreaseItem(state, action) {
       const product = state.cart.find(
         (product) => product.id === action.payload.id
@@ -143,24 +167,26 @@ const cartSlice = createSlice({
 
     clearCart(state) {
       state.cart = [];
+      state.products = [];
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
       localStorage.setItem("ApiCartDetails", JSON.stringify(state.cart));
       localStorage.setItem("FinalCart", JSON.stringify(state.cart));
       localStorage.setItem("deliveryMethod", JSON.stringify(state.cart));
-       localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
-      
+      localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
     },
+
     setCart(state, action) {
       let validCartItems = [];
       // Ensure the payload is an array of valid cart items
       validCartItems = action.payload.filter(
         (item) =>
-          item &&
-          typeof item === "object" &&
-          "id" in item &&
-          "quantity" in item
+          item && typeof item === "object" && "id" in item && "quantity" in item
       );
       state.cart = validCartItems;
+    },
+
+    setSearchQuery(state, action) {
+      state.searchQuery = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -259,6 +285,17 @@ const cartSlice = createSlice({
       .addCase(saveOrder.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(searchProducts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.products = action.payload;
+      })
+      .addCase(searchProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
@@ -270,5 +307,6 @@ export const {
   increaseItem,
   decreaseItem,
   setCart,
+  setSearchQuery,
 } = cartSlice.actions;
 export default cartSlice.reducer;
