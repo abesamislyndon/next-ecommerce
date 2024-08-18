@@ -46,11 +46,10 @@ export default function ProductCard({ product }) {
   return (
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
-        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white  p-[0.7em]">
+        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white ">
           <img
             src={product.base_image.large_image_url}
             alt=""
-            className="rounded-tl-lg rounded-tr-lg"
           />
           <div className="p-2">
             <h5 className="text-md lg:text-sm font-normal  tracking-tight text-slate-900">

@@ -72,11 +72,20 @@ export default function CheckoutPage() {
   }, [dispatch]);
 
   useEffect(() => {
+    const storedDeliveryMethod = localStorage.getItem("deliveryMethod");
+    const storedPaymentMethod = localStorage.getItem("paymentMethod");
+    const storedpickupLocation = localStorage.getItem("pickupLocation");
+
+    console.log("Stored Delivery Method:", storedDeliveryMethod); // Debug log
+    console.log("Stored Payment Method:", storedPaymentMethod); // Debug log
+    console.log("Stored Location Method:", storedpickupLocation); // Debug log
+
+    setDeliveryMethod(storedDeliveryMethod || "");
+    setPaymentMethod(storedPaymentMethod || "");
+
     setDeliveryMethod(localStorage.getItem("deliveryMethod") || "");
     setPaymentMethod(localStorage.getItem("paymentMethod") || "");
     setPickupLocation(localStorage.getItem("pickupLocation") || "");
-    setPickupDate(localStorage.getItem("pickupDate") || "");
-    setPickupTime(localStorage.getItem("pickupTime") || "");
   }, []);
 
   const calculateSubtotal = (item) => {
@@ -100,11 +109,17 @@ export default function CheckoutPage() {
 
   const handlePaymentChange = (e) => {
     const { value } = e.target;
-    console.log('im called');
-     setPaymentMethod(value);
-     dispatch(savePayment());
-    // dispatch(getCurrentCart());
-     localStorage.setItem("paymentMethod", value);
+    console.log("Payment method changed to:", value);
+    setPaymentMethod(value);
+    dispatch(savePayment()); // Make sure this doesn’t interfere with validation
+    localStorage.setItem("paymentMethod", value);
+      const formattedBillingInfo = {
+        billing: { ...billingInfo, address1: { 0: billingInfo.address1 } },
+        shipping: { address1: { 0: "" } },
+      };
+
+    dispatch(saveAddress(formattedBillingInfo));
+    dispatch(saveShiping({ deliveryMethod, pickupLocation }));
   };
 
   const handleDeliveryChange = (e) => {
@@ -116,10 +131,8 @@ export default function CheckoutPage() {
       billing: { ...billingInfo, address1: { 0: billingInfo.address1 } },
       shipping: { address1: { 0: "" } },
     };
-    dispatch(saveAddress(formattedBillingInfo));
-    dispatch(saveShiping({ deliveryMethod, pickupLocation }));
-
-
+    // dispatch(saveAddress(formattedBillingInfo));
+    // dispatch(saveShiping({ deliveryMethod, pickupLocation }));
   };
 
   const handlePickupChange = (e) => {
@@ -132,70 +145,61 @@ export default function CheckoutPage() {
 
   const validateForm = () => {
     let formErrors = {};
+
+    const location = localStorage.getItem("pickupLocation");
+
+    // Existing validations
     if (!billingInfo.first_name)
       formErrors.first_name = "First name is required";
     if (!billingInfo.last_name) formErrors.last_name = "Last name is required";
-    if (!billingInfo.email) formErrors.email = "Email is required";
+    // if (!billingInfo.email) formErrors.email = "Email is required";
     if (!billingInfo.phone) formErrors.phone = "Phone number is required";
-    if (!billingInfo.address1) formErrors.address1 = "Address is required";
-    if (!deliveryMethod)
+    // if (!billingInfo.address1) formErrors.address1 = "Address is required";
+
+    console.log(deliveryMethod);
+
+    if (!deliveryMethod || deliveryMethod === "[]") {
       formErrors.deliveryMethod = "Delivery method is required";
-    if (deliveryMethod === "pickup") {
-      if (!pickupLocation)
-        formErrors.pickupLocation = "Pickup location is required";
-    //  if (!pickupDate) formErrors.pickupDate = "Pickup date is required";
-      // if (!pickupTime) formErrors.pickupTime is required";
     }
-    if (!paymentMethod) formErrors.paymentMethod = "Payment method is required";
+
+    if (deliveryMethod === "pickup") {
+      if (!pickupLocation || pickupLocation === "[]") {
+        formErrors.pickupLocation = "Delivery method is required";
+      }
+    }
+
+    if (!paymentMethod || paymentMethod === "[]") {
+      formErrors.paymentMethod = "Payment method is required";
+    }
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) {
-  //     return;
-  //   }
-  //   try {
-  //     const cartInfo = localStorage.getItem("pickupLocation");
-  //     console.log(cartInfo);
-  //     dispatch(saveOrder(cartInfo));
-  //     router.push("/thankyou");
-  //   } catch (error) {
-  //     console.error("Error during address or shipping save:", error);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  console.log('Form submitted');
-  
-  if (!validateForm()) {
-    console.log('Form validation failed');
-    return;
-  }
-  
-  console.log('Form is valid');
-  
-  try {
-    const cartInfo = localStorage.getItem("pickupLocation");
-    console.log('Cart Info:', cartInfo);
-    
-    if (!cartInfo) {
-      console.error('No cart info found');
-      return;
-    }
-    
-    console.log('Dispatching saveOrder');
-    await dispatch(saveOrder(cartInfo)); // Ensure dispatch is awaited if needed
-    router.push("/thankyou");
-  } catch (error) {
-    console.error("Error during address or shipping save:", error);
-  }
-};
+    e.preventDefault();
 
+    if (!validateForm()) {
+      console.log("Form validation failed"); // Logs if validation fails
+      return; // Prevent form submission if validation fails
+    }
+
+    try {
+      const pickup_location = localStorage.getItem("pickupLocation");
+      const delivery_method = localStorage.getItem("deliveryMethod");
+
+      if (!pickupLocation) {
+        console.error("No cart info found");
+        return; // Prevent further execution if cart info is missing
+      }
+
+      console.log("Dispatching saveOrder");
+      await dispatch(saveOrder({ pickup_location, delivery_method })); // Await the dispatch to handle async correctly
+      router.push("/thankyou"); // Redirect on successful submission
+    } catch (error) {
+      console.error("Error during address or shipping save:", error);
+    }
+  };
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -238,11 +242,17 @@ export default function CheckoutPage() {
               />
 
               <h2 className="text-2xl font-extrabold text-[#333] mb-7 mt-7">
-                Delivery Details
+                Delivery Details{" "}
+                {errors.deliveryMethod && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.deliveryMethod}
+                  </p>
+                )}
               </h2>
+
               <hr className="h-px my-8 mt-[-17px] bg-gray-200 border-0 dark:bg-gray-100" />
               <div className="grid grid-cols-2 gap-4 items-center mt-6">
-                {["pickup"].map((method) => (
+                {["pickup", "delivery"].map((method) => (
                   <label
                     key={method}
                     className="flex items-center space-x-2 cursor-pointer"
@@ -253,7 +263,8 @@ export default function CheckoutPage() {
                       value={method}
                       checked={deliveryMethod === method}
                       onChange={handleDeliveryChange}
-                      className="form-radio h-6 w-6 text-black border-gray-300"
+                      className={`form-radio h-6 w-6 text-black border-gray-300 ${errors.deliveryMethod ? "border-red-500" : ""
+                        }`}
                     />
                     {method === "delivery" ? (
                       <span>
@@ -270,33 +281,46 @@ export default function CheckoutPage() {
                   </label>
                 ))}
               </div>
+
+
               {deliveryMethod === "pickup" && (
                 <>
                   {["Pickup Location"].map((label, index) => (
                     <div key={label} className="mt-6">
                       <label className="block text-[#333] mb-2">{label}</label>
-                   
-                        <select
-                          name="pickupLocation"
-                          value={pickupLocation}
-                          onChange={handlePickupChange}
-                          className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
-                            errors.pickupLocation ? "border-red-500" : ""
+                      <select
+                        name="pickupLocation"
+                        value={pickupLocation}
+                        onChange={handlePickupChange}
+                        className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${errors.pickupLocation ? "border-red-500" : ""
                           }`}
-                        >
-                          <option value="">Select {label}</option>
-                          <option value="upper_carmen">Upper Carmen</option>
-                          <option value="kauswagan">Kauswagan</option>
-                          <option value="bonbon">Bonbon</option>
-                        </select>
-                  
+                      >
+                        <option value="">Select {label}</option>
+                        <option value="upper_carmen">Upper Carmen</option>
+                        <option value="kauswagan">Kauswagan</option>
+                        <option value="bonbon">Bonbon</option>
+                      </select>
                     </div>
                   ))}
+                  <p className="p-10 bg-[#ecf0fc] mt-2 border border-l-indigo-700">
+                    Pickup instructions Please wait for a notification /
+                    confirmation via call or text for pick-up.
+                  </p>
                 </>
               )}
               <h2 className="text-2xl font-extrabold text-[#333] mb-7 mt-20">
                 Payment Details
+                {errors.paymentMethod && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.paymentMethod}
+                  </p>
+                )}
               </h2>
+              {errors.paymentMethod && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.paymentMethodMethod}
+                </p>
+              )}
               <hr className="h-px my-8 mt-[-17px] bg-gray-200 border-0 dark:bg-gray-100" />
               <label className="flex items-center space-x-2 cursor-pointer">
                 <input
@@ -305,9 +329,8 @@ export default function CheckoutPage() {
                   value="cod"
                   checked={paymentMethod === "cod"}
                   onChange={handlePaymentChange}
-                  className={`form-radio h-6 w-6 text-black border-gray-300 focus:ring-black ${
-                    errors.paymentMethod ? "border-red-500" : ""
-                  }`}
+                  className={`form-radio h-6 w-6 text-black border-gray-300 focus:ring-black ${errors.paymentMethod ? "border-red-500" : ""
+                    }`}
                 />
                 <span>In Store</span>
               </label>
@@ -352,6 +375,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-
-
-

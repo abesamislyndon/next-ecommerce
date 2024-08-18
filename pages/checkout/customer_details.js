@@ -16,6 +16,9 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
                 errors.first_name ? "border-red-500" : ""
               }`}
             />
+            {errors.first_name && (
+              <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
+            )}
           </label>
           <label className="block text-[#333] mb-2">
             Last Name
@@ -28,6 +31,9 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
                 errors.last_name ? "border-red-500" : ""
               }`}
             />
+            {errors.last_name && (
+              <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>
+            )}
           </label>
           <label className="block text-[#333] mb-2">
             Address
@@ -40,6 +46,9 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
                 errors.address1 ? "border-red-500" : ""
               }`}
             />
+            {errors.address1 && (
+              <p className="text-red-500 text-sm mt-1">{errors.address1}</p>
+            )}
           </label>
           <label className="block text-[#333] mb-2">
             Email
@@ -52,6 +61,9 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
                 errors.email ? "border-red-500" : ""
               }`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </label>
           <label className="block text-[#333] mb-2">
             Phone
@@ -64,6 +76,9 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
                 errors.phone ? "border-red-500" : ""
               }`}
             />
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
           </label>
         </div>
       </div>

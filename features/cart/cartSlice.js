@@ -112,10 +112,13 @@ export const getCurrentCart = createAsyncThunk(
   }
 );
 
-export const saveOrder = createAsyncThunk("cart/saveOrder", async (cartInfo) => {
-  const response = await apiSavedOrder(cartInfo);
-  return response;
-});
+export const saveOrder = createAsyncThunk(
+  "cart/saveOrder",
+  async ({ pickup_location, delivery_method }) => {
+    const response = await apiSavedOrder({ pickup_location, delivery_method });
+    return response;
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -173,6 +176,7 @@ const cartSlice = createSlice({
       localStorage.setItem("FinalCart", JSON.stringify(state.cart));
       localStorage.setItem("deliveryMethod", JSON.stringify(state.cart));
       localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
+      localStorage.setItem("pickupLocation", JSON.stringify(state.cart));
     },
 
     setCart(state, action) {

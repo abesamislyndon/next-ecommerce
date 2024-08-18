@@ -219,18 +219,47 @@ export const saveShiping = async ({ deliveryMethod, pickupLocation }) => {
   const endpoint = token
     ? `/api/checkout/save-shipping?token=true`
     : `/api/checkout/save-shipping`;
-  try {
+  
+  
+  // try {
+  //   const options = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify({
+  //       shipping_method: shippingMethod,
+  //       pickup_location: pickupLocation,
+  //       delivery_type: delivery_details,
+  //     }),
+  //   };
+
+let body;
+if (delivery_details === "pickup") {
+  body = JSON.stringify({
+    shipping_method: shippingMethod,
+    pickup_location: pickupLocation,
+    delivery_type: "pickup",
+  });
+} else if (delivery_details === "delivery") {
+  body = JSON.stringify({
+    shipping_method: shippingMethod,
+    pickup_location: delivery_details, // Ensure deliveryLocation is properly defined or passed
+    delivery_type: "delivery",
+  });
+} else {
+  throw new Error("Invalid delivery method");
+}
+
+ try {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        shipping_method: shippingMethod,
-        pickup_location: pickupLocation,
-        delivery_type: delivery_details,
-      }),
+      body,
     };
 
     const response = await fetch(endpoint, options);
@@ -303,11 +332,61 @@ export const getCurrentCart = async () => {
   }
 };
 
-export const saveOrder = async (cartInfo) => {
+// export const saveOrder = async ({ pickupLocation, delivery_method }) => {
+//   const token = Cookies.get("token");
+//   const endpoint = token
+//     ? "/api/checkout/save-order?token=true"
+//     : "/api/checkout/save-order";
+//   try {
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         pickup_location: pickupLocation,
+//         delivery_type: "pickup",
+//       }), // Directly stringify cartParsed
+//     };
+
+//     const response = await fetch(endpoint, options);
+//     console.log("order save response:", response);
+
+//     if (!response.ok) {
+//       throw new Error("Failed to Save Order");
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error("Error Save Order:", error);
+//     throw error;
+//   }
+// };
+
+
+export const saveOrder = async ({ pickup_location, delivery_method }) => {
   const token = Cookies.get("token");
   const endpoint = token
     ? "/api/checkout/save-order?token=true"
     : "/api/checkout/save-order";
+
+  // Construct the body based on the delivery method
+  let body;
+  if (delivery_method === "pickup") {
+    body = JSON.stringify({
+      pickup_location: pickup_location,
+      delivery_type: "pickup",
+    });
+  } else if (delivery_method === "delivery") {
+    body = JSON.stringify({
+      pickup_location: 'delivery', // Ensure deliveryLocation is properly defined or passed
+      delivery_type: "delivery",
+    });
+  } else {
+    throw new Error("Invalid delivery method");
+  }
+
   try {
     const options = {
       method: "POST",
@@ -315,15 +394,11 @@ export const saveOrder = async (cartInfo) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        pickup_location: cartInfo,
-        delivery_type: "pickup",
-      }), // Directly stringify cartParsed
+      body,
     };
 
-    console.log("cart info:", options);
     const response = await fetch(endpoint, options);
-    console.log("order save response:", response);
+    console.log("Order save response:", response);
 
     if (!response.ok) {
       throw new Error("Failed to Save Order");
@@ -334,8 +409,8 @@ export const saveOrder = async (cartInfo) => {
     console.error("Error Save Order:", error);
     throw error;
   }
-
 };
+
 
 export const searchProducts = async (query) => {
  

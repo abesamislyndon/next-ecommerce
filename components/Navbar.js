@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ShoppingCartIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "../hooks/useAuth";
+import Image from "next/image";
+import ent3logo from "../public/image/imerich-logo.webp";
 
 export default function Navbar() {
   
@@ -43,10 +45,10 @@ export default function Navbar() {
   }, [cart]);
 
   return (
-    <nav className="flex justify-between bg-[#FFDC52] text-dark w-full">
-      <div className="xl:px-12 py-6 flex w-full items-center">
-        <Link className="text-3xl p-2 mr-1 font-bold font-heading" href="/">
-          
+    <nav className="flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]">
+      <div className="xl:px-12 py-1 flex w-full items-center">
+        <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
+          <Image className="h-20 w-auto" src={ent3logo} />
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-10">
           <li>
@@ -74,7 +76,7 @@ export default function Navbar() {
                 Hi, {userinfo.first_name}
               </Link>
               <button onClick={handleLogout}>
-                <ArrowLeftStartOnRectangleIcon  className="w-6 h-6"/>
+                <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
               </button>
             </>
           )}
@@ -88,7 +90,7 @@ export default function Navbar() {
             >
               {/* Your SVG icon for the cart */}
             </svg>
-            <ShoppingCartIcon className="text-yellow-700 w-7 h-7" />
+            <ShoppingCartIcon className="text-[#cc0404] w-7 h-7" />
             <span className="flex absolute -mt-6 ml-2">
               <span className="absolute inline-flex h-5 w-5 rounded-full bg-black-400 opacity-75"></span>
 

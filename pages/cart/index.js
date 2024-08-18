@@ -15,8 +15,6 @@ import Link from "next/link";
 import { ShoppingCartIcon, TrashIcon } from "@heroicons/react/24/solid";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
 
-
-
 export default function CartPage() {
   const dispatch = useDispatch();
   const globalstate = useSelector((state) => state.cart);
@@ -115,7 +113,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-3 lg:p-0 mt-20">
+    <div className="max-w-6xl mx-auto p-3 lg:p-0 mt-20 mb-40 bg-white">
       <h1 className="mt-3 ml-3 absolute font-bold text-[1em]">Your Order</h1>
       <button
         className="mt-3 mb-5 text-[1em] float-end mr-3"

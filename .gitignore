@@ -16,7 +16,7 @@
 # production
 /build
 
-/components/gmapAPi
+/components/gmapA
 
 # misc
 .DS_Store
@@ -36,3 +36,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch " HEAD
