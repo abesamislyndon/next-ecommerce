@@ -177,7 +177,7 @@ const cartSlice = createSlice({
       localStorage.setItem("deliveryMethod", JSON.stringify(state.cart));
       localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
       localStorage.setItem("pickupLocation", JSON.stringify(state.cart));
-      localStorage.setItem("Delivery Fee", JSON.stringify(state.cart));
+      localStorage.setItem("DeliveryFee", JSON.stringify(state.cart));
     },
 
     setCart(state, action) {

@@ -10,7 +10,7 @@ import {
 const Sidebar = () => {
   return (
     <>
-      <nav className="relative flex w-full flex-wrap items-center justify-between bg-zinc-50 py-2 shadow-dark-mild dark:bg-[#FAEBD7] lg:py-4">
+      <nav className="relative flex w-full flex-wrap items-center justify-between bg-zinc-50 py-2 shadow-dark-mild dark:bg-[#e8e8e8] lg:py-4">
         <div className="flex w-full flex-wrap items-center justify-between px-3">
           <nav className="w-full rounded-md" aria-label="breadcrumb">
             <ol className="list-reset ms-2 flex text-sm">

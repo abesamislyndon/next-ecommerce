@@ -48,6 +48,8 @@ export default function CheckoutPage() {
   const [showModal, setShowModal] = useState(true);
   const [currentStep, setCurrentStep] = useState(1); // Track the current step
   const [deliveryFee, setDeliveryFee] = useState(null); // New state for delivery fee
+  const [isLoadingDeliveryFee, setIsLoadingDeliveryFee] = useState(false);
+
 
   useEffect(() => {
     if (user) {
@@ -89,7 +91,7 @@ export default function CheckoutPage() {
     setPickupLocation(storedPickupLocation || "");
 
     // Initialize delivery fee from localStorage
-    const storedDeliveryFee = localStorage.getItem("Delivery Fee");
+    const storedDeliveryFee = localStorage.getItem("DeliveryFee");
     if (storedDeliveryFee) {
       setDeliveryFee(parseFloat(storedDeliveryFee));
     }
@@ -99,7 +101,7 @@ export default function CheckoutPage() {
     // Listen for storage events to update delivery fee
     const handleStorageChange = (event) => {
       if (event.key === "Delivery Fee") {
-        const newDeliveryFee = localStorage.getItem("Delivery Fee");
+        const newDeliveryFee = localStorage.getItem("DeliveryFee");
         setDeliveryFee(newDeliveryFee ? parseFloat(newDeliveryFee) : null);
       }
     };
@@ -143,36 +145,40 @@ export default function CheckoutPage() {
     dispatch(saveAddress(formattedBillingInfo));
   };
 
-  const handleDeliveryChange = async (e) => {
-    const { value } = e.target;
 
-    setDeliveryMethod(value);
-    localStorage.setItem("deliveryMethod", value);
 
-    try {
-      const response = await dispatch(
-        saveShiping({ deliveryMethod: value, pickupLocation })
-      );
+const handleDeliveryChange = async (e) => {
+  const { value } = e.target;
+  setDeliveryMethod(value);
+  localStorage.setItem("deliveryMethod", value);
 
-      console.log("API Response:", response);
+  // Set loading state to true
+  setIsLoadingDeliveryFee(true);
 
-      dispatch(formatBillingInfo());
+  try {
 
-      const selectedShippingRate =
-        response.payload?.data?.cart?.selected_shipping_rate?.price;
+    dispatch(formatBillingInfo());
 
-      console.log("Delivery Fee", selectedShippingRate);
+    const response = await dispatch(
+      saveShiping({ deliveryMethod: value, pickupLocation })
+    );
 
-      if (selectedShippingRate !== undefined) {
-        localStorage.setItem("Delivery Fee", selectedShippingRate);
-        setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
-      } else {
-        console.error("Selected shipping rate is not available.");
-      }
-    } catch (error) {
-      console.error("Failed to save shipping information:", error);
+    const selectedShippingRate = response.payload?.data?.cart?.selected_shipping_rate?.price;
+
+    if (selectedShippingRate !== undefined) {
+      localStorage.setItem("deliveryFee", selectedShippingRate);
+      setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
+    } else {
+      console.error("Selected shipping rate is not available.");
     }
-  };
+  } catch (error) {
+    console.error("Failed to save shipping information:", error);
+  } finally {
+    // Only stop loading after the fee state has been updated
+    setIsLoadingDeliveryFee(false);
+  }
+};
+
 
   const formatBillingInfo = () => {
     const formattedBillingInfo = {
@@ -498,6 +504,7 @@ export default function CheckoutPage() {
 
         {/* Order Summary */}
         <OrderSummary
+          loading={isLoadingDeliveryFee}
           cart={globalstate.cart}
           calculateSubtotal={calculateSubtotal}
           calculateTotal={calculateTotal}

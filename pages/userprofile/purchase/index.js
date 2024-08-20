@@ -43,7 +43,7 @@ const Order = () => {
       <div className="mx-auto container">
         <Sidebar />
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <section className="py-1 antialiased bg-[#fcf7f0] md:py-2">
+          <section className="py-1 antialiased bg-[#ffffff] md:py-2">
             {Purchases && Purchases.data.length > 0 ? (
               Purchases.data.map((purchase) => (
                 <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
