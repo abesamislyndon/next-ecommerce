@@ -1,3 +1,4 @@
+// pages/checkout/index.js
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -12,7 +13,6 @@ import {
   saveOrder,
 } from "../../features/cart/cartSlice";
 import { useAuth } from "../../hooks/useAuth";
-import AutocompleteInput from "../../components/gmapAPi/AutocompleteInput";
 import {
   TruckIcon,
   BuildingStorefrontIcon,
@@ -47,6 +47,7 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(true);
   const [currentStep, setCurrentStep] = useState(1); // Track the current step
+  const [deliveryFee, setDeliveryFee] = useState(null); // New state for delivery fee
 
   useEffect(() => {
     if (user) {
@@ -81,33 +82,54 @@ export default function CheckoutPage() {
   useEffect(() => {
     const storedDeliveryMethod = localStorage.getItem("deliveryMethod");
     const storedPaymentMethod = localStorage.getItem("paymentMethod");
-    const storedpickupLocation = localStorage.getItem("pickupLocation");
+    const storedPickupLocation = localStorage.getItem("pickupLocation");
 
     setDeliveryMethod(storedDeliveryMethod || "");
     setPaymentMethod(storedPaymentMethod || "");
-    setPickupLocation(storedpickupLocation || "");
+    setPickupLocation(storedPickupLocation || "");
+
+    // Initialize delivery fee from localStorage
+    const storedDeliveryFee = localStorage.getItem("Delivery Fee");
+    if (storedDeliveryFee) {
+      setDeliveryFee(parseFloat(storedDeliveryFee));
+    }
   }, []);
 
-const calculateSubtotal = (item) => {
-  const parsedQuantity = parseInt(item.quantity);
-  const parsedPrice = parseFloat(item.price.replace(/\$/g, ""));
-  return isNaN(parsedQuantity) || isNaN(parsedPrice)
-    ? 0
-    : parsedQuantity * parsedPrice;
-};
+  useEffect(() => {
+    // Listen for storage events to update delivery fee
+    const handleStorageChange = (event) => {
+      if (event.key === "Delivery Fee") {
+        const newDeliveryFee = localStorage.getItem("Delivery Fee");
+        setDeliveryFee(newDeliveryFee ? parseFloat(newDeliveryFee) : null);
+      }
+    };
 
-const calculateTotal = () =>
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const calculateSubtotal = (item) => {
+    const parsedQuantity = parseInt(item.quantity);
+    const parsedPrice = parseFloat(item.price.replace(/\$/g, ""));
+    return isNaN(parsedQuantity) || isNaN(parsedPrice)
+      ? 0
+      : parsedQuantity * parsedPrice;
+  };
+
+  const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
       0
-);
+    );
 
-const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
-};
+  };
 
-const handlePaymentChange = (e) => {
+  const handlePaymentChange = (e) => {
     const { value } = e.target;
     setPaymentMethod(value);
     dispatch(savePayment());
@@ -119,16 +141,48 @@ const handlePaymentChange = (e) => {
     };
 
     dispatch(saveAddress(formattedBillingInfo));
-    dispatch(saveShiping({ deliveryMethod, pickupLocation }));
-};
-
- const handleDeliveryChange = (e) => {
-    const { value } = e.target;
-    setDeliveryMethod(value);
-    localStorage.setItem("deliveryMethod", value);
   };
 
-const handlePickupChange = (e) => {
+  const handleDeliveryChange = async (e) => {
+    const { value } = e.target;
+
+    setDeliveryMethod(value);
+    localStorage.setItem("deliveryMethod", value);
+
+    try {
+      const response = await dispatch(
+        saveShiping({ deliveryMethod: value, pickupLocation })
+      );
+
+      console.log("API Response:", response);
+
+      dispatch(formatBillingInfo());
+
+      const selectedShippingRate =
+        response.payload?.data?.cart?.selected_shipping_rate?.price;
+
+      console.log("Delivery Fee", selectedShippingRate);
+
+      if (selectedShippingRate !== undefined) {
+        localStorage.setItem("Delivery Fee", selectedShippingRate);
+        setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
+      } else {
+        console.error("Selected shipping rate is not available.");
+      }
+    } catch (error) {
+      console.error("Failed to save shipping information:", error);
+    }
+  };
+
+  const formatBillingInfo = () => {
+    const formattedBillingInfo = {
+      billing: { ...billingInfo, address1: { 0: billingInfo.address1 } },
+      shipping: { address1: { 0: "" } },
+    };
+    return saveAddress(formattedBillingInfo);
+  };
+
+  const handlePickupChange = (e) => {
     const { name, value } = e.target;
     if (name === "pickupLocation") setPickupLocation(value);
     if (name === "pickupDate") setPickupDate(value);
@@ -157,90 +211,90 @@ const handlePickupChange = (e) => {
     return Object.keys(formErrors).length === 0;
   };
 
-const validateDeliveryDetails = () => {
-  let formErrors = {};
+  const validateDeliveryDetails = () => {
+    let formErrors = {};
 
-  if (!deliveryMethod || deliveryMethod === "[]") {
-    formErrors.deliveryMethod = "Delivery method is required";
-  } else if (deliveryMethod === "pickup") {
-    if (!pickupLocation)
-      formErrors.pickupLocation = "Pickup location is required";
-    if (!pickupDate) formErrors.pickupDate = "Pickup date is required";
-    // Uncomment if pickup time is needed
-    // if (!pickupTime) formErrors.pickupTime = "Pickup time is required";
-  }
-
-  setErrors(formErrors);
-  return Object.keys(formErrors).length === 0;
-};
-
-const validatePaymentDetails = () => {
-  let formErrors = {};
-
-  if (!paymentMethod || paymentMethod === "[]") {
-    formErrors.paymentMethod = "Payment method is required";
-  }
-
-  setErrors(formErrors);
-  return Object.keys(formErrors).length === 0;
-};
-
-const handleNextStep = () => {
-  if (currentStep === 1) {
-    if (validateCustomerDetails()) {
-      setCurrentStep(2);
+    if (!deliveryMethod || deliveryMethod === "[]") {
+      formErrors.deliveryMethod = "Delivery method is required";
+    } else if (deliveryMethod === "pickup") {
+      if (!pickupLocation)
+        formErrors.pickupLocation = "Pickup location is required";
+      if (!pickupDate) formErrors.pickupDate = "Pickup date is required";
+      // Uncomment if pickup time is needed
+      // if (!pickupTime) formErrors.pickupTime = "Pickup time is required";
     }
-  } else if (currentStep === 2) {
-    if (validateDeliveryDetails()) {
-      setCurrentStep(3);
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const validatePaymentDetails = () => {
+    let formErrors = {};
+
+    if (!paymentMethod || paymentMethod === "[]") {
+      formErrors.paymentMethod = "Payment method is required";
     }
-  } else if (currentStep === 3) {
-    if (validatePaymentDetails()) {
-      handleSubmit();
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 1) {
+      if (validateCustomerDetails()) {
+        setCurrentStep(2);
+      }
+    } else if (currentStep === 2) {
+      if (validateDeliveryDetails()) {
+        setCurrentStep(3);
+      }
+    } else if (currentStep === 3) {
+      if (validatePaymentDetails()) {
+        handleSubmit();
+      }
     }
-  }
-};
+  };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (
-    !validateCustomerDetails() ||
-    !validateDeliveryDetails() ||
-    !validatePaymentDetails()
-  ) {
-    return;
-  }
+    if (
+      !validateCustomerDetails() ||
+      !validateDeliveryDetails() ||
+      !validatePaymentDetails()
+    ) {
+      return;
+    }
 
-  try {
-    const pickup_location = localStorage.getItem("pickupLocation");
-    const delivery_method = localStorage.getItem("deliveryMethod");
+    try {
+      const pickup_location = localStorage.getItem("pickupLocation");
+      const delivery_method = localStorage.getItem("deliveryMethod");
 
-    await dispatch(saveOrder({ pickup_location, delivery_method }));
-    router.push("/thankyou");
-  } catch (error) {
-    console.error("Error during address or shipping save:", error);
-  }
-};
+      await dispatch(saveOrder({ pickup_location, delivery_method }));
+      router.push("/thankyou");
+    } catch (error) {
+      console.error("Error during address or shipping save:", error);
+    }
+  };
 
-const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => setShowModal(false);
 
-const handleGuestOrder = () => {
+  const handleGuestOrder = () => {
     setShowModal(false);
     handleSubmit();
- };
+  };
 
-const handleRegister = () => {
+  const handleRegister = () => {
     setShowModal(false);
     router.push("/signup");
-};
+  };
 
-const handleLogin = () => {
+  const handleLogin = () => {
     setShowModal(false);
     router.push("/login");
-};
+  };
 
-const renderStep = () => {
+  const renderStep = () => {
     switch (currentStep) {
       case 1:
         return (
@@ -268,15 +322,17 @@ const renderStep = () => {
             <button
               type="button"
               onClick={() => setCurrentStep(1)}
-              className=" bg-gray-300 text-black rounded-md mb-10 p-2"
+              className=" bg-red-700 text-white rounded-md mb-10 p-2"
             >
-              <ArrowLeftIcon className="w-20 h-4 text-black-500 mx-auto mb-1" />
+              <ArrowLeftIcon className="w-10 h-4 text-black-500 mx-auto mb-1" />
             </button>
             <h2 className="text-2xl font-extrabold text-[#333] mb-7">
               Delivery Details
             </h2>
             {errors.deliveryMethod && (
-              <p className="text-red-500 text-sm -mt-5">{errors.deliveryMethod}</p>
+              <p className="text-red-500 text-sm -mt-5">
+                {errors.deliveryMethod}
+              </p>
             )}
             <div className="grid grid-cols-2 gap-4 items-center mt-6">
               {["pickup", "delivery"].map((method) => (
@@ -318,8 +374,8 @@ const renderStep = () => {
                   }`}
                 >
                   <option value="">Select Location</option>
-                  <option value="location1">Location 1</option>
-                  <option value="location2">Location 2</option>
+                  <option value="Carmen">Carmen</option>
+                  <option value="Bonbon">Bondon</option>
                 </select>
                 {errors.pickupLocation && (
                   <p className="text-red-500 text-sm">
@@ -384,7 +440,9 @@ const renderStep = () => {
               Payment Method
             </h2>
             {errors.paymentMethod && (
-              <p className="text-red-500 text-sm -mt-5">{errors.paymentMethod}</p>
+              <p className="text-red-500 text-sm -mt-5">
+                {errors.paymentMethod}
+              </p>
             )}
 
             <div className="grid grid-cols-2 gap-4 items-center mt-6">
@@ -420,9 +478,9 @@ const renderStep = () => {
       default:
         return null;
     }
-};
+  };
 
-return (
+  return (
     <div className="container mx-auto">
       <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6 py-8">
         <div className="lg:w-2/3">
@@ -434,7 +492,6 @@ return (
               onLogin={handleLogin}
             />
           )}
-          {/* Add StepHeader component */}
           <StepHeader currentStep={currentStep} />
           <div className="p-10 bg-gray-200">{renderStep()}</div>
         </div>
@@ -444,6 +501,7 @@ return (
           cart={globalstate.cart}
           calculateSubtotal={calculateSubtotal}
           calculateTotal={calculateTotal}
+          deliveryFee={deliveryFee} // Pass delivery fee to OrderSummary
         />
       </div>
     </div>

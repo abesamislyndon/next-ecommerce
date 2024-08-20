@@ -221,19 +221,7 @@ export const saveShiping = async ({ deliveryMethod, pickupLocation }) => {
     : `/api/checkout/save-shipping`;
   
   
-  // try {
-  //   const options = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     body: JSON.stringify({
-  //       shipping_method: shippingMethod,
-  //       pickup_location: pickupLocation,
-  //       delivery_type: delivery_details,
-  //     }),
-  //   };
+
 
 let body;
 if (delivery_details === "pickup") {

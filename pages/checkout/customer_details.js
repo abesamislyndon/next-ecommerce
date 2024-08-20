@@ -15,7 +15,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
               className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
                 errors.first_name ? "border-red-500" : ""
               }`}
-            />
+            /> 
             {errors.first_name && (
               <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
             )}
