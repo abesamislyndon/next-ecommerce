@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Modal from "../../components/modals/Modals";
 import CustomerDetails from "./customer_details";
+import OrderSummary from "./OrderSummary";
 import {
   setCart,
   saveAddress,
@@ -12,43 +13,12 @@ import {
 } from "../../features/cart/cartSlice";
 import { useAuth } from "../../hooks/useAuth";
 import AutocompleteInput from "../../components/gmapAPi/AutocompleteInput";
-import { TruckIcon, BuildingStorefrontIcon } from "@heroicons/react/24/solid";
-
-const StepHeader = ({ currentStep }) => {
-  const steps = ["Customer Details", "Delivery Details", "Payment Details"];
-
-  return (
-    <div className="flex justify-between mb-8">
-      {steps.map((step, index) => (
-        <div key={index} className="relative">
-          <div
-            className={`w-8 h-8 flex items-center justify-center rounded-full ${
-              index + 1 === currentStep
-                ? "bg-black text-white"
-                : "bg-gray-300 text-black"
-            }`}
-          >
-            {index + 1}
-          </div>
-          <div
-            className={`absolute top-0 text-sm ${
-              index + 1 === currentStep ? "text-black" : "text-gray-500"
-            }`}
-          >
-            <span className="mt-8 absolute -ml-2"> {step}</span>
-          </div>
-          {index < steps.length - 1 && (
-            <div
-              className={`w-1 h-8 ${
-                index + 1 < currentStep ? "bg-black" : "bg-gray-300"
-              }`}
-            />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
+import {
+  TruckIcon,
+  BuildingStorefrontIcon,
+  ArrowLeftIcon,
+} from "@heroicons/react/24/solid";
+import StepHeader from "./stepheader";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -118,26 +88,26 @@ export default function CheckoutPage() {
     setPickupLocation(storedpickupLocation || "");
   }, []);
 
-  const calculateSubtotal = (item) => {
-    const parsedQuantity = parseInt(item.quantity);
-    const parsedPrice = parseFloat(item.price.replace(/\$/g, ""));
-    return isNaN(parsedQuantity) || isNaN(parsedPrice)
-      ? 0
-      : parsedQuantity * parsedPrice;
-  };
+const calculateSubtotal = (item) => {
+  const parsedQuantity = parseInt(item.quantity);
+  const parsedPrice = parseFloat(item.price.replace(/\$/g, ""));
+  return isNaN(parsedQuantity) || isNaN(parsedPrice)
+    ? 0
+    : parsedQuantity * parsedPrice;
+};
 
-  const calculateTotal = () =>
+const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
       0
-    );
+);
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value } = e.target;
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
-  };
+};
 
-  const handlePaymentChange = (e) => {
+const handlePaymentChange = (e) => {
     const { value } = e.target;
     setPaymentMethod(value);
     dispatch(savePayment());
@@ -150,15 +120,15 @@ export default function CheckoutPage() {
 
     dispatch(saveAddress(formattedBillingInfo));
     dispatch(saveShiping({ deliveryMethod, pickupLocation }));
-  };
+};
 
-  const handleDeliveryChange = (e) => {
+ const handleDeliveryChange = (e) => {
     const { value } = e.target;
     setDeliveryMethod(value);
     localStorage.setItem("deliveryMethod", value);
   };
 
-  const handlePickupChange = (e) => {
+const handlePickupChange = (e) => {
     const { name, value } = e.target;
     if (name === "pickupLocation") setPickupLocation(value);
     if (name === "pickupDate") setPickupDate(value);
@@ -187,52 +157,90 @@ export default function CheckoutPage() {
     return Object.keys(formErrors).length === 0;
   };
 
-  const handleNextStep = () => {
-    if (currentStep === 1) {
-      if (validateCustomerDetails()) {
-        setCurrentStep(2);
-      }
-    } else {
-      setCurrentStep((prevStep) => prevStep + 1);
+const validateDeliveryDetails = () => {
+  let formErrors = {};
+
+  if (!deliveryMethod || deliveryMethod === "[]") {
+    formErrors.deliveryMethod = "Delivery method is required";
+  } else if (deliveryMethod === "pickup") {
+    if (!pickupLocation)
+      formErrors.pickupLocation = "Pickup location is required";
+    if (!pickupDate) formErrors.pickupDate = "Pickup date is required";
+    // Uncomment if pickup time is needed
+    // if (!pickupTime) formErrors.pickupTime = "Pickup time is required";
+  }
+
+  setErrors(formErrors);
+  return Object.keys(formErrors).length === 0;
+};
+
+const validatePaymentDetails = () => {
+  let formErrors = {};
+
+  if (!paymentMethod || paymentMethod === "[]") {
+    formErrors.paymentMethod = "Payment method is required";
+  }
+
+  setErrors(formErrors);
+  return Object.keys(formErrors).length === 0;
+};
+
+const handleNextStep = () => {
+  if (currentStep === 1) {
+    if (validateCustomerDetails()) {
+      setCurrentStep(2);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validateCustomerDetails()) {
-      return;
+  } else if (currentStep === 2) {
+    if (validateDeliveryDetails()) {
+      setCurrentStep(3);
     }
-
-    try {
-      const pickup_location = localStorage.getItem("pickupLocation");
-      const delivery_method = localStorage.getItem("deliveryMethod");
-
-      await dispatch(saveOrder({ pickup_location, delivery_method }));
-      router.push("/thankyou");
-    } catch (error) {
-      console.error("Error during address or shipping save:", error);
+  } else if (currentStep === 3) {
+    if (validatePaymentDetails()) {
+      handleSubmit();
     }
-  };
+  }
+};
 
-  const handleCloseModal = () => setShowModal(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleGuestOrder = () => {
+  if (
+    !validateCustomerDetails() ||
+    !validateDeliveryDetails() ||
+    !validatePaymentDetails()
+  ) {
+    return;
+  }
+
+  try {
+    const pickup_location = localStorage.getItem("pickupLocation");
+    const delivery_method = localStorage.getItem("deliveryMethod");
+
+    await dispatch(saveOrder({ pickup_location, delivery_method }));
+    router.push("/thankyou");
+  } catch (error) {
+    console.error("Error during address or shipping save:", error);
+  }
+};
+
+const handleCloseModal = () => setShowModal(false);
+
+const handleGuestOrder = () => {
     setShowModal(false);
     handleSubmit();
-  };
+ };
 
-  const handleRegister = () => {
+const handleRegister = () => {
     setShowModal(false);
     router.push("/signup");
-  };
+};
 
-  const handleLogin = () => {
+const handleLogin = () => {
     setShowModal(false);
     router.push("/login");
-  };
+};
 
-  const renderStep = () => {
+const renderStep = () => {
     switch (currentStep) {
       case 1:
         return (
@@ -250,16 +258,26 @@ export default function CheckoutPage() {
               onClick={handleNextStep} // Use handleNextStep for validation
               className="mt-4 px-6 py-2 bg-black text-white rounded-md"
             >
-              Next: Delivery Details
+              Confirm
             </button>
           </div>
         );
       case 2:
         return (
           <div>
+            <button
+              type="button"
+              onClick={() => setCurrentStep(1)}
+              className=" bg-gray-300 text-black rounded-md mb-10 p-2"
+            >
+              <ArrowLeftIcon className="w-20 h-4 text-black-500 mx-auto mb-1" />
+            </button>
             <h2 className="text-2xl font-extrabold text-[#333] mb-7">
               Delivery Details
             </h2>
+            {errors.deliveryMethod && (
+              <p className="text-red-500 text-sm -mt-5">{errors.deliveryMethod}</p>
+            )}
             <div className="grid grid-cols-2 gap-4 items-center mt-6">
               {["pickup", "delivery"].map((method) => (
                 <label
@@ -285,9 +303,7 @@ export default function CheckoutPage() {
                 </label>
               ))}
             </div>
-            {errors.deliveryMethod && (
-              <p className="text-red-500 text-sm">{errors.deliveryMethod}</p>
-            )}
+
             {deliveryMethod === "pickup" && (
               <div className="mt-6">
                 <label className="block text-[#333] mb-2">
@@ -325,7 +341,7 @@ export default function CheckoutPage() {
                     <p className="text-red-500 text-sm">{errors.pickupDate}</p>
                   )}
                 </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <label className="block text-[#333] mb-2">Pickup Time</label>
                   <input
                     type="time"
@@ -339,31 +355,38 @@ export default function CheckoutPage() {
                   {errors.pickupTime && (
                     <p className="text-red-500 text-sm">{errors.pickupTime}</p>
                   )}
-                </div>
+                </div> */}
               </div>
             )}
-            <button
-              type="button"
-              onClick={() => setCurrentStep(1)}
-              className="mt-4 px-6 py-2 bg-gray-300 text-black rounded-md"
-            >
-              Back: Customer Details
-            </button>
-            <button
-              type="button"
-              onClick={handleNextStep} // Use handleNextStep for validation
-              className="mt-4 px-6 py-2 bg-black text-white rounded-md"
-            >
-              Next: Payment
-            </button>
+
+            <div className="mt-20">
+              <button
+                type="button"
+                onClick={handleNextStep} // Use handleNextStep for validation
+                className="mt-4 px-6 py-2 bg-black text-white rounded-md"
+              >
+                Confirm
+              </button>
+            </div>
           </div>
         );
       case 3:
         return (
           <div>
+            <button
+              type="button"
+              onClick={() => setCurrentStep(2)}
+              className=" bg-gray-300 text-black rounded-md mb-10 p-2"
+            >
+              <ArrowLeftIcon className="w-20 h-2 text-black-500 mx-auto mb-1" />
+            </button>
             <h2 className="text-2xl font-extrabold text-[#333] mb-7">
               Payment Method
             </h2>
+            {errors.paymentMethod && (
+              <p className="text-red-500 text-sm -mt-5">{errors.paymentMethod}</p>
+            )}
+
             <div className="grid grid-cols-2 gap-4 items-center mt-6">
               {(deliveryMethod === "pickup"
                 ? ["In Store"]
@@ -385,16 +408,6 @@ export default function CheckoutPage() {
                 </label>
               ))}
             </div>
-            {errors.paymentMethod && (
-              <p className="text-red-500 text-sm">{errors.paymentMethod}</p>
-            )}
-            <button
-              type="button"
-              onClick={() => setCurrentStep(2)}
-              className="mt-4 px-6 py-2 bg-gray-300 text-black rounded-md"
-            >
-              Back: Delivery Details
-            </button>
             <button
               type="button"
               onClick={handleSubmit}
@@ -407,56 +420,31 @@ export default function CheckoutPage() {
       default:
         return null;
     }
-  };
+};
 
-  return (
+return (
     <div className="container mx-auto">
       <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6 py-8">
         <div className="lg:w-2/3">
           {showModal && (
             <Modal
-              handleCloseModal={handleCloseModal}
-              handleGuestOrder={handleGuestOrder}
-              handleRegister={handleRegister}
-              handleLogin={handleLogin}
+              onClose={handleCloseModal}
+              onRegister={handleGuestOrder}
+              onRegister={handleRegister}
+              onLogin={handleLogin}
             />
           )}
-
           {/* Add StepHeader component */}
-          <div className="p-10 bg-slate-200">
-            <StepHeader currentStep={currentStep} />
-            {renderStep()}
-          </div>
+          <StepHeader currentStep={currentStep} />
+          <div className="p-10 bg-gray-200">{renderStep()}</div>
         </div>
 
-        {/* Cart Summary Section */}
-        <div className="lg:w-1/2 bg-gray-50 p-6 rounded-lg shadow-lg sticky top-8">
-          <h2 className="text-2xl font-extrabold text-[#333] mb-7">
-            Order Summary
-          </h2>
-          {globalstate.cart.map((item, index) => (
-            <div key={index} className="flex justify-between items-center mb-4">
-              <div>
-                <h3 className="font-semibold text-lg text-[#333]">
-                  {item.name}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {item.quantity} x ${item.price}
-                </p>
-              </div>
-              <p className="font-semibold text-lg text-[#333]">
-                ${calculateSubtotal(item).toFixed(2)}
-              </p>
-            </div>
-          ))}
-          <hr className="my-4" />
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold text-[#333]">Total</h3>
-            <p className="text-xl font-semibold text-[#333]">
-              ${calculateTotal().toFixed(2)}
-            </p>
-          </div>
-        </div>
+        {/* Order Summary */}
+        <OrderSummary
+          cart={globalstate.cart}
+          calculateSubtotal={calculateSubtotal}
+          calculateTotal={calculateTotal}
+        />
       </div>
     </div>
   );

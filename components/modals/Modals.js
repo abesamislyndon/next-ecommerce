@@ -1,11 +1,12 @@
 // components/Modal.js
 import React from "react";
 
+
 const Modal = ({ show, onClose, onGuest, onRegister, onLogin }) => {
-  if (!show) return null;
+  if (show) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-10">
       <div className=" bg-white p-6 rounded-lg shadow-lg lg:w-[30%]">
         <div className="w-full">
           <button
@@ -43,5 +44,6 @@ const Modal = ({ show, onClose, onGuest, onRegister, onLogin }) => {
     </div>
   );
 };
+
 
 export default Modal;

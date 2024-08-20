@@ -4,7 +4,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
   return (
     <>
       <div className="grid gap-6">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 text-sm">
           <label className="block text-[#333] mb-2">
             First Name
             <input
