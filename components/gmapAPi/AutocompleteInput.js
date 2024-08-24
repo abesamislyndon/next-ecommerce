@@ -5,7 +5,7 @@ const libraries = ["places"];
 
 const AutocompleteInput = ({ address_info, onChange }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyASYos801bwMY1dXG9XyUoYE2veKOYjXlM",
+    googleMapsApiKey: "none",
     libraries,
   });
 
