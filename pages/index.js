@@ -4,6 +4,8 @@ import LoadingSpinner from "../components/loading/LoadingSpinner";
 import Search from "../components/search";
 import Pagination from "../components/products/pagination";
 import { searchProducts } from "../features/cart/cartSlice";
+import CarouselCustomArrows from "../components/carousel/CarouselCustomArrows";
+import Categories from "./categories/Categories";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
@@ -104,8 +106,10 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-xl p-2">
+    <div className="mx-auto max-w-screen-2xl p-2">
       <Search onSearch={handleSearch} />
+      <Categories />
+
       {loading ? (
         <LoadingSpinner />
       ) : error ? (

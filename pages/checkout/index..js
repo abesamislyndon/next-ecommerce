@@ -120,18 +120,23 @@ export default function CheckoutPage() {
       : parsedQuantity * parsedPrice;
   };
 
+// Calculation of Total
+
   const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
       0
     );
 
+//  Handle Change in input
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePaymentChange = (e) => {
+// Handle Payment Change Select
+const handlePaymentChange = (e) => {
     const { value } = e.target;
     setPaymentMethod(value);
     dispatch(savePayment());
@@ -145,20 +150,17 @@ export default function CheckoutPage() {
     dispatch(saveAddress(formattedBillingInfo));
   };
 
-
+// Handle Delivery Change
 
 const handleDeliveryChange = async (e) => {
   const { value } = e.target;
   setDeliveryMethod(value);
   localStorage.setItem("deliveryMethod", value);
-
   // Set loading state to true
   setIsLoadingDeliveryFee(true);
 
   try {
-
     dispatch(formatBillingInfo());
-
     const response = await dispatch(
       saveShiping({ deliveryMethod: value, pickupLocation })
     );
@@ -316,7 +318,7 @@ const handleDeliveryChange = async (e) => {
             <button
               type="button"
               onClick={handleNextStep} // Use handleNextStep for validation
-              className="mt-4 px-6 py-2 bg-black text-white rounded-md"
+              className="mt-4 px-6 py-2 bg-black text-white rounded-md w-[100%] lg:w-[30%]"
             >
               Confirm
             </button>
@@ -425,7 +427,7 @@ const handleDeliveryChange = async (e) => {
               <button
                 type="button"
                 onClick={handleNextStep} // Use handleNextStep for validation
-                className="mt-4 px-6 py-2 bg-black text-white rounded-md"
+                className="mt-4 px-6 py-2 bg-black text-white rounded-md w-[100%] lg:w-[30%]"
               >
                 Confirm
               </button>
@@ -475,7 +477,7 @@ const handleDeliveryChange = async (e) => {
             <button
               type="button"
               onClick={handleSubmit}
-              className="mt-4 px-6 py-2 bg-black text-white rounded-md"
+              className="mt-4 px-6 py-2 bg-black text-white rounded-md w-[100%] lg:w-[30%] mt-10"
             >
               Place Order
             </button>
@@ -499,7 +501,7 @@ const handleDeliveryChange = async (e) => {
             />
           )}
           <StepHeader currentStep={currentStep} />
-          <div className="p-10 bg-gray-200">{renderStep()}</div>
+          <div className="p-10 bg-gray-200 -mt-8 ">{renderStep()}</div>
         </div>
 
         {/* Order Summary */}

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import "../../../styles/login.css";
+
 
 const Login = () => {
 
@@ -48,18 +50,18 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
   };
 
   return (
-    <div className="font-[sans-serif] text-[#333]">
-      <div className="min-h-screen flex fle-col items-center justify-center py-6 px-4">
+    <div className="font-[sans-serif] text-[#000]  mt-0 bg-login">
+      <div className="min-h-screen flex fle-col items-center justify-center py-1 px-1">
         <div className="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
-          <div className="max-md:text-center">
+          <div className="max-md:text-center ">
             <h2 className="lg:text-5xl text-4xl font-extrabold lg:leading-[55px]">
-              Grocery Online
+              Imerich
             </h2>
-            <p className="text-sm mt-6">
+            <p className="text-sm mt-1">
               Immerse yourself in a hassle-free login journey with our
               intuitively designed login form. Effortlessly access your account.
             </p>
-            <p className="text-sm mt-10">
+            <p className="text-sm mt-1">
               Don't have an account{" "}
               <Link
                 href="signup"
@@ -83,7 +85,7 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
             </h3>
             <div>
               <input
-                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-600 border border-black-50"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-600 border border-black"
                 id="email"
                 placeholder="Enter Email"
                 value={email}
@@ -93,7 +95,7 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
             </div>
             <div>
               <input
-                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-600"
+                className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-red-600 border border-black"
                 id="password"
                 placeholder="Enter Password"
                 value={password}
@@ -110,15 +112,14 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-              
               </div>
               <div className="text-sm">
-                <a
+                {/* <a
                   href="jajvascript:void(0);"
                   className="text-blue-600 hover:text-blue-500"
                 >
                   Forgot your password?
-                </a>
+                </a> */}
               </div>
             </div>
             <div className="!mt-10">

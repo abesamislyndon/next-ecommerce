@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import "../../../styles/login.css";
 
 const Signup = () => {
   const [first_name, setFName] = useState("");
@@ -110,7 +111,7 @@ const Signup = () => {
     }
   };
   return (
-    <div className="h-24 min-h-screen  flex fle-col items-center justify-center py-6 px-4">
+    <div className="h-24 min-h-screen  flex fle-col items-center justify-center py-6 px-4 bg-login">
       <div className="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
         <div>
           <div className="h-screen flex items-center justify-cente">
