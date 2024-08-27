@@ -4,14 +4,14 @@ import LoadingSpinner from "../components/loading/LoadingSpinner";
 import Search from "../components/search";
 import Pagination from "../components/products/pagination";
 import { searchProducts } from "../features/cart/cartSlice";
-import CarouselCustomArrows from "../components/carousel/CarouselCustomArrows";
-import Categories from "./categories/Categories";
+import Categories from "../components/categories";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
 export default function Home() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,6 +53,42 @@ export default function Home() {
 
     fetchProducts(currentPage);
   }, [currentPage]);
+
+ useEffect(() => {
+      async function fetchCategories(page) {
+        if (cache.current[page]) {
+          // If data is in cache, use it
+          setCategories(cache.current[page].categories);
+          setTotalPages(cache.current[page].totalPages);
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const res = await fetch(`/api/categories?page=${page}`);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch data: ${res.statusText}`);
+          }
+          const data = await res.json();
+          // console.log("API Response:", data.meta); // Check API response
+
+          const categoriesData = data || [];
+          const totalPages = data.meta.last_page || 1;
+
+          // Cache the data
+          cache.current[page] = { products: categoriesData, totalPages };
+
+          setCategories(categoriesData);
+          setTotalPages(totalPages);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      fetchCategories(currentPage);
+    }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -106,10 +142,11 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-2xl p-2">
+    <div className="mx-auto max-w-screen-xl p-2">
       <Search onSearch={handleSearch} />
-      <Categories />
-
+      <div className="grid grid-flow-row mt-5">
+        <Categories categories = {categories}/>
+      </div>
       {loading ? (
         <LoadingSpinner />
       ) : error ? (

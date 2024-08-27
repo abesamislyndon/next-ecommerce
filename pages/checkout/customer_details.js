@@ -1,11 +1,10 @@
 import React from "react";
-import AutocompleteInput from "../../components/gmapAPi/AutocompleteInput";
 
 const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
   return (
     <>
       <div className="grid gap-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-6 text-sm">
+        <div className="grid grid-cols-2 gap-6 text-sm">
           <label className="block text-[#333] mb-2">
             First Name
             <input
@@ -16,7 +15,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
               className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
                 errors.first_name ? "border-red-500" : ""
               }`}
-            />
+            /> 
             {errors.first_name && (
               <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
             )}
@@ -38,7 +37,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
           </label>
           <label className="block text-[#333] mb-2">
             Address
-            {/* <input
+            <input
               type="text"
               name="address1"
               value={billingInfo.address1 || ""}
@@ -46,10 +45,6 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
               className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
                 errors.address1 ? "border-red-500" : ""
               }`}
-            /> */}
-            <AutocompleteInput
-              address_info={billingInfo.address1 || ""}
-              onChange={handleChange}
             />
             {errors.address1 && (
               <p className="text-red-500 text-sm mt-1">{errors.address1}</p>

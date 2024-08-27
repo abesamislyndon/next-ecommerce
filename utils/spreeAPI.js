@@ -22,9 +22,10 @@ export const createCart = async () => {
 
 export const addToCart = async (product_id, quantity) => {
   const token = Cookies.get("token");
-  const endpoint = token
-    ? `api/checkout/cart/add/${product_id}?token=true`
-    : `api/checkout/cart/add/${product_id}`;
+    const baseUrl = `${window.location.origin}`;
+    const endpoint = token
+    ? `${baseUrl}/api/checkout/cart/add/${product_id}?token=true`
+    : `${baseUrl}/api/checkout/cart/add/${product_id}`;
   try {
     const options = {
       method: "POST",

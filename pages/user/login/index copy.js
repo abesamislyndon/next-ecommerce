@@ -1,14 +1,41 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 const Login = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiResponse, setApiResponse] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // Redirect to the login page if token is not found
+          router.push("/login");
+        } else {
+          const response = await fetch("/api/auth/check-auth", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          if (!response.ok) {
+            // Redirect to the login page if the token is invalid
+            router.push("/login");
+          } else {
+            router.push("/dashboard");
+          }
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
+    checkAuthentication();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,25 +47,20 @@ const Login = () => {
       password
     );
     try {
-      const res = await fetch("/api/customer/login?token=true", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-        credentials: "include", // This will include the cookies in the request
       });
       const data = await res.json();
+      const { token } = data;
+      // Save the token to localStorage or a cookie
+      localStorage.setItem("token", token);
+      console.log("----Login API Response---\n", data);
       if (res.ok) {
-        Cookies.set("token", data.token, { expires: 1 }); // expires in 1 day
-        const basicInfo = {
-  id: data.data.id,
-  first_name: data.data.first_name
-};
-
-sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
-        
         setApiResponse("Redirecting . . . .");
-        router.back();
-        // router.push("/");
+        console.log("Login Successful...");
+        router.push("/dashboard");
       } else {
         setApiResponse(data.message);
       }
@@ -61,23 +83,20 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
             </p>
             <p className="text-sm mt-10">
               Don't have an account{" "}
-              <Link
-                href="signup"
-                className="text-blue-600 font-semibold hover:underline ml-1"
-              >
+              <Link href="signup" className="text-blue-600 font-semibold hover:underline ml-1">
                 Sign up here
               </Link>
             </p>
           </div>
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 max-w-md md:ml-auto max-md:mx-auto w-full"
+             className="space-y-6 max-w-md md:ml-auto max-md:mx-auto w-full"
           >
-            {apiResponse && (
-              <div className="alert alert-danger" role="alert">
-                {apiResponse}
-              </div>
-            )}
+              {apiResponse && (
+                <div className="alert alert-danger" role="alert">
+                  {apiResponse}
+                </div>
+              )}
             <h3 className="text-3xl font-extrabold mb-8 max-md:text-center">
               Sign in
             </h3>
@@ -110,7 +129,9 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-              
+                <label for="remember-me" className="ml-3 block text-sm">
+                  Remember me
+                </label>
               </div>
               <div className="text-sm">
                 <a
@@ -129,6 +150,8 @@ sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
                 Log in
               </button>
             </div>
+         
+         
           </form>
         </div>
       </div>

@@ -55,13 +55,13 @@ export default function Navbar() {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="about">About</Link>
+            <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/">Products</Link>
+            <Link href="/promotions">Promotions</Link>
           </li>
           <li>
-            <Link href="contact">Contact us</Link>
+            <Link href="/contact">Contact us</Link>
           </li>
         </ul>
         <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-3">
@@ -152,7 +152,7 @@ export default function Navbar() {
             <Link href="">About</Link>
           </li>
           <li>
-            <Link href="/">Products</Link>
+            <Link href="">Products</Link>
           </li>
           <li>
             <Link href="">Contact us</Link>

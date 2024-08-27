@@ -15,23 +15,13 @@ function GroceryApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       {isLoginPage ? (
-        // <LoginLayout>
-        //   <Component {...pageProps} />
-        // </LoginLayout>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
+        <LoginLayout>
+          <Component {...pageProps} />
+        </LoginLayout>
       ) : isSignupPage ? (
-        // <SignupLayout>
-        //   <Component {...pageProps} />
-        // </SignupLayout>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
+        <SignupLayout>
+          <Component {...pageProps} />
+        </SignupLayout>
       ) : (
         <AuthProvider>
           <Layout>

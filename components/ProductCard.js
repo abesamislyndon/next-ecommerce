@@ -29,6 +29,7 @@ export default function ProductCard({ product }) {
     dispatch(add({ ...product, quantity: quantity }));
     dispatch(addItemToCart({ ...product, product_id: product.id, quantity:quantity}));
     setShowModal(false);
+    console.log('add to cart', product);
   };
 
   const increaseQuantity = () => {
@@ -47,10 +48,7 @@ export default function ProductCard({ product }) {
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
         <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white ">
-          <img
-            src={product.base_image.large_image_url}
-            alt=""
-          />
+          <img src={product.base_image.large_image_url} alt="" />
           <div className="p-2">
             <h5 className="text-md lg:text-sm font-normal  tracking-tight text-slate-900">
               {product.name}
@@ -58,11 +56,11 @@ export default function ProductCard({ product }) {
           </div>
 
           <div className="mt-2 mb-5 flex items-center justify-between">
-            <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-1">
+            <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-1 gap-0">
               <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900">
                 {product.formated_price.replace(/\$/g, "")}
               </span>
-              <span className="text-xl px-2 lg:text-lg text-rose-600 font-bold line-through lg:mt-5 ml-4">
+              <span className="text-xl px-2 lg:text-lg text-rose-600 font-bold line-through lg:-mt-5 ml-0">
                 {product.formated_regular_price}
               </span>
             </div>
@@ -92,20 +90,28 @@ export default function ProductCard({ product }) {
               </div>
               <div className="h-[100vh">
                 <h2 className="text-[1.2em] font-extrabold">{product.name}</h2>
-                <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2">
+                <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-1">
                   <span className="py-5 text-5xl font-bold text-slate-900">
-                    {product.formated_price.replace(/\$/g, "")}
+                    {product.formated_special_price}
                   </span>
-                  <span className="text-lg text-rose-600 font-bold line-through">
-                    {product.regular_price}
+                  <span className="text-lg text-rose-600 font-bold line-through -mt-1">
+                    {product.formated_regular_price}
                   </span>
                 </div>
 
-                <p className="p-0 mt-4"  dangerouslySetInnerHTML={{ __html: product.description }}/>
+                <p
+                  className="p-0 mt-4"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
 
                 <div className="grid grid-cols-2 lg:grid-cols-2">
                   <div className="mt-10">
-                    <button className="pt-4 pb-4 pl-6 pr-6 -ml-0 lg:ml-0 bg-black text-[#fff]" onClick={decreaseQuantity}>-</button>
+                    <button
+                      className="pt-4 pb-4 pl-6 pr-6 -ml-0 lg:ml-0 bg-black text-[#fff]"
+                      onClick={decreaseQuantity}
+                    >
+                      -
+                    </button>
                     <input
                       type="text"
                       value={quantity}
@@ -114,7 +120,12 @@ export default function ProductCard({ product }) {
                       //                        max={toString}
                       className="w-12 text-center text-lg font-extrabold"
                     />
-                    <button className="pt-4 pb-4 pl-6 pr-6 bg-black text-[#fff]" onClick={() => increaseQuantity()}>+</button>
+                    <button
+                      className="pt-4 pb-4 pl-6 pr-6 bg-black text-[#fff]"
+                      onClick={() => increaseQuantity()}
+                    >
+                      +
+                    </button>
                   </div>
                   <div>
                     <button
@@ -147,7 +158,7 @@ export default function ProductCard({ product }) {
           background-color: #fefefe;
           margin: 10% auto;
           padding: 20px;
-           border: 1px solid #888;
+          border: 1px solid #888;
           width: 100%;
           max-width: 800px;
           overflow-y: auto;
