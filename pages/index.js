@@ -145,7 +145,7 @@ export default function Home() {
     <div className="mx-auto max-w-screen-xl p-2">
       <Search onSearch={handleSearch} />
       <div className="grid grid-flow-row mt-5">
-        <Categories categories = {categories}/>
+        <Categories categories={categories} />
       </div>
       {loading ? (
         <LoadingSpinner />

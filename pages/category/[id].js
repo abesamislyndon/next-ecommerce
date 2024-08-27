@@ -14,6 +14,7 @@ export default function CategoryPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       if (!id) return; // Don't fetch if ID is not available
