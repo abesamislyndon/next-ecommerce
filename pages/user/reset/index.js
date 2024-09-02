@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 
-const Login = () => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -101,7 +101,7 @@ const Login = () => {
                 </div>
               )}
               <h3 className="text-3xl font-extrabold mb-8 max-md:text-center">
-                Sign in
+              Reset Password
               </h3>
               <div>
                 <input
@@ -115,46 +115,13 @@ const Login = () => {
                   <p className="text-red-500 text-sm mt-2">{emailError}</p>
                 )}
               </div>
-              <div>
-                <input
-                  className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-600 border border-black"
-                  id="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                />
-                {passwordError && (
-                  <p className="text-red-500 text-sm mt-2">{passwordError}</p>
-                )}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-black rounded"
-                  />
-                  <label htmlFor="remember-me" className="text-sm ml-2">
-                    Remember me
-                  </label>
-                </div>
-                <div className="text-sm">
-                  <Link
-                    href="/reset"
-                    className="text-blue-600 hover:text-blue-500"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-              </div>
+              
               <div className="!mt-10">
                 <button
                   type="submit"
                   className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-black hover:bg-gray-700 focus:outline-none"
                 >
-                  Log in
+                  Send
                 </button>
               </div>
               {/* <div className="flex items-center justify-center gap-4 mt-6">
@@ -179,4 +146,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

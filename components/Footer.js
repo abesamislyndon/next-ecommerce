@@ -19,9 +19,9 @@ export default function Footer() {
                 <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
                   Resources
                 </h2>
-                <ul className="text-[#fc9595] font-light text-md">
+                <ul className="text-[#fc9595] font-light text-sm">
                   <li className="mb-4">
-                    <Link href="about">About</Link>
+                    <Link href="about">About us</Link>
                   </li>
                 </ul>
               </div>
@@ -29,7 +29,7 @@ export default function Footer() {
                 <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
                   Follow us
                 </h2>
-                <ul className="text-[#fc9595] font-light text-md">
+                <ul className="text-[#fc9595] font-light text-sm">
                   <li>
                     <Link
                       href="https://www.facebook.com/ImerichRovingMarket2021"
@@ -60,7 +60,7 @@ export default function Footer() {
                 <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
                   Legal
                 </h2>
-                <ul className="text-[#fc9595] font-light text-md">
+                <ul className="text-[#fc9595] font-light text-sm">
                   <li className="mb-4">
                     <Link href="/replacement-policy">Replacement Policy</Link>
                   </li>

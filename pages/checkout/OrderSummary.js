@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Suspense, useTransition } from "react";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
 import LazyDeliveryFee from "./LazyDeliveryFee";
+import { formatPrice } from "../../components/helpers/helpers";
 
-const LazyTotal = React.lazy(() => import("./LazyTotal"));
+const LazyTotal = React.lazy((formatPrice) => import("./LazyTotal"));
 
 
 const OrderSummary = ({
@@ -16,6 +17,7 @@ const OrderSummary = ({
   const [lazyTotal, setLazyTotal] = useState(null);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isPending, startTransition] = useTransition();
+
 
   useEffect(() => {
     setIsHydrated(true);
@@ -45,7 +47,7 @@ const OrderSummary = ({
           </p>
         </div>
         <p className="font-semibold text-lg text-[#333]">
-          ₱{calculateSubtotal(item).toFixed(2)}
+          {formatPrice(calculateSubtotal(item))}
         </p>
       </div>
     ));
@@ -57,7 +59,7 @@ const OrderSummary = ({
       <hr className="pt-5" />
       <div className="flex justify-between mb-2">
         <span>Subtotal:</span>
-        <span>₱{calculateTotal().toFixed(2)}</span>
+        <span>{formatPrice(calculateTotal())}</span>
       </div>
       <div className="flex justify-between mb-2">
         <span>Delivery Fee:</span>
@@ -76,7 +78,7 @@ const OrderSummary = ({
         <span>Total:</span>
         {isHydrated ? (
           <Suspense fallback={<LoadingSpinner />}>
-            <LazyTotal total={lazyTotal ?? 0} />
+            <LazyTotal total={ lazyTotal ?? 0}  />
           </Suspense>
         ) : (
           <span>₱0.00</span>

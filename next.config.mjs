@@ -11,8 +11,8 @@ const nextConfig = {
         destination: "/user/signup",
       },
       {
-        source: "/api/:path*",
-        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
+        source: "/reset",
+        destination: "/user/reset",
       },
       {
         source: "/category/api/:path*",
@@ -24,6 +24,11 @@ const nextConfig = {
       },
       {
         source: "/userprofile/api/:path*",
+        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
+      },
+      // Make sure this rewrites rule comes after NextAuth's paths
+      {
+        source: "/api/:path*",
         destination: "http://localhost:8000/api/:path*", // Proxy to Backend
       },
     ];

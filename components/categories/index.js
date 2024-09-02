@@ -20,21 +20,24 @@ const Categories = ({ categories }) => {
   };
 
   if (!categories || !categories.data) {
-    return <p>Loading ...</p>;
+    return (
+      <>
+        <p className="m-auto">Loading ...</p>
+      </>
+    );
   }
   return (
     <>
-      <span className="text-center text-lg lg:text-left lg:text-lg -mb-2">Categories</span>
-      <div className="grid grid-cols-3 gap-10  pb-1 sm:grid-cols-3 sm:p-1 mt-0 lg:mt-1 lg:grid-cols-5 lg:gap-x-4 lg:px-0 p-12 text-center">
+      <div className="mx-auto grid grid-cols-3 gap-1  pb-1 sm:grid-cols-3 sm:p-1 mt-0 lg:mt-1 lg:grid-cols-5 lg:gap-x-3 lg:px-0  text-center">
         {categories.data.map((category) => (
           <div
             key={category.id}
-            className="w-full  lg:w-3/4 bg-white p-5 mt-1 shadow-sm round transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d]"
+            className="w-3/4 p-5 mt-1 shadow-sm m-5 transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d]  rounded-2xl"
           >
-            <Link href={`category/${category.id}`} passHref>
+            <Link href={`category/${category.id}`}>
               {category.name === "Pork" ? (
                 <>
-                  <Image src={Pork} className="w-20 mx-auto" />
+                  <Image src={Pork} className="w-20 mx-auto mt-10" />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -43,7 +46,7 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Beef" ? (
                 <>
-                  <Image src={Beef} className="w-20 mx-auto" />
+                  <Image src={Beef} className="w-20 mx-auto mt-10" />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -52,7 +55,7 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Chicken" ? (
                 <>
-                  <Image src={Chicken} className="w-20 mx-auto" />
+                  <Image src={Chicken} className="w-20 mx-auto mt-10" />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -61,7 +64,7 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Imerich templado" ? (
                 <>
-                  <Image src={Marinated} className="w-20 mx-auto" />
+                  <Image src={Marinated} className="w-20 mx-auto mt-10" />
                   <span className=" text-center lg:text-1xl">
                     <p className="text-[10px] mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -70,8 +73,8 @@ const Categories = ({ categories }) => {
                 </>
               ) : (
                 <>
-                  <Image src={All} className="w-20 mx-auto" />
-                  <span className="text-1xl">All</span>
+                  <Image src={All} className="w-20 mx-auto mt-10" />
+                  <p className="text-[10px] mt-2 text-rose-950 font-bold"> {category.name}</p>
                 </>
               )}
             </Link>

@@ -47,17 +47,21 @@ export default function ProductCard({ product }) {
   return (
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
-        <div className="mt-1 my-5 rounded-lg border border-gray-100 bg-white ">
-          <img src={product.base_image.large_image_url} alt="" />
+        <div className="mt-1 my-1 rounded-lg border border-black-100 bg-white ">
+          <img
+            src={product.base_image.large_image_url}
+            alt={product.name}
+            className="rounded-tl-lg rounded-tr-lg"
+          />
           <div className="p-2">
-            <h5 className="text-md lg:text-sm font-normal  tracking-tight text-slate-900">
+            <h5 className="text-md lg:text-sm font-bold  tracking-tight text-stone-500">
               {product.name}
             </h5>
           </div>
 
           <div className="mt-2 mb-5 flex items-center justify-between">
             <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-1 gap-0">
-              <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900">
+              <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900 -mt-7">
                 {product.formated_price.replace(/\$/g, "")}
               </span>
               <span className="text-xl px-2 lg:text-lg text-rose-600 font-bold line-through lg:-mt-5 ml-0">
@@ -92,7 +96,7 @@ export default function ProductCard({ product }) {
                 <h2 className="text-[1.2em] font-extrabold">{product.name}</h2>
                 <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-1">
                   <span className="py-5 text-5xl font-bold text-slate-900">
-                    {product.formated_special_price}
+                    {product.formated_price.replace(/\$/g, "")}
                   </span>
                   <span className="text-lg text-rose-600 font-bold line-through -mt-1">
                     {product.formated_regular_price}

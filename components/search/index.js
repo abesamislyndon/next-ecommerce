@@ -14,10 +14,10 @@ export default function Search({ onSearch }) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative mt-5 p-3 lg:mt-0 lg:p-0">
       <input
         type="text"
-        className="mt-5 w-full h-10 p-2"
+        className="w-full h-12 p-2 border border-gray"
         placeholder="Search Product"
         value={query}
         onChange={handleSearch}

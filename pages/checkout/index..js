@@ -120,6 +120,8 @@ export default function CheckoutPage() {
       : parsedQuantity * parsedPrice;
   };
 
+
+
   const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
@@ -196,26 +198,29 @@ const handleDeliveryChange = async (e) => {
     localStorage.setItem(name, value);
   };
 
-  const validateCustomerDetails = () => {
-    let formErrors = {};
+const validateCustomerDetails = () => {
+  let formErrors = {};
 
-    if (!billingInfo.first_name)
-      formErrors.first_name = "First name is required";
-    if (!billingInfo.last_name) formErrors.last_name = "Last name is required";
-    if (!billingInfo.email) {
-      formErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(billingInfo.email)) {
-      formErrors.email = "Invalid email format";
-    }
-    if (!billingInfo.phone) formErrors.phone = "Phone number is required";
-    if (!billingInfo.address1) formErrors.address1 = "Address is required";
-    if (!billingInfo.city) formErrors.city = "City is required";
-    if (!billingInfo.state) formErrors.state = "State is required";
-    if (!billingInfo.postcode) formErrors.postcode = "Postcode is required";
+  if (!billingInfo.first_name) formErrors.first_name = "First name is required";
+  if (!billingInfo.last_name) formErrors.last_name = "Last name is required";
+  if (!billingInfo.email) {
+    formErrors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(billingInfo.email)) {
+    formErrors.email = "Invalid email format";
+  }
+  if (!billingInfo.phone) {
+    formErrors.phone = "Phone number is required";
+  } else if (!/^(\+639|09)\d{9}$/.test(billingInfo.phone)) {
+    formErrors.phone = "Invalid Philippine mobile phone number format";
+  }
+  if (!billingInfo.address1) formErrors.address1 = "Address is required";
+  if (!billingInfo.city) formErrors.city = "City is required";
+  if (!billingInfo.state) formErrors.state = "State is required";
+  if (!billingInfo.postcode) formErrors.postcode = "Postcode is required";
 
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
+  setErrors(formErrors);
+  return Object.keys(formErrors).length === 0;
+};
 
   const validateDeliveryDetails = () => {
     let formErrors = {};
@@ -506,7 +511,7 @@ const handleDeliveryChange = async (e) => {
         <OrderSummary
           loading={isLoadingDeliveryFee}
           cart={globalstate.cart}
-          calculateSubtotal={calculateSubtotal}
+          calculateSubtotal={ calculateSubtotal}
           calculateTotal={calculateTotal}
           deliveryFee={deliveryFee} // Pass delivery fee to OrderSummary
         />

@@ -49,13 +49,16 @@ export default function PromotionPage() {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="mx-auto max-w-screen-xl p-2">
-      <ProductList products={products} />
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => setCurrentPage(page)} // Example for handling page changes
-      />
-    </div>
+    <>
+      <div className="mx-auto max-w-screen-xl p-2">
+        <span>Promotions</span>
+        <ProductList products={products} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => setCurrentPage(page)} // Example for handling page changes
+        />
+      </div>
+    </>
   );
 }

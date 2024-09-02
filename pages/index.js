@@ -5,6 +5,7 @@ import Search from "../components/search";
 import Pagination from "../components/products/pagination";
 import { searchProducts } from "../features/cart/cartSlice";
 import Categories from "../components/categories";
+import { EmblaCarousel } from "./carousell";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
@@ -15,7 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState("");
   const cache = useRef({});
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Home() {
 
       setLoading(true);
       try {
-        const res = await fetch(`/api/products?limit=12&page=${page}`);
+        const res = await fetch(`/api/products?limit=20&page=${page}`);
         if (!res.ok) {
           throw new Error(`Failed to fetch data: ${res.statusText}`);
         }
@@ -54,56 +55,41 @@ export default function Home() {
     fetchProducts(currentPage);
   }, [currentPage]);
 
- useEffect(() => {
-      async function fetchCategories(page) {
-        if (cache.current[page]) {
-          // If data is in cache, use it
-          setCategories(cache.current[page].categories);
-          setTotalPages(cache.current[page].totalPages);
-          return;
+  useEffect(() => {
+    async function fetchCategories(page) {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/categories?page=${page}`);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch data: ${res.statusText}`);
         }
-
-        setLoading(true);
-        try {
-          const res = await fetch(`/api/categories?page=${page}`);
-          if (!res.ok) {
-            throw new Error(`Failed to fetch data: ${res.statusText}`);
-          }
-          const data = await res.json();
-          // console.log("API Response:", data.meta); // Check API response
-
-          const categoriesData = data || [];
-          const totalPages = data.meta.last_page || 1;
-
-          // Cache the data
-          cache.current[page] = { products: categoriesData, totalPages };
-
-          setCategories(categoriesData);
-          setTotalPages(totalPages);
-        } catch (error) {
-          setError(error.message);
-        } finally {
-          setLoading(false);
-        }
+        const data = await res.json();
+        const categoriesData = data || [];
+        setCategories(categoriesData);
+        // setTotalPages(totalPages);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
+    }
 
-      fetchCategories(currentPage);
-    }, [currentPage]);
+    fetchCategories(currentPage);
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  useEffect(() => {
+    dispatch(searchProducts({ query: "" })); // Fetch initial products
+  }, [dispatch]);
 
-      useEffect(() => {
-        dispatch(searchProducts({ query: "" })); // Fetch initial products
-      }, [dispatch]);
-
-      useEffect(() => {
-        if (currentPage > 1) {
-          dispatch(searchProducts({ query: "", page: currentPage }));
-        }
-      }, [currentPage, dispatch]);
+  useEffect(() => {
+    if (currentPage > 1) {
+      dispatch(searchProducts({ query: "", page: currentPage }));
+    }
+  }, [currentPage, dispatch]);
 
   const handleSearch = async (query) => {
     setLoading(true);
@@ -142,27 +128,33 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-xl p-2">
-      <Search onSearch={handleSearch} />
-      <div className="grid grid-flow-row mt-5">
-        <Categories categories={categories} />
+    <>
+      <div className="mx-auto max-w-screen-2xl p-1 lg:p-10">
+        <Search onSearch={handleSearch} />
+        <p className="mt-7 text-[45px] text-center">
+          We offer convenience. MEAT your happines!
+        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 mt-5">
+          <EmblaCarousel />
+          <Categories categories={categories} />
+        </div>
+        {loading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <div className="text-red-500">{error}</div>
+        ) : (
+          <>
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProductList products={products} />
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </Suspense>
+          </>
+        )}
       </div>
-      {loading ? (
-        <LoadingSpinner />
-      ) : error ? (
-        <div className="text-red-500">{error}</div>
-      ) : (
-        <>
-          <Suspense fallback={<LoadingSpinner />}>
-            <ProductList products={products} />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </Suspense>
-        </>
-      )}
-    </div>
+    </>
   );
 }
