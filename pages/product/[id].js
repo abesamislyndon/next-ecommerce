@@ -14,13 +14,21 @@ export default function ProductPage() {
   const product = products.find((p) => p.id === id);
 
   if (!product) {
-    return <div>Product not found</div>;
+    return (
+      <>
+        <div className="mx-auto container p-10 bg-white">
+        <span className="text-center">No products available</span>
+         </div>
+      </>
+    );
   }
 
   return (
-    <div>
-      <h1>{product.name}</h1>
-      <p>{product.price}</p>
-    </div>
+    <>
+      <div>
+        <h1>{product.name}</h1>
+        <p>{product.price}</p>
+      </div>
+    </>
   );
 }

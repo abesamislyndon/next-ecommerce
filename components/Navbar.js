@@ -1,3 +1,4 @@
+'user client';
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -9,7 +10,6 @@ import {
 import { useAuth } from "../hooks/useAuth";
 import Image from "next/image";
 import ent3logo from "../public/image/imerich-logo.webp";
-// import OneLogin from "../components/btn/login-btn";
 
 export default function Navbar() {
   const [currentCartItemCount, setCurrentCartItemCount] = useState(0);
@@ -83,33 +83,40 @@ export default function Navbar() {
             <Link href="/contact">Contact us</Link>
           </li>
         </ul>
-        <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-3">
-          {userinfo === null ? (
-            <>
-              <Link href="/login">Login</Link>
-              {/* <OneLogin/> */}
-            </>
-          ) : (
-            <>
-              <Link href="/userprofile" className="font-bold">
-                Hi, {userinfo.first_name}
-              </Link>
-              <button onClick={handleLogout}>
-                <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
-              </button>
-            </>
-          )}
-          <Link className="flex items-center hover:text-gray-200" href="/cart">
-            <ShoppingCartIcon className="text-[#cc0404] w-7 h-7" />
-            <span className="flex absolute -mt-6 ml-2">
-              <span className="absolute inline-flex h-5 w-5 rounded-full bg-black-400 opacity-75"></span>
-              <span className="relative text-center rounded-full h-6 w-6 bg-black text-[#fff] opacity-75">
-                <span className="relative text-[13px] text-[#fff]">
-                  {currentCartItemCount}
+        <div className="grid  grid-cols-1 lg:grid-cols-1">
+         <div>
+         </div>
+          <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-10">
+            {userinfo === null ? (
+              <>
+                <Link href="/login">Login</Link>
+                {/* <OneLogin/> */}
+              </>
+            ) : (
+              <>
+                <Link href="/userprofile" className="font-bold">
+                  Hi, {userinfo.first_name}
+                </Link>
+                <button onClick={handleLogout}>
+                  <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
+                </button>
+              </>
+            )}
+            <Link
+              className="flex items-center hover:text-gray-200"
+              href="/cart"
+            >
+              <ShoppingCartIcon className="text-[#cc0404] w-7 h-7" />
+              <span className="flex absolute -mt-6 ml-2">
+                <span className="absolute inline-flex h-5 w-5 rounded-full bg-black-400 opacity-75"></span>
+                <span className="relative text-center rounded-full h-6 w-6 bg-black text-[#fff] opacity-75">
+                  <span className="relative text-[13px] text-[#fff]">
+                    {currentCartItemCount}
+                  </span>
                 </span>
               </span>
-            </span>
-          </Link>
+            </Link>
+          </div>
         </div>
         <div className="md:hidden flex items-center ml-10">
           <button onClick={toggleMenu}>

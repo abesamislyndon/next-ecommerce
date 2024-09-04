@@ -50,7 +50,6 @@ export default function CheckoutPage() {
   const [deliveryFee, setDeliveryFee] = useState(null); // New state for delivery fee
   const [isLoadingDeliveryFee, setIsLoadingDeliveryFee] = useState(false);
 
-
   useEffect(() => {
     if (user) {
       setShowModal(false);
@@ -120,8 +119,6 @@ export default function CheckoutPage() {
       : parsedQuantity * parsedPrice;
   };
 
-
-
   const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
@@ -147,49 +144,40 @@ export default function CheckoutPage() {
     dispatch(saveAddress(formattedBillingInfo));
   };
 
+  // DELIVERY METHOD  -  COD OR PICKUP
+  const handleDeliveryChange = async (e) => {
+    const { value } = e.target;
+    setDeliveryMethod(value);
+    localStorage.setItem("deliveryMethod", value);
 
+    // Set loading state to true
+    setIsLoadingDeliveryFee(true);
 
-const handleDeliveryChange = async (e) => {
-  const { value } = e.target;
-  setDeliveryMethod(value);
-  localStorage.setItem("deliveryMethod", value);
+    try {
+      dispatch(formatBillingInfo());
 
-  // Set loading state to true
-  setIsLoadingDeliveryFee(true);
+      const response = await dispatch(
+        saveShiping({ deliveryMethod: value, pickupLocation })
+      );
 
-  try {
+      const selectedShippingRate =
+        response.payload?.data?.cart?.selected_shipping_rate?.price;
 
-    dispatch(formatBillingInfo());
-
-    const response = await dispatch(
-      saveShiping({ deliveryMethod: value, pickupLocation })
-    );
-
-    const selectedShippingRate = response.payload?.data?.cart?.selected_shipping_rate?.price;
-
-    if (selectedShippingRate !== undefined) {
-      localStorage.setItem("deliveryFee", selectedShippingRate);
-      setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
-    } else {
-      console.error("Selected shipping rate is not available.");
+      if (selectedShippingRate !== undefined) {
+        localStorage.setItem("deliveryFee", selectedShippingRate);
+        setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
+      } else {
+        console.error("Selected shipping rate is not available.");
+      }
+    } catch (error) {
+      console.error("Failed to save shipping information:", error);
+    } finally {
+      // Only stop loading after the fee state has been updated
+      setIsLoadingDeliveryFee(false);
     }
-  } catch (error) {
-    console.error("Failed to save shipping information:", error);
-  } finally {
-    // Only stop loading after the fee state has been updated
-    setIsLoadingDeliveryFee(false);
-  }
-};
-
-
-  const formatBillingInfo = () => {
-    const formattedBillingInfo = {
-      billing: { ...billingInfo, address1: { 0: billingInfo.address1 } },
-      shipping: { address1: { 0: "" } },
-    };
-    return saveAddress(formattedBillingInfo);
   };
 
+  //  PICKUP METHOD FOR  LOCATION AND  DATE
   const handlePickupChange = (e) => {
     const { name, value } = e.target;
     if (name === "pickupLocation") setPickupLocation(value);
@@ -198,30 +186,42 @@ const handleDeliveryChange = async (e) => {
     localStorage.setItem(name, value);
   };
 
-const validateCustomerDetails = () => {
-  let formErrors = {};
+  // FORMAT BILLING INFO
+  const formatBillingInfo = () => {
+    const formattedBillingInfo = {
+      billing: { ...billingInfo, address1: { 0: billingInfo.address1 } },
+      shipping: { address1: { 0: "" } },
+    };
+    return saveAddress(formattedBillingInfo);
+  };
 
-  if (!billingInfo.first_name) formErrors.first_name = "First name is required";
-  if (!billingInfo.last_name) formErrors.last_name = "Last name is required";
-  if (!billingInfo.email) {
-    formErrors.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(billingInfo.email)) {
-    formErrors.email = "Invalid email format";
-  }
-  if (!billingInfo.phone) {
-    formErrors.phone = "Phone number is required";
-  } else if (!/^(\+639|09)\d{9}$/.test(billingInfo.phone)) {
-    formErrors.phone = "Invalid Philippine mobile phone number format";
-  }
-  if (!billingInfo.address1) formErrors.address1 = "Address is required";
-  if (!billingInfo.city) formErrors.city = "City is required";
-  if (!billingInfo.state) formErrors.state = "State is required";
-  if (!billingInfo.postcode) formErrors.postcode = "Postcode is required";
+  //  VALIDATION FOR CUSTOMER DETAILS
+  const validateCustomerDetails = () => {
+    let formErrors = {};
 
-  setErrors(formErrors);
-  return Object.keys(formErrors).length === 0;
-};
+    if (!billingInfo.first_name)
+      formErrors.first_name = "First name is required";
+    if (!billingInfo.last_name) formErrors.last_name = "Last name is required";
+    if (!billingInfo.email) {
+      formErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(billingInfo.email)) {
+      formErrors.email = "Invalid email format";
+    }
+    if (!billingInfo.phone) {
+      formErrors.phone = "Phone number is required";
+    } else if (!/^(\+639|09)\d{9}$/.test(billingInfo.phone)) {
+      formErrors.phone = "Invalid Philippine mobile phone number format";
+    }
+    if (!billingInfo.address1) formErrors.address1 = "Address is required";
+    if (!billingInfo.city) formErrors.city = "City is required";
+    if (!billingInfo.state) formErrors.state = "State is required";
+    if (!billingInfo.postcode) formErrors.postcode = "Postcode is required";
 
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  // VALIDATE DELIVERY DETAILS
   const validateDeliveryDetails = () => {
     let formErrors = {};
 
@@ -239,6 +239,7 @@ const validateCustomerDetails = () => {
     return Object.keys(formErrors).length === 0;
   };
 
+  //  VALIDATE PAYMENT  DETAILS
   const validatePaymentDetails = () => {
     let formErrors = {};
 
@@ -250,6 +251,7 @@ const validateCustomerDetails = () => {
     return Object.keys(formErrors).length === 0;
   };
 
+  // CART STATUS STEPS CHECKOUT
   const handleNextStep = () => {
     if (currentStep === 1) {
       if (validateCustomerDetails()) {
@@ -266,6 +268,7 @@ const validateCustomerDetails = () => {
     }
   };
 
+  // HANDLE SUBMIT FOR SUBMIT FORMS
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -305,6 +308,7 @@ const validateCustomerDetails = () => {
     router.push("/login");
   };
 
+  //  STEPS  FOR ORDER
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -511,7 +515,7 @@ const validateCustomerDetails = () => {
         <OrderSummary
           loading={isLoadingDeliveryFee}
           cart={globalstate.cart}
-          calculateSubtotal={ calculateSubtotal}
+          calculateSubtotal={calculateSubtotal}
           calculateTotal={calculateTotal}
           deliveryFee={deliveryFee} // Pass delivery fee to OrderSummary
         />

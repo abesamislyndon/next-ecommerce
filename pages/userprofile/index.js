@@ -1,4 +1,5 @@
 
+"use client";
 import { useEffect } from "react";
 import withAuth from "../../hooks/withAuth";
 import Sidebar from "../../components/customer/topnavbar";

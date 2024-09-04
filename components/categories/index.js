@@ -6,6 +6,7 @@ import Chicken from "../../public/image/chicken.png";
 import Marinated from "../../public/image/marinated.png";
 import All from "../../public/image/all.png";
 import Link from "next/link";
+import LoadingSpinner from "../loading/LoadingSpinner";
 
 const Categories = ({ categories }) => {
   const [products, setProducts] = useState([]);

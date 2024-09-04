@@ -16,7 +16,6 @@ const Login = () => {
   const validateForm = () => {
     let valid = true;
 
-    // Reset error messages
     setEmailError("");
     setPasswordError("");
 
@@ -36,7 +35,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
  
-    // Perform validation
     if (!validateForm()) {
       return; // Stop submission if validation fails
     }

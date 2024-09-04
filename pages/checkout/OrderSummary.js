@@ -18,7 +18,6 @@ const OrderSummary = ({
   const [isHydrated, setIsHydrated] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-
   useEffect(() => {
     setIsHydrated(true);
   }, []);

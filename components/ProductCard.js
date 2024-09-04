@@ -48,10 +48,19 @@ export default function ProductCard({ product }) {
     <>
       <span onClick={() => setShowModal(true)} className="cursor-pointer">
         <div className="mt-1 my-1 rounded-lg border border-black-100 bg-white ">
+          {product.formated_regular_price ? (
+            <span className="absolute bg-[#FFD950] p-1 text-sm text-black font-bold">
+              Save ₱{product.regular_price - product.price}
+            </span>
+          ) : (
+            ""
+          )}
+
           <img
             src={product.base_image.large_image_url}
             alt={product.name}
             className="rounded-tl-lg rounded-tr-lg"
+            loading="lazy" // Lazy loading attribute added here
           />
           <div className="p-2">
             <h5 className="text-md lg:text-sm font-bold  tracking-tight text-stone-500">
@@ -61,7 +70,7 @@ export default function ProductCard({ product }) {
 
           <div className="mt-2 mb-5 flex items-center justify-between">
             <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-1 gap-0">
-              <span className=" text-sm px-2 lg:py-5 lg:text-lg font-bold text-slate-900 -mt-7">
+              <span className=" text-sm px-2 py-3 lg:py-5 lg:text-lg font-bold text-slate-900 -mt-7">
                 {product.formated_price.replace(/\$/g, "")}
               </span>
               <span className="text-xl px-2 lg:text-lg text-rose-600 font-bold line-through lg:-mt-5 ml-0">

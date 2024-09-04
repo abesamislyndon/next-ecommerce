@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { formatPrice } from "../../components/helpers/helpers";
 import {
   removeFromCart,
   clearCart,
@@ -47,6 +46,8 @@ export default function CartPage() {
     fetchCartFromLocalStorage();
   }, [dispatch]);
 
+
+// CALCULATE SUBTOTAL
   const calculateSubtotal = (item) => {
     const parsedQuantity = parseInt(item.quantity);
     const parsedPrice = parseFloat(item.price);
@@ -65,21 +66,25 @@ export default function CartPage() {
       )
     : 0;
 
+ // CLEAR CART DETAILS 
   const clearCartDetails = () => {
     dispatch(fetchCartEmpty());
     dispatch(clearCart());
   };
 
+// REMOVE ITEM OR PRODUCTS IN A CERTAIN CART
   const removeItem = (item) => {
     dispatch(removeFromCart(item));
     dispatch(removeItemFromCart(item));
   };
 
+// INCREASE QUANTITY IN CART
   const handleQtyIncrease = (item) => {
     dispatch(increaseItem(item));
     dispatch(updateItemQuantity(item));
   };
 
+// DECREASE QUANTITY IN CART
   const handleQtyDecrease = (item) => {
     if (item.quantity > 1) {
       dispatch(decreaseItem(item));
@@ -183,7 +188,7 @@ export default function CartPage() {
                       )}
                     </td>
                     <td className="p-4">{item.name || "Loading Name..."}</td>
-                    <td> ₱ {formatPrice(item.price) || "Loading Price..."}</td>
+                    <td> ₱ {Number(item.price).toFixed(2) || "Loading Price..."}</td>
                     <td className="p-3">
                       <button
                         className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"

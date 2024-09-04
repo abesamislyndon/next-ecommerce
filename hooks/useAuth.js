@@ -17,6 +17,7 @@ export const useAuth = () => {
 const useProvideAuth = () => {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -67,27 +68,30 @@ const useProvideAuth = () => {
     }
   };
 
-  const handleLogout = async () => {
-    const token = Cookies.get("token");
-    try {
-      const response = await fetch("/api/customer/logout?token=true", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        Cookies.remove("token");
-        sessionStorage.removeItem("BasicInfo");
-        setUser(null);
-        router.push("/login");
-      } else {
-        console.error("Logout failed");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
+const handleLogout = async () => {
+  const token = Cookies.get("token");
+  try {
+    const response = await fetch("/api/customer/logout?token=true", {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      Cookies.remove("token");
+      sessionStorage.removeItem("BasicInfo");
+       window.location.reload();
+      router.push("/");
+      setUser(null);
+      console.log("Logout successful, redirecting...");
+    } else {
+      console.error("Logout failed with status:", response.status);
     }
-  };
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
+
 
   return {
     user,
