@@ -67,7 +67,7 @@ export default function Navbar() {
     <nav className="flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]">
       <div className="xl:px-12 py-1 flex w-full items-center">
         <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
-          <Image className="h-20 w-auto" src={ent3logo} />
+          <Image className="h-20 w-auto" src={ent3logo} alt= "Company Logo"/>
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-10">
           <li>
@@ -84,8 +84,7 @@ export default function Navbar() {
           </li>
         </ul>
         <div className="grid  grid-cols-1 lg:grid-cols-1">
-         <div>
-         </div>
+          <div></div>
           <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-10">
             {userinfo === null ? (
               <>

@@ -35,10 +35,14 @@ const Categories = ({ categories }) => {
             key={category.id}
             className="w-3/4 p-5 mt-1 shadow-sm m-5 transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d]  rounded-2xl"
           >
-            <Link href={`category/${category.id}`}>
+            <Link href={`category/${category.name}`}>
               {category.name === "Pork" ? (
                 <>
-                  <Image src={Pork} className="w-20 mx-auto mt-10" />
+                  <Image
+                    src={Pork}
+                    className="w-20 mx-auto mt-10"
+                    alt={category.name}
+                  />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -47,7 +51,11 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Beef" ? (
                 <>
-                  <Image src={Beef} className="w-20 mx-auto mt-10" />
+                  <Image
+                    src={Beef}
+                    className="w-20 mx-auto mt-10"
+                    alt={category.name}
+                  />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -56,7 +64,11 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Chicken" ? (
                 <>
-                  <Image src={Chicken} className="w-20 mx-auto mt-10" />
+                  <Image
+                    src={Chicken}
+                    className="w-20 mx-auto mt-10"
+                    alt={category.name}
+                  />
                   <span className="text-xs lg:text-1xl">
                     <p className="mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -65,7 +77,11 @@ const Categories = ({ categories }) => {
                 </>
               ) : category.name === "Imerich templado" ? (
                 <>
-                  <Image src={Marinated} className="w-20 mx-auto mt-10" />
+                  <Image
+                    src={Marinated}
+                    className="w-20 mx-auto mt-10"
+                    alt={category.name}
+                  />
                   <span className=" text-center lg:text-1xl">
                     <p className="text-[10px] mt-2 text-rose-950 font-bold">
                       {category.name}
@@ -74,8 +90,15 @@ const Categories = ({ categories }) => {
                 </>
               ) : (
                 <>
-                  <Image src={All} className="w-20 mx-auto mt-10" />
-                  <p className="text-[10px] mt-2 text-rose-950 font-bold"> {category.name}</p>
+                  <Image
+                    src={All}
+                    className="w-20 mx-auto mt-10"
+                    alt={category.name}
+                  />
+                  <p className="text-[10px] mt-2 text-rose-950 font-bold">
+                    {" "}
+                    {category.name}
+                  </p>
                 </>
               )}
             </Link>

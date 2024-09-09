@@ -52,7 +52,7 @@ const OrderSummary = ({
     ));
 
   return (
-    <div className="lg:w-1/2 bg-gray-50 p-6 rounded-lg shadow-lg sticky top-8  text-red-700">
+    <div className="lg:w-1/2 bg-gray-50 p-12  lg:p-12 rounded-lg shadow-lg sticky top-8  text-red-700  ">
       <h2 className="text-xl font-bold mb-4">Order Summary</h2>
       <div className="mb-4">{renderCartItems()}</div>
       <hr className="pt-5" />

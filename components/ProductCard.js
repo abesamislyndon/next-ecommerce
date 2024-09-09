@@ -73,7 +73,7 @@ export default function ProductCard({ product }) {
               <span className=" text-sm px-2 py-3 lg:py-5 lg:text-lg font-bold text-slate-900 -mt-7">
                 {product.formated_price.replace(/\$/g, "")}{" "}
               </span>
-              <span className="-mt-5 mb-5 ml-2 text-xs">
+              <span className="-mt-2 lg:-mt-5 mb-5 ml-3 lg:ml-2 text-xs">
                 {" "}
                 {product.att["uom"] ? "" + product.att["uom"] : ""}
               </span>
@@ -107,7 +107,7 @@ export default function ProductCard({ product }) {
               </div>
               <div className="h-[100vh">
                 <h2 className="text-[1.2em] font-extrabold">{product.name}</h2>
-                <span className="-mt-5 mb-5 ml-2 text-xs">
+                <span className="mt-2 lg:-mt-5 mb-5 ml-2 text-xs">
                   {" "}
                   {product.att["uom"] ? "" + product.att["uom"] : ""}
                 </span>

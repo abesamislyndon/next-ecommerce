@@ -2,7 +2,7 @@ const StepHeader = ({ currentStep }) => {
   const steps = ["Customer Details", "Delivery Details", "Payment Details"];
 
   return (
-    <div className="flex justify-between mb-8 bg-white pt-4 pb-4 pl-10 pr-10">
+    <div className="flex justify-between mb-8 bg-white pt-4 p-10">
       {steps.map((step, index) => (
         <div key={index} className="relative">
           <div
@@ -15,15 +15,15 @@ const StepHeader = ({ currentStep }) => {
             {index + 1}
           </div>
           <div
-            className={`absolute top-0 ml-4 text-sm ${
+            className={`absolute top-0 text-auto -ml-3 text-sm ${
               index + 1 === currentStep ? "text-black" : "text-gray-500"
             }`}
           >
-            <span className="mt-8 absolute -ml-2"> {step}</span>
+            <span className="text-[13px] lg:text-lg mt-8 absolute -ml-2"> {step}</span>
           </div>
           {index < steps.length - 1 && (
             <div
-              className={`w-1 h-8 ${
+              className={`w-0 h-8 ${
                 index + 1 < currentStep ? "bg-black" : "bg-gray-300"
               }`}
             />
