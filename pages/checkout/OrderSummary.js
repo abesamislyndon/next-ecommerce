@@ -49,36 +49,7 @@ const OrderSummary = ({
 
   return (
     <div className="lg:w-1/2 bg-gray-50 p-12 lg:p-12 rounded-lg shadow-lg sticky top-8 text-red-700">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-      <div className="mb-4">{renderCartItems()}</div>
-      <hr className="pt-5" />
-      <div className="flex justify-between mb-2">
-        <span>Subtotal:</span>
-        <span>{formatPrice(calculateTotal())}</span>
-      </div>
-      <div className="flex justify-between mb-2">
-        <span>Delivery Fee:</span>
-        {isHydrated ? (
-          <Suspense fallback={<LoadingSpinner />}>
-            <LazyDeliveryFee
-              fee={lazyDeliveryFee ?? 0}
-              spinnerStatus={loading}
-            />
-          </Suspense>
-        ) : (
-          <span>₱0.00</span>
-        )}
-      </div>
-      <div className="flex justify-between font-bold text-[30px]">
-        <span>Total:</span>
-        {isHydrated ? (
-          <Suspense fallback={<LoadingSpinner />}>
-            <LazyTotal total={lazyTotal ?? 0} />
-          </Suspense>
-        ) : (
-          <span>₱0.00</span>
-        )}
-      </div>
+     
     </div>
   );
 };
