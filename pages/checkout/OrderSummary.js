@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from "react";
-import LoadingSpinner from "../../components/loading/LoadingSpinner";
-import LazyDeliveryFee from "./LazyDeliveryFee";
-import { formatPrice } from "../../components/helpers/helpers";
+import LoadingSpinner from "../../components/loading/LoadingSpinner.js";
+import LazyDeliveryFee from "./LazyDeliveryFee.js";
+import { formatPrice } from "../../components/helpers/helpers.js";
 
 const LazyTotal = React.lazy(() => import("./LazyTotal.js"));
 
