@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Modal from "../../components/modals/Modals";
 import CustomerDetails from "./customer_details";
-import OrderSummary from "./OrderSummary";
+//import OrderSummary from "./OrderSummary";
 import {
   setCart,
   saveAddress,
@@ -512,13 +512,13 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary */}
-        <OrderSummary
+        {/* <OrderSummary
           loading={isLoadingDeliveryFee}
           cart={globalstate.cart}
           calculateSubtotal={calculateSubtotal}
           calculateTotal={calculateTotal}
           deliveryFee={deliveryFee} // Pass delivery fee to OrderSummary
-        />
+        /> */}
       </div>
     </div>
   );
