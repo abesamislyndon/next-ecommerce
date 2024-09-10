@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, useTransition } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
 import LazyDeliveryFee from "./LazyDeliveryFee";
 import { formatPrice } from "../../components/helpers/helpers";
@@ -15,7 +15,6 @@ const OrderSummary = ({
   const [lazyDeliveryFee, setLazyDeliveryFee] = useState(null);
   const [lazyTotal, setLazyTotal] = useState(null);
   const [isHydrated, setIsHydrated] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setIsHydrated(true);
@@ -23,15 +22,13 @@ const OrderSummary = ({
 
   useEffect(() => {
     if (isHydrated) {
-      startTransition(() => {
-        const timeoutId = setTimeout(() => {
-          setLazyDeliveryFee(deliveryFee || 0);
-          const totalAmount = calculateTotal();
-          setLazyTotal(totalAmount + (deliveryFee || 0));
-        }, 1000);
+      const timeoutId = setTimeout(() => {
+        setLazyDeliveryFee(deliveryFee || 0);
+        const totalAmount = calculateTotal();
+        setLazyTotal(totalAmount + (deliveryFee || 0));
+      }, 1000);
 
-        return () => clearTimeout(timeoutId);
-      });
+      return () => clearTimeout(timeoutId);
     }
   }, [isHydrated, calculateTotal, deliveryFee, loading]);
 

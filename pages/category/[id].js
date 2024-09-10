@@ -6,7 +6,7 @@ import Pagination from "../../components/products/pagination";
 
 export default function CategoryPage() {
   const router = useRouter();
-  const { slug } = router.query; // Capture the dynamic part of the URL (slug)
+  const { id } = router.query; // Capture the dynamic part of the URL (slug)
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,12 +14,15 @@ export default function CategoryPage() {
   const [totalPages, setTotalPages] = useState(1);
 
   // Fetch products based on the category ID
-  const fetchProducts = async (categoryId) => {
+  const fetchProducts = async (id) => {
     try {
-      const response = await fetch(`/api/products?category_id=${slug}`);
+      const response = await fetch(`/api/products?category_id=${id}`);
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
+
+      console.log('producrt cart', data);
+
       setProducts(data.products || []); // Adjust according to your API response
       setTotalPages(data.totalPages || 1); // Adjust according to your API response
       setCurrentPage(data.currentPage || 1); // Adjust according to your API response
@@ -33,14 +36,16 @@ export default function CategoryPage() {
 
   useEffect(() => {
     const fetchCategoryAndProducts = async () => {
-      if (!slug) return; // Don't fetch if slug is not available
+      if (!id) return; // Don't fetch if slug is not available
 
       setLoading(true);
       setError(null); // Reset error state before fetching
 
       try {
         // Fetch the category data by slug
-        const categoryResponse = await fetch(`/api/products?category_id=${categoryId}`);
+        const categoryResponse = await fetch(`/api/products?category_id=${id}`);
+
+
         if (!categoryResponse.ok) throw new Error("Category not found");
 
         const categoryData = await categoryResponse.json();
@@ -53,7 +58,7 @@ export default function CategoryPage() {
       }
     };
     fetchCategoryAndProducts();
-  }, [slug]); // Fetch category and products whenever `slug` changes
+  }, [id]); // Fetch category and products whenever `slug` changes
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500">{error}</div>;

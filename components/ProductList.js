@@ -3,7 +3,13 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList({ products}) {
   if (!products || !products.data) {
-    return <p>No products available.</p>;
+    return (
+      <>
+        <div className="mx-auto w-1/1 mt-20">
+          <span className="text-md font-extrabold mx-auto">No products available.</span>
+        </div>
+      </>
+    );
   }
   return (
     <>
