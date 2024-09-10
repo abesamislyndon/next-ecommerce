@@ -7,7 +7,6 @@ import Pagination from "../../components/products/pagination";
 export default function CategoryPage() {
   const router = useRouter();
   const { slug } = router.query; // Capture the dynamic part of the URL (slug)
-
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,12 +16,10 @@ export default function CategoryPage() {
   // Fetch products based on the category ID
   const fetchProducts = async (categoryId) => {
     try {
-      const response = await fetch(`/api/products?category_id=${categoryId}`);
+      const response = await fetch(`/api/products?category_id=${slug}`);
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
-
-      // Assuming the API returns an array of products
       setProducts(data.products || []); // Adjust according to your API response
       setTotalPages(data.totalPages || 1); // Adjust according to your API response
       setCurrentPage(data.currentPage || 1); // Adjust according to your API response
@@ -43,7 +40,7 @@ export default function CategoryPage() {
 
       try {
         // Fetch the category data by slug
-        const categoryResponse = await fetch(`/api/categories?slug=${slug}`);
+        const categoryResponse = await fetch(`/api/products?category_id=${categoryId}`);
         if (!categoryResponse.ok) throw new Error("Category not found");
 
         const categoryData = await categoryResponse.json();
@@ -55,7 +52,6 @@ export default function CategoryPage() {
         setError(error.message);
       }
     };
-
     fetchCategoryAndProducts();
   }, [slug]); // Fetch category and products whenever `slug` changes
 

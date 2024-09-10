@@ -66,10 +66,7 @@ const Signup = () => {
       return;
     }
 
-    console.log("----- Form Submitted ------");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
+  
 
     const res = await fetch("/api/auth/signup", {
       method: "POST",
@@ -77,8 +74,6 @@ const Signup = () => {
       body: JSON.stringify({ name, email, password }),
     });
     const data = await res.json();
-    console.log("---- Signup API Response ---");
-    console.log(data);
     if (res.ok) {
       // Registration successful
       const { token } = data;

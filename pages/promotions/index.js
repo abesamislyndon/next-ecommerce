@@ -25,7 +25,7 @@ export default function PromotionPage() {
         const data = await response.json();
 
         // Log the data to inspect its format
-        console.log("API response:", data);
+       // console.log("API response:", data);
 
         // Ensure data contains the expected properties
         if (!Array.isArray(data.data)) {

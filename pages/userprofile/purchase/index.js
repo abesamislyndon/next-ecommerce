@@ -37,7 +37,7 @@ const Order = () => {
     return <p>Error: {error}</p>; // Display error message if API call fails
   }
 
-  console.log(Purchases.data);
+//  console.log(Purchases.data);
   return (
     <>
       <div className="mx-auto container">

@@ -29,7 +29,7 @@ export default function ProductCard({ product }) {
     dispatch(add({ ...product, quantity: quantity }));
     dispatch(addItemToCart({ ...product, product_id: product.id, quantity:quantity}));
     setShowModal(false);
-    console.log('add to cart', product);
+   // console.log('add to cart', product);
   };
 
   const increaseQuantity = () => {

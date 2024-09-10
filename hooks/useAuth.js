@@ -79,11 +79,11 @@ const handleLogout = async () => {
     });
     if (response.ok) {
       Cookies.remove("token");
-      sessionStorage.removeItem("BasicInfo");
+       sessionStorage.removeItem("BasicInfo");
        window.location.reload();
       router.push("/");
       setUser(null);
-      console.log("Logout successful, redirecting...");
+     // console.log("Logout successful, redirecting...");
     } else {
       console.error("Logout failed with status:", response.status);
     }

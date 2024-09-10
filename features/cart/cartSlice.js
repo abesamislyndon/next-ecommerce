@@ -257,7 +257,7 @@ const cartSlice = createSlice({
       })
       .addCase(saveAddress.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log("Address saved successfully:", action.payload);
+     //   console.log("Address saved successfully:", action.payload);
       })
       .addCase(saveAddress.rejected, (state, action) => {
         state.status = "failed";
@@ -268,7 +268,7 @@ const cartSlice = createSlice({
       })
       .addCase(saveShiping.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log("Shipping saved successfully:", action.payload);
+     //   console.log("Shipping saved successfully:", action.payload);
       })
       .addCase(saveShiping.rejected, (state, action) => {
         state.status = "failed";
@@ -285,7 +285,7 @@ const cartSlice = createSlice({
         localStorage.setItem("FinalCart", JSON.stringify(state.cart));
         localStorage.setItem("deliveryMethod", JSON.stringify(state.cart));
         localStorage.setItem("paymentMethod", JSON.stringify(state.cart));
-        console.log("Shipping saved successfully:", action.payload);
+      //  console.log("Shipping saved successfully:", action.payload);
       })
       .addCase(saveOrder.rejected, (state, action) => {
         state.status = "failed";

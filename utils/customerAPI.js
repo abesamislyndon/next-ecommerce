@@ -43,7 +43,7 @@ export const userInfo = async () => {
     };
 
     const response = await fetch(endpoint, options);
-    console.log("customer info", response);
+   // console.log("customer info", response);
 
     if (!response.ok) {
       const errorDetails = await response.text();

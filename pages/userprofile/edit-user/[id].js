@@ -17,7 +17,7 @@ export default function EditUserPage() {
       try {
         const response = await fetch(`/api/auth/${id}`);
         const data = await response.json();
-        console.log("----User Details---", data);
+      //  console.log("----User Details---", data);
         setUser(data.user);
       } catch (error) {
         console.error("An error occurred:", error);
@@ -60,7 +60,7 @@ export default function EditUserPage() {
       });
 
       if (response.ok) {
-        console.log("User updated successfully");
+      //  console.log("User updated successfully");
         alert("User updated successfully");
         router.push("/profile"); // Redirect to the profile page or any other page
       } else {

@@ -387,7 +387,7 @@ export const saveOrder = async ({ pickup_location, delivery_method }) => {
     };
 
     const response = await fetch(endpoint, options);
-    console.log("Order save response:", response);
+    //console.log("Order save response:", response);
 
     if (!response.ok) {
       throw new Error("Failed to Save Order");
@@ -395,7 +395,7 @@ export const saveOrder = async ({ pickup_location, delivery_method }) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error Save Order:", error);
+   // console.error("Error Save Order:", error);
     throw error;
   }
 };
@@ -403,7 +403,7 @@ export const saveOrder = async ({ pickup_location, delivery_method }) => {
 
 export const searchProducts = async (query) => {
  
-  console.log("Query:", query);
+  //("Query:", query);
   const endpoint = `api/products?name=${encodeURIComponent(query)}`;
 
   try {
@@ -414,17 +414,17 @@ export const searchProducts = async (query) => {
       },
     };
 
-    console.log("Fetching from:", endpoint); // Log the endpoint being fetched
+  //  console.log("Fetching from:", endpoint); // Log the endpoint being fetched
 
     const response = await fetch(endpoint, options);
-    console.log("Search response status:", response.status); // Log status code
+  //  console.log("Search response status:", response.status); // Log status code
 
     if (!response.ok) {
       throw new Error(`Failed to Search: ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log("Search response data:", data.data); // Log the response data
+   // console.log("Search response data:", data.data); // Log the response data
     return data;
   } catch (error) {
     console.error("Error in searchProducts:", error);

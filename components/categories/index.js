@@ -35,7 +35,7 @@ const Categories = ({ categories }) => {
             key={category.id}
             className="w-3/4 p-5 mt-1 shadow-sm m-5 transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d]  rounded-2xl"
           >
-            <Link href={`category/${category.name}`}>
+            <Link href={`category/${category.id}`}>
               {category.name === "Pork" ? (
                 <>
                   <Image

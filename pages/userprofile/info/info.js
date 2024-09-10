@@ -25,7 +25,7 @@ const Info = () => {
     return <div>Loading...</div>;
   }
 
-console.log(userInfoData);
+  //console.log(userInfoData);
 
   return (
     <>
