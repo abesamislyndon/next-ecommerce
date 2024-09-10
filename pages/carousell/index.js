@@ -59,3 +59,6 @@ export function EmblaCarousel() {
     </div>
   );
 }
+
+
+export default EmblaCarousel;
