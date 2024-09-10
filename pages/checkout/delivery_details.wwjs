@@ -1,6 +1,6 @@
 import React from "react";
 
-const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
+const CustomerDetails = ({ billingInfo, handleChange, errors }) => {
   return (
     <>
       <div className="grid gap-6">

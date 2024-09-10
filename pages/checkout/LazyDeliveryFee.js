@@ -11,7 +11,7 @@ const LazyDeliveryFee = ({ fee, spinnerStatus }) => {
   return spinnerStatus ? (
     <div className="spinner"></div>
   ) : (
-    <span>₱{fee.toFixed(2)}</span>
+    <span>₱{fee}</span>
   );
 };
 

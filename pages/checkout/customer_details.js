@@ -1,10 +1,10 @@
 import React from "react";
 
-const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
+const CustomerDetails = ({ billingInfo = {}, handleChange, errors = {} }) => {
   return (
     <>
       <div className="grid gap-6">
-        <div className="grid grid-cols-2 gap-6 text-sm">
+        <div className="grid grid-cols-2 gap-6">
           <label className="block text-[#333] mb-2">
             First Name
             <input
@@ -15,7 +15,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors }) => {
               className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
                 errors.first_name ? "border-red-500" : ""
               }`}
-            /> 
+            />
             {errors.first_name && (
               <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
             )}

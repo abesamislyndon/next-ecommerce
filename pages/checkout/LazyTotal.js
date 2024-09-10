@@ -1,3 +1,4 @@
+// LazyTotal.js
 import React from "react";
 import { formatPrice } from "../../components/helpers/helpers";
 

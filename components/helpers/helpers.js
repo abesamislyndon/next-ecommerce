@@ -1,5 +1,8 @@
 export const formatPrice = (amount) => {
-  return amount.toLocaleString("en-US", {
+  // Ensure the amount is a number; if not, default to 0
+  const validAmount = typeof amount === "number" && !isNaN(amount) ? amount : 0;
+
+  return validAmount.toLocaleString("en-US", {
     style: "currency",
     currency: "PHP",
     minimumFractionDigits: 2, // Ensures two decimal places

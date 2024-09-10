@@ -3,11 +3,10 @@ import LoadingSpinner from "../../components/loading/LoadingSpinner";
 import LazyDeliveryFee from "./LazyDeliveryFee";
 import { formatPrice } from "../../components/helpers/helpers";
 
-const LazyTotal = React.lazy((formatPrice) => import("./LazyTotal"));
-
+const LazyTotal = React.lazy(() => import("./LazyTotal.js"));
 
 const OrderSummary = ({
-  cart,
+  cart = [], // Default value to prevent the error
   calculateSubtotal,
   calculateTotal,
   deliveryFee,
@@ -52,7 +51,7 @@ const OrderSummary = ({
     ));
 
   return (
-    <div className="lg:w-1/2 bg-gray-50 p-12  lg:p-12 rounded-lg shadow-lg sticky top-8  text-red-700  ">
+    <div className="lg:w-1/2 bg-gray-50 p-12 lg:p-12 rounded-lg shadow-lg sticky top-8 text-red-700">
       <h2 className="text-xl font-bold mb-4">Order Summary</h2>
       <div className="mb-4">{renderCartItems()}</div>
       <hr className="pt-5" />
@@ -77,7 +76,7 @@ const OrderSummary = ({
         <span>Total:</span>
         {isHydrated ? (
           <Suspense fallback={<LoadingSpinner />}>
-            <LazyTotal total={ lazyTotal ?? 0}  />
+            <LazyTotal total={lazyTotal ?? 0} />
           </Suspense>
         ) : (
           <span>₱0.00</span>
