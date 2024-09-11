@@ -67,7 +67,7 @@ export default function Navbar() {
   }, [cart]);
 
   return (
-    <nav className="flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]">
+    <nav className="sticky top-0 flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em] shadow-md z-50">
       <div className="xl:px-12 py-1 flex w-full items-center">
         <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
           <Image className="h-auto w-auto" src={ent3logo} alt="Company Logo" />
