@@ -6,12 +6,12 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-white dark:bg-[#cc0404] mt-auto p-9 lg:p-2">
+      <footer className="bg-white dark:bg-[#cc0404] mt-auto p-5 lg:p-2 sticky top-[100vh">
         <div className="w-full mx-auto container  p-4 py-6 ">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                <Image className="h-20 w-auto" src={imehRich}  alt="logo"/>
+                <Image className="h-20 w-auto" src={imehRich} alt="logo" />
               </a>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -80,7 +80,7 @@ export default function Footer() {
                 target="_blank"
                 className="text-[#fc9595] hover:text-gray-900 dark:hover:text-white"
               >
-                <Image className="h-3 w-auto" src={ent3logoWhite}  alt="logo"/>
+                <Image className="h-3 w-auto" src={ent3logoWhite} alt="logo" />
 
                 <span className="sr-only">Facebook page</span>
               </Link>

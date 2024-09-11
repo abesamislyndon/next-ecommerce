@@ -1,4 +1,3 @@
-'user client';
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -43,12 +42,16 @@ export default function Navbar() {
 
     getUserInfo();
 
-    // Listen for route changes to refresh user info
-    router.events.on("routeChangeComplete", getUserInfo);
+    // Listen for route changes to close the menu
+    const handleRouteChange = () => {
+      setMenuOpen(false);
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     // Cleanup listener on unmount
     return () => {
-      router.events.off("routeChangeComplete", getUserInfo);
+      router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
 
@@ -67,7 +70,7 @@ export default function Navbar() {
     <nav className="flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]">
       <div className="xl:px-12 py-1 flex w-full items-center">
         <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
-          <Image className="h-20 w-auto" src={ent3logo} alt= "Company Logo"/>
+          <Image className="h-auto w-auto" src={ent3logo} alt="Company Logo" />
         </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-10">
           <li>
@@ -83,13 +86,14 @@ export default function Navbar() {
             <Link href="/contact">Contact us</Link>
           </li>
         </ul>
-        <div className="grid  grid-cols-1 lg:grid-cols-1">
+        <div className="grid grid-cols-1 lg:grid-cols-1">
           <div></div>
-          <div className="flex xl:flex items-center space-x-10 lg:space-x-1 text-sm ml-10">
+          <div className="flex xl:flex items-center space-x-10 lg:space-x-10 text-sm ml-10">
             {userinfo === null ? (
               <>
-                <Link href="/login">Login</Link>
-                {/* <OneLogin/> */}
+                <Link href="/login" className="text-xs lg:md hidden lg:block">
+                  Login / Signup
+                </Link>
               </>
             ) : (
               <>
@@ -161,30 +165,49 @@ export default function Navbar() {
         </div>
         <ul className="flex flex-col items-left space-y-4 pl-10 text-lg">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/" onClick={toggleMenu}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link href="/about">About</Link>
+            <Link href="/about" onClick={toggleMenu}>
+              About
+            </Link>
           </li>
           <li>
-            <Link href="/promotions">Promotions</Link>
+            <Link href="/promotions" onClick={toggleMenu}>
+              Promotions
+            </Link>
           </li>
           <li>
-            <Link href="">Contact us</Link>
+            <Link href="/contact" onClick={toggleMenu}>
+              Contact us
+            </Link>
           </li>
           {userinfo === null ? (
             <>
               <li>
-                <Link href="/login">Login</Link>
+                <Link href="/login" onClick={toggleMenu}>
+                  Login / Signup
+                </Link>
               </li>
             </>
           ) : (
             <>
               <li>
-                <Link href="/userinfo">Hi, {userinfo.first_name}</Link>
+                <Link href="/userinfo" onClick={toggleMenu}>
+                  Hi, {userinfo.first_name}
+                </Link>
               </li>
               <li>
-                <button onClick={handleLogout}>Logout</button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    toggleMenu();
+                  }}
+                >
+                  Logout
+                </button>
               </li>
             </>
           )}

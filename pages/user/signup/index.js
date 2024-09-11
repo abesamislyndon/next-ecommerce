@@ -138,8 +138,8 @@ const Signup = () => {
     <div className="h-24 min-h-screen flex flex-col items-center justify-center py-6 px-4 bg-login">
       <div className="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
         <div>
-          <div className="h-screen flex items-center justify-center">
-            <p className="mt-1 font-bold text-3xl">
+          <div className="lg:h-screen flex items-center justify-center">
+            <p className="-mt-20 font-bold text-2xl lg:text-3xl text-center">
               Join us today for a personalized shopping experience—sign up in
               seconds and unlock exclusive deals and seamless checkouts!
             </p>

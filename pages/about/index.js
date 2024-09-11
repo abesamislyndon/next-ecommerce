@@ -3,9 +3,10 @@ import imageAbout from "../../public/image/owner.webp";
 export default function About(){
     return (
       <>
-        <div className="container mx-auto -mt-20  p-5 lg:p-20">
-          <h1 className="text-center p-10 text-[30px]">About us</h1>
-          <div className="grid grid-cols-1 lg:grid-cols-2 grid-flow-row  gap-1 lg:gap-10">
+        <div className="container mx-auto lg:-mt-10  p-5 lg:p-20">
+          <h1 className="text-xl text-center font-extrabold">About Us
+          </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-2 grid-flow-row  gap-1 lg:gap-10 mt-10">
             <div>
               <p className="pb-3 bg-slate-100 p-2 relative">
                 Imerich Roving Market is revolutionizing grocery shopping in
@@ -31,7 +32,11 @@ export default function About(){
               </p>
             </div>
             <div>
-              <Image className="w-[100%] h-auto rounded-md" src={imageAbout}  alt="about us"/>
+              <Image
+                className="w-[100%] h-auto rounded-md"
+                src={imageAbout}
+                alt="about us"
+              />
             </div>
           </div>
         </div>
