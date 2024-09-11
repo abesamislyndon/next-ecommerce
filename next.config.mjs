@@ -23,21 +23,21 @@ const nextConfig = {
       },
       {
         source: "/category/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
+        // destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
+        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
       },
       {
         source: "/api/customer/:path*",
-        destination:
-          "https://exhibitmedia.sg/web/public/kimengseng/api/customer/:path*", // Proxy to Backend
+        destination: "http://localhost:8000/api/customer/:path*", // Proxy to Backend
       },
       {
         source: "/userprofile/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
+        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
       },
       // Make sure this rewrites rule comes after NextAuth's paths
       {
         source: "/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
+        destination: "http://localhost:8000/api/:path*", // Proxy to Backend
       },
     ];
   },

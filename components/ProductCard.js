@@ -12,6 +12,11 @@ export default function ProductCard({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [mounted, setMounted] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleImageLoaded = () => {
+      setIsLoading(false);
+    };
 
   useEffect(() => {
     setMounted(true);
@@ -56,12 +61,20 @@ export default function ProductCard({ product }) {
             ""
           )}
 
+          {isLoading && (
+            <div className="content-wrapper">
+              <div className="placeholder">
+                <div className="animated-background"></div>
+              </div>
+            </div>
+          )}
           <img
             src={product.base_image.large_image_url}
             alt={product.name}
             className="rounded-tl-lg rounded-tr-lg"
             loading="lazy" // Lazy loading attribute added here
           />
+
           <div className="p-2">
             <h5 className="text-md lg:text-sm font-bold  tracking-tight text-stone-500">
               {product.name}
@@ -139,7 +152,7 @@ export default function ProductCard({ product }) {
                       onChange={(e) => setQuantity(parseInt(e.target.value))}
                       // max={totalQuantity}
                       //                        max={toString}
-                      className="w-12 text-center text-lg font-extrabold"
+                      className="w-7 p-1 text-center text-lg font-extrabold"
                     />
                     <button
                       className="pt-4 pb-4 pl-6 pr-6 bg-black text-[#fff]"
@@ -168,7 +181,7 @@ export default function ProductCard({ product }) {
         .modal {
           display: block;
           position: fixed;
-          z-index: 1;
+          z-index: 9999;
           left: 0;
           top: 0;
           width: 100%;
@@ -185,11 +198,13 @@ export default function ProductCard({ product }) {
           overflow-y: auto;
         }
         .close {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
+          color: #000;
+          font-size: 19px;
           font-weight: bold;
           cursor: pointer;
+          position: relative;
+          float: right;
+          z-index:1;
         }
         .close:hover,
         .close:focus {
