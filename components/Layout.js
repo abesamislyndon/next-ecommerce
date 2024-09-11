@@ -9,7 +9,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Head>
-        <title>My page title</title>
+        <title>Ent3 System</title>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icons/icon-192x192.png" />
         <meta name="theme-color" content="#000000" />
