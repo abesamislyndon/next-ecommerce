@@ -39,3 +39,10 @@ next-env.d.ts
 
 
 git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch " HEAD
+
+
+.env
+
+# Auto Generated PWA files
+**/public/sw.js
+**/public/workbox-*.js
