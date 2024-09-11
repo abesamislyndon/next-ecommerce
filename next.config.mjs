@@ -29,16 +29,16 @@ const nextConfig = {
       {
         source: "/api/customer/:path*",
         destination:
-          "https://next-14-ecommerce-topaz.vercel.app/api/customer/:path*", // Proxy to Backend
+          "https://exhibitmedia.sg/web/public/kimengseng/api/customer/:path*", // Proxy to Backend
       },
       {
         source: "/userprofile/api/:path*",
-        destination: "https://next-14-ecommerce-topaz.vercel.app/api/:path*", // Proxy to Backend
+        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
       },
       // Make sure this rewrites rule comes after NextAuth's paths
       {
         source: "/api/:path*",
-        destination: "https://next-14-ecommerce-topaz.vercel.app/api/:path*", // Proxy to Backend
+        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
       },
     ];
   },
