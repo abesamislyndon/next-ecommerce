@@ -30,7 +30,7 @@ export default function Home() {
 
       setLoading(true);
       try {
-        const res = await fetch(`/api/products?limit=20&page=${page}`);
+        const res = await fetch(`/api/products?limit=12&page=${page}`);
         if (!res.ok) {
           throw new Error(`Failed to fetch data: ${res.statusText}`);
         }
