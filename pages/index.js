@@ -131,8 +131,8 @@ export default function Home() {
     <>
       <div className="mx-auto max-w-screen-2xl p-1 lg:p-10">
         <Search onSearch={handleSearch} />
-        <p className="mt-7 text-xl lg:text-[35px] text-center">
-          We offer convenience. MEAT your happines!
+        <p className="mt-7 text-xl lg:text-[45px] text-center">
+          We offer convenience. MEAT your happiness!
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 mt-5">
           <EmblaCarousel />

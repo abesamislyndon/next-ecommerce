@@ -204,21 +204,23 @@ export default function CartPage() {
                     </td>
 
                     <td className="p-3">
-                      <button
-                        className="pt-0 pl-2 pr-2 mr-2 w-[40px] text-[#fff] bg-black"
-                        onClick={() => handleQtyDecrease(item)}
-                      >
-                        -
-                      </button>
-                      <span className="text-center p-4">
-                        {item.quantity || "0"}
-                      </span>
-                      <button
-                        className="pt-0 pl-2 pr-2 mr-2 w-[40px] text-[#fff] bg-black"
-                        onClick={() => handleQtyIncrease(item)}
-                      >
-                        +
-                      </button>
+                      <div className="flex items-center justify-center">
+                        <button
+                          className="pt-0 pl-2 pr-2 mr-2 w-[40px] text-[#fff] bg-black"
+                          onClick={() => handleQtyDecrease(item)}
+                        >
+                          -
+                        </button>
+                        <span className="text-center w-[40px]">
+                          {item.quantity || "0"}
+                        </span>
+                        <button
+                          className="pt-0 pl-2 pr-2 w-[40px] text-[#fff] bg-black"
+                          onClick={() => handleQtyIncrease(item)}
+                        >
+                          +
+                        </button>
+                      </div>
                     </td>
 
                     <td>₱ {calculateSubtotal(item).toFixed(2)}</td>
