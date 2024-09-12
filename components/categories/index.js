@@ -96,8 +96,7 @@ const Categories = ({ categories }) => {
                     alt={category.name}
                   />
                   <p className="text-[10px] mt-2 text-rose-950 font-bold">
-                    {" "}
-                    {category.name}
+                    All
                   </p>
                 </>
               )}
