@@ -7,6 +7,7 @@ import { AuthProvider } from "../hooks/useAuth";
 import "../src/app/globals.css";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import FooterNavbar from "../components/FooterNavbar";
 
 
 function GroceryApp({ Component, pageProps : {session, ...pageProps}, }) {
@@ -16,27 +17,28 @@ function GroceryApp({ Component, pageProps : {session, ...pageProps}, }) {
 
   return (
     // <SessionProvider session={session}>
-      <Provider store={store}>
-        {isLoginPage ? (
-          <AuthProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AuthProvider>
-        ) : isSignupPage ? (
-          <AuthProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AuthProvider>
-        ) : (
-          <AuthProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AuthProvider>
-        )}
-      </Provider>
+    <Provider store={store}>
+      {isLoginPage ? (
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
+      ) : isSignupPage ? (
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
+      ) : (
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
+      )}
+      <FooterNavbar />
+    </Provider>
     // </SessionProvider>
   );
 }

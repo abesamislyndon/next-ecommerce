@@ -6,6 +6,7 @@ import Pagination from "../components/products/pagination";
 import { searchProducts } from "../features/cart/cartSlice";
 import Categories from "../components/categories";
 import { EmblaCarousel } from "./carousell";
+import FooterNavbar from "../components/FooterNavbar";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
@@ -140,7 +141,7 @@ export default function Home() {
           </div>
           <div className="col-span-1">
             <h3 className="text-xl font-extrabold mt-1">Categories</h3>
-            <Categories categories={categories}/>
+            <Categories categories={categories} />
           </div>
         </div>
 
@@ -161,6 +162,7 @@ export default function Home() {
           </>
         )}
       </div>
+ 
     </>
   );
 }

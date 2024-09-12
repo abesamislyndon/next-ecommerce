@@ -66,3 +66,18 @@ background-size: cover;
   flex: 0 0 100%;
   min-width: 0;
 }
+
+
+/* Show FooterNavbar only on mobile */
+@media (min-width: 768px) {
+  nav.fixed.bottom-0 {
+    display: none;
+  }
+}
+
+/* Make sure it shows on smaller screens */
+@media (max-width: 768px) {
+  nav.fixed.bottom-0 {
+    display: block;
+  }
+}

@@ -110,7 +110,7 @@ export default function Navbar() {
               </>
             )}
             <Link
-              className="flex items-center hover:text-gray-200"
+              className="flex items-center hover:text-gray-200 hidden lg:inline"
               href="/cart"
             >
               <ShoppingCartIcon className="text-[#cc0404] w-7 h-7" />
