@@ -140,19 +140,19 @@ export default function CartPage() {
                 </th>
                 <th
                   scope="col"
-                  className="w-auto py-3 px-5 text-[8px] lg:text-xs font-medium tracking-wider text-leftuppercase "
+                  className="w-auto py-3 px-5 text-[8px] lg:text-xs font-medium tracking-wider text-left uppercase "
                 >
                   Description
                 </th>
                 <th
                   scope="col"
-                  className="py-3 text-[8px] lg:text-xs font-medium tracking-wider text-leftuppercase hide lg:block hidden lg:table-cell"
+                  className="py-3 text-[8px] lg:text-xs font-medium tracking-wider text-left hide  hidden lg:table-cell uppercase"
                 >
                   Price
                 </th>
                 <th
                   scope="col"
-                  className="p-3 text-[8px] lg:text-xs font-medium tracking-wider text-left uppercase"
+                  className="p-3 text-[8px] lg:text-xs font-medium tracking-wider text-center uppercase"
                 >
                   Qty.
                 </th>

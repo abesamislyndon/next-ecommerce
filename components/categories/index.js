@@ -29,11 +29,11 @@ const Categories = ({ categories }) => {
   }
   return (
     <>
-      <div className="mx-auto grid grid-cols-3 gap-1  pb-1 sm:grid-cols-3 sm:p-1 mt-0 lg:mt-1 lg:grid-cols-5 lg:gap-x-3 lg:px-0  text-center">
+      <div className="mx-auto w-full  grid grid-cols-3 gap-1  sm:grid-cols-3 sm:p-1  lg:mt-1 lg:grid-cols-5 lg:gap-x-1 lg:px-0  text-center">
         {categories.data.map((category) => (
           <div
             key={category.id}
-            className="w-3/4 p-5 mt-1 shadow-sm m-5 transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d]  rounded-2xl"
+            className="p-2  shadow-sm  transition-colors ease-linear duration-600  hover:bg-gradient-to-r from-[#FFD950] to-[#ffe37d] "
           >
             <Link href={`category/${category.id}`}>
               {category.name === "Pork" ? (

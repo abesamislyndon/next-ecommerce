@@ -134,7 +134,7 @@ export default function Home() {
         <p className="mt-7 text-xl lg:text-[45px] text-center">
           We offer convenience. MEAT your happiness!
         </p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 mt-10 p-0">
           <EmblaCarousel />
           <Categories categories={categories} />
         </div>

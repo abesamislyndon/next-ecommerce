@@ -41,10 +41,10 @@ export function EmblaCarousel() {
   }
 
   return (
-    <div className="embla mt-3 mb-8" ref={emblaRef}>
+    <div className="embla mt-3 mb-0" ref={emblaRef}>
       <div className="embla__container">
         {slider.data.map((sliderBanner) => (
-          <div className="embla__slide w-auto" key={sliderBanner.id}>
+          <div className="embla__slide" key={sliderBanner.id}>
             <img
               src={sliderBanner.image_url_cache}
               className="w-full embla__slide"

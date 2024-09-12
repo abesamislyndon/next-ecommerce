@@ -21,13 +21,11 @@ export default function CategoryPage() {
 
       const data = await response.json();
 
-      console.log('producrt cart', data);
-
       setProducts(data.products || []); // Adjust according to your API response
       setTotalPages(data.totalPages || 1); // Adjust according to your API response
       setCurrentPage(data.currentPage || 1); // Adjust according to your API response
     } catch (error) {
-      console.error("Failed to fetch products", error);
+   //   console.error("Failed to fetch products", error);
       setError("Failed to fetch products.");
     } finally {
       setLoading(false); // Set loading to false once fetch is complete
