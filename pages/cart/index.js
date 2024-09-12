@@ -120,7 +120,7 @@ export default function CartPage() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto p-3 lg:p-0 mt-20 mb-40 bg-white">
+      <div className="max-w-6xl mx-auto p-3 lg:p-0  mt-0 mb-20 lg:mt-20  lg:mb-40">
         <h1 className="mt-3 ml-3 absolute font-bold text-[1em]">Your Order</h1>
         <button
           className="mt-3 mb-5 text-[1em] float-end mr-3"
@@ -128,43 +128,43 @@ export default function CartPage() {
         >
           Clear Cart
         </button>
-        <div className="mx-auto container w-full p-2">
-          <table className="min-w-full divide-y divide-gray-200 table-fixed">
-            <thead className="bg-gray-100">
+        <div className="mx-auto container w-full p-0 ">
+          <table className="min-w-full divide-y divide-gray-200 table-auto">
+            <thead className="bg-gray-300 text-black">
               <tr>
                 <th
                   scope="col"
-                  className="py-3 px-5 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="py-3  px-5 text-xs font-medium tracking-wider text-left  uppercase  lg:block hidden"
                 >
                   Image
                 </th>
                 <th
                   scope="col"
-                  className="w-[30%] py-3 px-5 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="w-auto py-3 px-5 text-[8px] lg:text-xs font-medium tracking-wider text-leftuppercase "
                 >
-                  Name
+                  Description
                 </th>
                 <th
                   scope="col"
-                  className="py-3 text-[10px] lg:text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="py-3 text-[8px] lg:text-xs font-medium tracking-wider text-leftuppercase hide lg:block hidden lg:table-cell"
                 >
                   Price
                 </th>
                 <th
                   scope="col"
-                  className="p-3 text-[10px] lg:text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="p-3 text-[8px] lg:text-xs font-medium tracking-wider text-left uppercase"
                 >
                   Qty.
                 </th>
                 <th
                   scope="col"
-                  className="p-3 text-[10px] lg:text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="p-3 text-[8px] lg:text-xs font-medium tracking-wider text-left text-black uppercase"
                 >
                   Subtotal
                 </th>
                 <th
                   scope="col"
-                  className="py-3 text-[10px] lg:text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                  className="p-3 text-[8px] lg:text-xs font-medium tracking-wider text-left uppercase"
                 >
                   Actions
                 </th>
@@ -173,11 +173,8 @@ export default function CartPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {Array.isArray(globalstate.cart) &&
                 globalstate.cart.map((item, index) => (
-                  <tr
-                    className="hover:bg-gray-100 text-[12px] lg:text-[16px]"
-                    key={index}
-                  >
-                    <td className="p-4">
+                  <tr className="hover:bg-gray-100" key={index}>
+                    <td className="p-0 lg:block hidden">
                       {item.product?.base_image?.small_image_url ? (
                         <img
                           src={item.product.base_image.small_image_url}
@@ -187,37 +184,58 @@ export default function CartPage() {
                         "Loading Image..."
                       )}
                     </td>
-                    <td className="p-4">{item.name || "Loading Name..."}</td>
-                    <td> ₱ {Number(item.price).toFixed(2) || "Loading Price..."}</td>
+
+                    {/* Product name and price for mobile */}
+                    <td className="p-4">
+                      <div className="flex flex-col sm:flex-row sm:justify-between">
+                        <span>{item.name || "Loading Name..."}</span>
+                        <span className="text-[11px] sm:hidden">
+                          ₱{" "}
+                          {Number(item.price).toFixed(2) || "Loading Price..."}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Price only for larger screens */}
+                    <td className="p-1 hidden sm:table-cell">
+                      <span className="text-[11px]">
+                        ₱ {Number(item.price).toFixed(2) || "Loading Price..."}
+                      </span>
+                    </td>
+
                     <td className="p-3">
                       <button
-                        className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"
+                        className="pt-0 pl-2 pr-2 mr-2 w-[40px] text-[#fff] bg-black"
                         onClick={() => handleQtyDecrease(item)}
                       >
                         -
                       </button>
                       <span className="text-center p-4">
-                        {" "}
                         {item.quantity || "0"}
                       </span>
                       <button
-                        className="pt-0 pl-2 pr-2 mr-2 text-[#fff] bg-black"
+                        className="pt-0 pl-2 pr-2 mr-2 w-[40px] text-[#fff] bg-black"
                         onClick={() => handleQtyIncrease(item)}
                       >
                         +
                       </button>
                     </td>
-                    <td> ₱ {calculateSubtotal(item).toFixed(2)}</td>
+
+                    <td>₱ {calculateSubtotal(item).toFixed(2)}</td>
+
                     <td>
-                      <button onClick={() => removeItem(item)}>
-                        <TrashIcon className="text-black-700 w-5 h-5" />
+                      <button
+                        onClick={() => removeItem(item)}
+                        className="ml-5 "
+                      >
+                        <TrashIcon className="text-black-700 w-4 h-4" />
                       </button>
                     </td>
                   </tr>
                 ))}
             </tbody>
           </table>
-          <p className="mt-4 mb-4 text-[2rem] font-extrabold float-end">
+          <p className="mt-1 mb-4 text-[2rem] font-extrabold text-center lg:float-end divide-x-2">
             Total: ₱ {cartTotal.toFixed(2)}
           </p>
         </div>

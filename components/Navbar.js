@@ -125,7 +125,7 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="md:hidden flex items-center ml-10">
+        <div className="fixed top-0 right-0 mt-3 mr-1 md:hidden">
           <button onClick={toggleMenu}>
             <svg
               className="w-9 h-9"
@@ -137,7 +137,7 @@ export default function Navbar() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="1"
                 d="M4 6h16M4 12h16m-7 6h7"
               ></path>
             </svg>

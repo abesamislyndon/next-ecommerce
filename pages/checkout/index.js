@@ -508,7 +508,7 @@ export default function CheckoutPage() {
             />
           )}
           <StepHeader currentStep={currentStep} />
-          <div className="p-10 bg-gray-200">{renderStep()}</div>
+          <div className="p-10 bg-gray-200 -mt-8 lg:mt-0">{renderStep()}</div>
         </div>
 
         {/* Order Summary */}

@@ -2,7 +2,7 @@ const StepHeader = ({ currentStep }) => {
   const steps = ["Customer Details", "Delivery Details", "Payment Details"];
 
   return (
-    <div className="flex justify-between mb-8 bg-white pt-4 p-10">
+    <div className="flex justify-between mb-8 bg-white pt-4 p-10 -mt-8">
       {steps.map((step, index) => (
         <div key={index} className="relative">
           <div
