@@ -24,7 +24,7 @@ export default function FooterNavbar() {
   }, [cart]);
 
   return (
-    <nav className="fixed bottom-0 w-full bg-black border-t-2 shadow-md md:hidden">
+    <nav className="fixed bottom-0 pb-6 pt-6 w-full bg-black border-t-2 shadow-md md:hidden">
       {" "}
       {/* Hidden on larger screens */}
       <div className="flex justify-around items-center p-2">
