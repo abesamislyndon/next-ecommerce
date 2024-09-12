@@ -13,6 +13,7 @@ export default function ProductList({ products}) {
   }
   return (
     <>
+      <h3 className="text-xl font-extrabold mt-10">New and exclusive</h3>
       <div className="grid grid-cols-2 p-5 gap-x-4 gap-1 pb-2 sm:grid-cols-3 sm:px-8 mt-1 lg:mt-0 lg:grid-cols-6 lg:gap-5 lg:px-0  ">
         {products.data.map((product) => (
           <ProductCard key={product.id} product={product} />

@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-white dark:bg-[#cc0404] mt-auto p-5 lg:p-2 sticky top-[100vh">
+      <footer className="bg-[#cc0404] dark:bg-[#cc0404] mt-auto p-5 lg:p-2 sticky top-[100vh">
         <div className="w-full mx-auto container  p-4 py-6 ">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -16,7 +16,7 @@ export default function Footer() {
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
-                <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-lg font-semibold text-white uppercase dark:text-white">
                   Resources
                 </h2>
                 <ul className="text-[#fc9595] font-light text-sm">
@@ -26,7 +26,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-lg font-semibold text-white uppercase dark:text-white">
                   Follow us
                 </h2>
                 <ul className="text-[#fc9595] font-light text-sm">
@@ -57,7 +57,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-lg font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-lg font-semibold text-white uppercase dark:text-white">
                   Legal
                 </h2>
                 <ul className="text-[#fc9595] font-light text-sm">

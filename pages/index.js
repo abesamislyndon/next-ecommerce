@@ -134,10 +134,16 @@ export default function Home() {
         <p className="mt-7 text-xl lg:text-[45px] text-center">
           We offer convenience. MEAT your happiness!
         </p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 mt-10 p-0">
-          <EmblaCarousel />
-          <Categories categories={categories} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10 pl-3 pr-3 bg-white">
+          <div className="col-span-1 lg:col-span-2">
+            <EmblaCarousel className="w-full" />
+          </div>
+          <div className="col-span-1">
+            <h3 className="text-xl font-extrabold mt-1">Categories</h3>
+            <Categories categories={categories}/>
+          </div>
         </div>
+
         {loading ? (
           <LoadingSpinner />
         ) : error ? (
