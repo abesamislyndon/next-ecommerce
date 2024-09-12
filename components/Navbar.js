@@ -71,7 +71,7 @@ export default function Navbar() {
       <div className="xl:px-12 py-1 flex w-full items-center">
         <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
           <Image
-            className="h-[90%] w-[90%] lg:h-[70%] lg:w-[70%]  ml-2 lg:ml-0"
+            className="h-[90%] w-[90%]  lg:w-[220px] lg:h-auto  ml-2 lg:ml-0"
             src={ent3logo}
             alt="Company Logo"
           />
