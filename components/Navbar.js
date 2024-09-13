@@ -114,7 +114,7 @@ export default function Navbar() {
               href="/cart"
             >
               <ShoppingCartIcon className="text-[#cc0404] w-7 h-7" />
-              <span className="flex absolute -mt-6 ml-2">
+              <span className="flex absolute -mt-10 ml-2">
                 <span className="absolute inline-flex h-5 w-5 rounded-full bg-black-400 opacity-75"></span>
                 <span className="relative text-center rounded-full h-6 w-6 bg-black text-[#fff] opacity-75">
                   <span className="relative text-[13px] text-[#fff]">

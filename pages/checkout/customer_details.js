@@ -66,7 +66,7 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors = {} }) => {
             )}
           </label>
           <label className="block text-[#333] mb-2">
-            Phone
+            Phone <span className="text-sm">e.g. (09172314356)</span>
             <input
               type="text"
               name="phone"
