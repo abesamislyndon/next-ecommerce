@@ -132,8 +132,8 @@ export default function Home() {
     <>
       <div className="mx-auto max-w-screen-2xl p-1 lg:p-10">
         <Search onSearch={handleSearch} />
-        <p className="mt-7 text-xl lg:text-[45px] text-center">
-          We offer convenience. MEAT your happiness!
+        <p className="mt-7 text-[35px] lg:text-[45px] p-2 lg:p-0 text-center">
+          We offer convenience.  MEAT your happiness!
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10 pl-3 pr-3 bg-white">
           <div className="col-span-1 lg:col-span-2">

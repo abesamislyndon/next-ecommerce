@@ -188,8 +188,10 @@ export default function CartPage() {
                     {/* Product name and price for mobile */}
                     <td className="p-4">
                       <div className="flex flex-col sm:flex-row sm:justify-between">
-                        <span>{item.name || "Loading Name..."}</span>
-                        <span className="text-[11px] sm:hidden">
+                        <span className="text-[11px]">
+                          {item.name || "Loading Name..."}
+                        </span>
+                        <span className="text-[11px] lg:sm sm:hidden">
                           ₱{" "}
                           {Number(item.price).toFixed(2) || "Loading Price..."}
                         </span>
@@ -198,7 +200,7 @@ export default function CartPage() {
 
                     {/* Price only for larger screens */}
                     <td className="p-1 hidden sm:table-cell">
-                      <span className="text-[11px]">
+                      <span className="text-md">
                         ₱ {Number(item.price).toFixed(2) || "Loading Price..."}
                       </span>
                     </td>
