@@ -163,6 +163,8 @@ export default function CheckoutPage() {
       const selectedShippingRate =
         response.payload?.data?.cart?.selected_shipping_rate?.price;
 
+        console.log('rates', response);
+
       if (selectedShippingRate !== undefined) {
         localStorage.setItem("deliveryFee", selectedShippingRate);
         setDeliveryFee(parseFloat(selectedShippingRate)); // Update state

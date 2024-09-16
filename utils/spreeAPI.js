@@ -221,8 +221,6 @@ export const saveShiping = async ({ deliveryMethod, pickupLocation }) => {
     ? `/api/checkout/save-shipping?token=true`
     : `/api/checkout/save-shipping`;
   
-  
-
 
 let body;
 if (delivery_details === "pickup") {

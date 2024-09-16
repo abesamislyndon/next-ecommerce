@@ -67,7 +67,7 @@ export default function CartPage() {
     : 0;
 
  // CLEAR CART DETAILS 
-  const clearCartDetails = () => {
+  const clearCartDetails = () => {  
     dispatch(fetchCartEmpty());
     dispatch(clearCart());
   };
@@ -117,6 +117,7 @@ export default function CartPage() {
       </div>
     );
   }
+
 
   return (
     <>
