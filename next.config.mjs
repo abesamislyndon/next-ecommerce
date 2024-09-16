@@ -24,13 +24,13 @@ const nextConfig = {
       {
         source: "/category/api/:path*",
         destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
-        //"http://localhost:8000/api/:path*",
+       // "http://localhost:8000/api/:path*",
         //destination: "http://localhost:8000/api/:path*", // Proxy to Backend
       },
       {
         source: "/api/customer/:path*",
         destination:"https://exhibitmedia.sg/web/public/kimengseng/api/customer/:path*", // Proxy to Backend
-        //"http://localhost:8000/api/customer/:path*",
+       // "http://localhost:8000/api/customer/:path*",
       },
       {
         source: "/userprofile/api/:path*",
