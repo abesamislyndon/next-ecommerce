@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import {
   ShoppingCartIcon,
   ArrowLeftStartOnRectangleIcon,
+  ArrowLeftIcon
 } from "@heroicons/react/24/solid";
 import { useAuth } from "../hooks/useAuth";
 import Image from "next/image";
@@ -65,6 +66,10 @@ export default function Navbar() {
       console.error("Cart is not an array:", cart);
     }
   }, [cart]);
+
+  const Back = () =>{
+    router.back();
+  }
 
   return (
     <>
@@ -218,8 +223,14 @@ export default function Navbar() {
             )}
           </ul>
         </div>
-        <span>back</span>
       </nav>
+      {router.pathname !== "/" && (
+        <div className="lg:hidden block mx-auto p-3 bg-gray-200">
+          <span className="text-sm">
+            <ArrowLeftIcon className="w-5" onClick={Back} />
+          </span>
+        </div>
+      )}
     </>
   );
 }

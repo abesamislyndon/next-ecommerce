@@ -189,7 +189,7 @@ export default function CartPage() {
                     {/* Product name and price for mobile */}
                     <td className="p-4">
                       <div className="flex flex-col sm:flex-row sm:justify-between">
-                        <span className="text-[11px]">
+                        <span className="text-[11px] lg:text-[16px]">
                           {item.name || "Loading Name..."}
                         </span>
                         <span className="text-[11px] lg:sm sm:hidden">
