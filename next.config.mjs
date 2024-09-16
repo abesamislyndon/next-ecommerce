@@ -1,11 +1,13 @@
 import withPWA from "next-pwa";
 
+const isProd = process.env.NODE_ENV === "production"; // Check if environment is production
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true, // Enable React strict mode for improved error handling
-  swcMinify: true, // Enable SWC minification for improved performance
+  reactStrictMode: true,
+  swcMinify: true,
   compiler: {
-    removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
+    removeConsole: isProd, // Remove console.log in production
   },
   async rewrites() {
     return [
@@ -23,33 +25,35 @@ const nextConfig = {
       },
       {
         source: "/category/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
-       // "http://localhost:8000/api/:path*",
-        //destination: "http://localhost:8000/api/:path*", // Proxy to Backend
+        destination: isProd
+          ? "https://exhibitmedia.sg/web/public/kimengseng/api/:path*" // Production URL
+          : "http://localhost:8000/api/:path*", // Development URL
       },
       {
         source: "/api/customer/:path*",
-        destination:"https://exhibitmedia.sg/web/public/kimengseng/api/customer/:path*", // Proxy to Backend
-       // "http://localhost:8000/api/customer/:path*",
+        destination: isProd
+          ? "https://exhibitmedia.sg/web/public/kimengseng/api/customer/:path*"
+          : "http://localhost:8000/api/customer/:path*",
       },
       {
         source: "/userprofile/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
-        //"http://localhost:8000/api/:path*",
+        destination: isProd
+          ? "https://exhibitmedia.sg/web/public/kimengseng/api/:path*"
+          : "http://localhost:8000/api/:path*",
       },
-      // Make sure this rewrites rule comes after NextAuth's paths
       {
         source: "/api/:path*",
-        destination: "https://exhibitmedia.sg/web/public/kimengseng/api/:path*", // Proxy to Backend
-        //"http://localhost:8000/api/:path*",
+        destination: isProd
+          ? "https://exhibitmedia.sg/web/public/kimengseng/api/:path*"
+          : "http://localhost:8000/api/:path*",
       },
     ];
   },
 };
 
 export default withPWA({
-  dest: "public", // Destination directory for the PWA files
-  disable: process.env.NODE_ENV === "development", // Disable PWA in the development environment
-  register: true, // Register the PWA service worker
-  skipWaiting: true, // Skip waiting for service worker activation
+  dest: "public",
+  disable: !isProd, // Disable PWA in development
+  register: true,
+  skipWaiting: true,
 })(nextConfig);
