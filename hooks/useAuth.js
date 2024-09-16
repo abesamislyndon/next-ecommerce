@@ -70,10 +70,10 @@ const useProvideAuth = () => {
 
   const handleLogout = async () => {
     const token = Cookies.get("token");
-    if (!token) {
-      router.push("/login");
+     if (!token) {
+     router.push("/login");
     } else {
-      try {
+      try { 
         const response = await fetch("/api/customer/logout?token=true", {
           method: "GET",
           headers: {
@@ -82,7 +82,8 @@ const useProvideAuth = () => {
           },
         });
 
-       console.log(response);
+        console.log('token', token);
+ 
 
         if (response.ok) {
           Cookies.remove("token");

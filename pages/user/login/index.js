@@ -56,7 +56,9 @@ const Login = () => {
         };
         sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
         setApiResponse("Redirecting...");
-        router.back();
+     
+        router.push('/');
+        
         setTimeout(() => {
           router.reload(); // Reload the page to refresh
         }, 100); // Add a slight delay to ensure the navigation is complete
