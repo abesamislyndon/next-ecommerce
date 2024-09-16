@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                <Image className="h-20 w-auto" src={imehRich} alt="logo" />
+                <Image className="h-10 lg:h-20 lg:left-1 w-auto" src={imehRich} alt="logo" />
               </a>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -73,7 +73,7 @@ export default function Footer() {
             <span className="text-xs text-[#fc9595]">
               © 2024 Imerich Roving Market . All Rights Reserved.
             </span>
-            <div className="flex mt-4 sm:justify-center sm:mt-0">
+            <div className="flex h-20 mt-4 justify-center sm:mt-0">
               <span className="text-xs text-[#fc9595] mr-2">Powered by:</span>
               <Link
                 href="https://www.facebook.com/ImerichRovingMarket2021"
