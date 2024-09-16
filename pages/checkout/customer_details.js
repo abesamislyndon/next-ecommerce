@@ -68,10 +68,12 @@ const CustomerDetails = ({ billingInfo = {}, handleChange, errors = {} }) => {
           <label className="block text-[#333] mb-2">
             Phone <span className="text-sm">e.g. (09172314356)</span>
             <input
-              type="text"
+              type="tel" // Changed to "tel"
               name="phone"
               value={billingInfo.phone || ""}
               onChange={handleChange}
+              pattern="[0-9]*" // Optional: This will ensure only numbers are allowed
+              inputMode="numeric" // Forces numeric keyboard on mobile
               className={`px-4 py-3.5 bg-gray-100 text-[#333] w-full text-sm border rounded-md focus:border-black outline-none ${
                 errors.phone ? "border-red-500" : ""
               }`}
