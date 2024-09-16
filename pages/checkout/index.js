@@ -145,39 +145,43 @@ export default function CheckoutPage() {
   };
 
   // DELIVERY METHOD  -  COD OR PICKUP
-  const handleDeliveryChange = async (e) => {
-    const { value } = e.target;
-    setDeliveryMethod(value);
-    localStorage.setItem("deliveryMethod", value);
+const handleDeliveryChange = async (e) => {
+  const { value } = e.target;
+  setDeliveryMethod(value);
+  localStorage.setItem("deliveryMethod", value);
 
-    // Set loading state to true
-    setIsLoadingDeliveryFee(true);
+  // Set loading state to true
+  setIsLoadingDeliveryFee(true);
 
-    try {
-      dispatch(formatBillingInfo());
+  try {
+    // Ensure address is saved before shipping
+    await dispatch(formatBillingInfo());
 
-      const response = await dispatch(
-        saveShiping({ deliveryMethod: value, pickupLocation })
-      );
+    // Save shipping information
+    const response = await dispatch(
+      saveShiping({ deliveryMethod: value, pickupLocation })
+    );
 
-      const selectedShippingRate =
-        response.payload?.data?.cart?.selected_shipping_rate?.price;
+    // Extract selected shipping rate from the response
+    const selectedShippingRate =
+      response.payload?.data?.cart?.selected_shipping_rate?.price;
 
-        console.log('rates', response);
-
-      if (selectedShippingRate !== undefined) {
-        localStorage.setItem("deliveryFee", selectedShippingRate);
-        setDeliveryFee(parseFloat(selectedShippingRate)); // Update state
-      } else {
-        console.error("Selected shipping rate is not available.");
-      }
-    } catch (error) {
-      console.error("Failed to save shipping information:", error);
-    } finally {
-      // Only stop loading after the fee state has been updated
-      setIsLoadingDeliveryFee(false);
+    if (selectedShippingRate !== undefined) {
+      localStorage.setItem("deliveryFee", selectedShippingRate);
+      setDeliveryFee(parseFloat(selectedShippingRate)); // Update delivery fee
+    } else {
+      console.error("Selected shipping rate is not available.");
+      // Optionally, reset the delivery fee if no rate is available
+      setDeliveryFee(null);
     }
-  };
+  } catch (error) {
+    console.error("Failed to save shipping information:", error);
+  } finally {
+    // Only stop loading after the fee state has been updated
+    setIsLoadingDeliveryFee(false);
+  }
+};
+
 
   //  PICKUP METHOD FOR  LOCATION AND  DATE
   const handlePickupChange = (e) => {
