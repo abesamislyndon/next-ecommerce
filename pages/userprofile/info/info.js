@@ -13,6 +13,8 @@ const Info = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       const data = await userInfo();
+console.log('response user info', data);
+
       if (data) {
         setUserInfoData(data);
       }
@@ -25,8 +27,7 @@ const Info = () => {
     return <div>Loading...</div>;
   }
 
-  //console.log(userInfoData);
-
+ 
   return (
     <>
       <div className="bg-white overflow-hidden shadow rounded-lg border">
