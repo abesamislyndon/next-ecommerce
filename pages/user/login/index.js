@@ -52,7 +52,7 @@ const Login = () => {
         Cookies.set("token", data.token, {
           expires: 7,
           secure: true,
-          sameSite: "Strict",
+        //  sameSite: "Strict",
         });
 
         const basicInfo = {
