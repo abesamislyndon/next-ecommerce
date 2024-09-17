@@ -49,11 +49,10 @@ const Login = () => {
 
       const data = await res.json();
       if (res.ok) {
-        // Example for setting refresh token
         Cookies.set("token", data.token, {
           expires: 7,
           secure: true,
-          sameSite: "Lax",
+          sameSite: "Strict",
         });
 
         const basicInfo = {
