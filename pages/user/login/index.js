@@ -49,15 +49,21 @@ const Login = () => {
 
       const data = await res.json();
       if (res.ok) {
-        Cookies.set("token", data.token, { expires: 1 });
+        // Example for setting refresh token
+        Cookies.set("refreshToken", refreshToken, {
+          expires: 7,
+          secure: true,
+          sameSite: "Lax",
+        });
+
         const basicInfo = {
           id: data.data.id,
           first_name: data.data.first_name,
         };
         sessionStorage.setItem("BasicInfo", JSON.stringify(basicInfo));
         setApiResponse("Redirecting...");
-        router.push('/');
-        
+        router.push("/");
+
         setTimeout(() => {
           router.reload(); // Reload the page to refresh
         }, 100); // Add a slight delay to ensure the navigation is complete
@@ -84,7 +90,7 @@ const Login = () => {
                 account.
               </p>
               <p className="text-sm mt-10">
-                Don't have an account?{" "}
+                Don't have an account?
                 <Link
                   href="signup"
                   className="text-blue-600 font-semibold hover:underline ml-1"
