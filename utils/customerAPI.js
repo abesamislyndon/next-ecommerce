@@ -31,19 +31,38 @@ export const getPurchaseOrder = async (parsedUserInfo) => {
 
 export const userInfo = async () => {
   const token = Cookies.get("token");
-  const endpoint = `/api/customer/get?token=${token}`;
+
+  const get_user_id = () => {
+    if (typeof window !== "undefined") {
+      // Get the item from sessionStorage
+      const userData = sessionStorage.getItem("BasicInfo");
+
+      // Parse the JSON string if it exists
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+
+        // Access the `id` field
+        return parsedUserData.id;
+      }
+    }
+
+    return null; // Return null if there's no data or during SSR
+  };
+
+  const userId = get_user_id();
+
+  const endpoint = `/api/customers/${userId}?token=${token}`;
 
   try {
     const options = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
     const response = await fetch(endpoint, options);
-    console.log("customer info", response);
 
     if (!response.ok) {
       const errorDetails = await response.text();
