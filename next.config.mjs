@@ -6,9 +6,9 @@ const isProd = process.env.NODE_ENV === "production"; // Check if environment is
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    removeConsole: isProd, // Remove console.log in production
-  },
+  // compiler: {
+  //   removeConsole: isProd, // Remove console.log in production
+  // },
   async rewrites() {
     return [
       {
