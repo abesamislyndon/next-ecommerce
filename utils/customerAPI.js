@@ -38,12 +38,12 @@ export const userInfo = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
       },
     };
 
     const response = await fetch(endpoint, options);
-   // console.log("customer info", response);
+    console.log("customer info", response);
 
     if (!response.ok) {
       const errorDetails = await response.text();
