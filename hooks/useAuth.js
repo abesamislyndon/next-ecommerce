@@ -21,10 +21,31 @@ const useProvideAuth = () => {
 
   useEffect(() => {
     const token = Cookies.get("token");
+
+  const get_user_id = () => {
+    if (typeof window !== "undefined") {
+      // Get the item from sessionStorage
+      const userData = sessionStorage.getItem("BasicInfo");
+
+      // Parse the JSON string if it exists
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+
+        // Access the `id` field
+        return parsedUserData.id;
+      }
+    }
+
+    return null; // Return null if there's no data or during SSR
+  };
+
+  const userId = get_user_id();
+
+
     if (token) {
       const checkUser = async () => {
         try {
-          const response = await fetch("/api/customer/get?token=true", {
+          const response = await fetch(`/api/customers/${userId}?token=true`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
