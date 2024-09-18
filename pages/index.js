@@ -6,7 +6,6 @@ import Pagination from "../components/products/pagination";
 import { searchProducts } from "../features/cart/cartSlice";
 import Categories from "../components/categories";
 import { EmblaCarousel } from "./carousell";
-import FooterNavbar from "../components/FooterNavbar";
 
 const ProductList = lazy(() => import("../components/ProductList"));
 
@@ -33,7 +32,7 @@ export default function Home() {
       try {
         const res = await fetch(`/api/products?limit=12&page=${page}`);
         if (!res.ok) {
-          throw new Error(`Failed to fetch data: ${res.statusText}`);
+          throw new Error(`Unable to Load Data`);
         }
         const data = await res.json();
         // console.log("API Response:", data.meta); // Check API response
@@ -62,7 +61,7 @@ export default function Home() {
       try {
         const res = await fetch(`/api/categories?page=${page}`);
         if (!res.ok) {
-          throw new Error(`Failed to fetch data: ${res.statusText}`);
+          throw new Error(`Unable to Load Data`);
         }
         const data = await res.json();
         const categoriesData = data || [];
@@ -107,7 +106,7 @@ export default function Home() {
 
       const res = await fetch(`/api/products?name=${query}&limit=10&page=1`);
       if (!res.ok) {
-        throw new Error(`Failed to fetch search results: ${res.statusText}`);
+        throw new Error(`Unable to Load Data`);
       }
 
       const data = await res.json();

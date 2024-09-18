@@ -114,16 +114,20 @@ export default function CheckoutPage() {
   const calculateSubtotal = (item) => {
     const parsedQuantity = parseInt(item.quantity);
     const parsedPrice = parseFloat(item.price.replace(/\$/g, ""));
+    
     return isNaN(parsedQuantity) || isNaN(parsedPrice)
       ? 0
       : parsedQuantity * parsedPrice;
   };
+
+ 
 
   const calculateTotal = () =>
     globalstate.cart.reduce(
       (total, item) => total + calculateSubtotal(item),
       0
     );
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -297,13 +301,16 @@ const handleDeliveryChange = async (e) => {
     }
   };
 
+// CLOSING MODAL
   const handleCloseModal = () => setShowModal(false);
 
+// GUEST ORDER
   const handleGuestOrder = () => {
     setShowModal(false);
     handleSubmit();
   };
 
+//  USER REGISTER
   const handleRegister = () => {
     setShowModal(false);
     router.push("/signup");

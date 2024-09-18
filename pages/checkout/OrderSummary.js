@@ -13,6 +13,7 @@ const OrderSummary = ({
   loading,
 }) => {
   const [lazyDeliveryFee, setLazyDeliveryFee] = useState(null);
+  const [lazySubTotal, setLazySubTotal] = useState(null);
   const [lazyTotal, setLazyTotal] = useState(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
@@ -26,6 +27,7 @@ const OrderSummary = ({
         setLazyDeliveryFee(deliveryFee || 0);
         const totalAmount = calculateTotal();
         setLazyTotal(totalAmount + (deliveryFee || 0));
+        setLazySubTotal(totalAmount || 0);
       }, 1000);
 
       return () => clearTimeout(timeoutId);
@@ -54,7 +56,7 @@ const OrderSummary = ({
       <hr className="pt-5" />
       <div className="flex justify-between mb-2">
         <span>Subtotal:</span>
-        <span>{formatPrice(calculateTotal)}</span>
+        <span>{formatPrice(lazySubTotal)}</span>
       </div>
       <div className="flex justify-between mb-2">
         <span>Delivery Fee:</span>
@@ -86,4 +88,3 @@ const OrderSummary = ({
 export default OrderSummary;
 
 
-  

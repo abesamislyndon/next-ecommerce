@@ -38,7 +38,7 @@ const Sidebar = () => {
               <li>
                 <span className="mx-3 text-black/60"></span>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="#"
                   className="text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-dark/60 dark:hover:text-dark/80 dark:focus:text-dark/80 dark:active:text-white/80 inline-flex items-baseline"
@@ -46,7 +46,7 @@ const Sidebar = () => {
                   <Cog8ToothIcon className="w-3 h-3 self-center mx-2" />
                   Settings
                 </a>
-              </li>
+              </li> */}
             </ol>
           </nav>
         </div>

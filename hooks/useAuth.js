@@ -35,7 +35,6 @@ const useProvideAuth = () => {
         return parsedUserData.id;
       }
     }
-
     return null; // Return null if there's no data or during SSR
   };
 

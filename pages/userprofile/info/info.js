@@ -4,11 +4,8 @@ import withAuth from "../../../hooks/withAuth";
 import { userInfo } from "../../../utils/customerAPI";
 import { useEffect, useState } from "react";
 
-
-
 const Info = () => {
-  
-  const [userInfoData, setUserInfoData] = useState(null);
+const [userInfoData, setUserInfoData] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -25,14 +22,12 @@ const Info = () => {
     return <div>Loading...</div>;
   }
 
-  //console.log(userInfoData);
-
   return (
     <>
       <div className="bg-white overflow-hidden shadow rounded-lg border">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            User Profile
+            My Profile
           </h3>
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
