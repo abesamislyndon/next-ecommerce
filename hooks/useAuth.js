@@ -45,7 +45,7 @@ const useProvideAuth = () => {
     if (token) {
       const checkUser = async () => {
         try {
-          const response = await fetch(`/api/customers/${userId}?token=true`, {
+          const response = await fetch(`api/customers/${userId}?token=true`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
