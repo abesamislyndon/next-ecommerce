@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ent3logoWhite from "../public/image/ent3-logo-white.png";
 import imehRich from "../public/image/logo-imerich.webp";
+import ent3Logo from "../public/image/ent3-logo-white.png";
 import Link from "next/link";
 
 export default function Footer() {
@@ -11,7 +12,11 @@ export default function Footer() {
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                <Image className="h-10 lg:h-20 lg:left-1 w-auto" src={imehRich} alt="logo" />
+                <Image
+                  className="lg:left-1 lg:h-auto w-[90px] "
+                  src={ent3Logo}
+                  alt="logo"
+                />
               </a>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -71,7 +76,7 @@ export default function Footer() {
           <hr className="my-6 border-[#ed1f1f] sm:mx-auto lg:my-10" />
           <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-xs text-[#fc9595]">
-              © 2024 Imerich Roving Market . All Rights Reserved.
+              © 2024 Ent3 Systems . All Rights Reserved.
             </span>
             <div className="flex h-20 mt-4 justify-center sm:mt-0">
               <span className="text-xs text-[#fc9595] mr-2">Powered by:</span>

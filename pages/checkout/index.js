@@ -90,7 +90,7 @@ export default function CheckoutPage() {
     setPickupLocation(storedPickupLocation || "");
 
     // Initialize delivery fee from localStorage
-    const storedDeliveryFee = localStorage.getItem("DeliveryFee");
+    const storedDeliveryFee = localStorage.getItem("deliveryFee");
     if (storedDeliveryFee) {
       setDeliveryFee(parseFloat(storedDeliveryFee));
     }
@@ -100,7 +100,7 @@ export default function CheckoutPage() {
     // Listen for storage events to update delivery fee
     const handleStorageChange = (event) => {
       if (event.key === "Delivery Fee") {
-        const newDeliveryFee = localStorage.getItem("DeliveryFee");
+        const newDeliveryFee = localStorage.getItem("deliveryFee");
         setDeliveryFee(newDeliveryFee ? parseFloat(newDeliveryFee) : null);
       }
     };

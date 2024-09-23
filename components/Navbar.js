@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useAuth } from "../hooks/useAuth";
 import Image from "next/image";
-import ent3logo from "../public/image/imerich-logo.webp";
+import ent3logo from "../public/image/ent3-logo.png";
 
 export default function Navbar() {
   const [currentCartItemCount, setCurrentCartItemCount] = useState(0);
@@ -73,11 +73,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]  z-50">
+      <nav className="sticky top-0 flex justify-between bg-[#fff] text-dark w-full border-b-[0.1em]  z-50 pt-2 pb-2">
         <div className="xl:px-12 py-1 flex w-full items-center">
           <Link className="text-3xl p-1 mr-1 font-bold font-heading" href="/">
             <Image
-              className="h-[90%] w-[90%]  lg:w-[220px] lg:h-auto  ml-2 lg:ml-0"
+              className="h-[90%] w-[90%]  lg:w-[90px] lg:h-auto  ml-2 lg:ml-0"
               src={ent3logo}
               alt="Company Logo"
             />
