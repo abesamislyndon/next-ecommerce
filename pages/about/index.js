@@ -1,5 +1,5 @@
 import Image from "next/image";
-import imageAbout from "../../public/image/owner.webp";
+import imageAbout from "../../public/image/owner.jpg";
 export default function About(){
     return (
       <>
@@ -9,27 +9,13 @@ export default function About(){
           <div className="grid grid-cols-1 lg:grid-cols-2 grid-flow-row  gap-1 lg:gap-10 mt-10">
             <div>
               <p className="pb-3 bg-slate-100 p-2 relative">
-                Imerich Roving Market is revolutionizing grocery shopping in
-                Cagayan de Oro City with its convenient service and door-to-door
-                delivery. As the first of its kind in the city, Imerich Roving
-                Market aims to provide a hassle-free grocery shopping experience
-                for its customers.
+               Ent3 Systems is revolutionizing grocery shopping in Cagayan de Oro City with its convenient service and door-to-door delivery. As the first of its kind in the city, Ent3 Systems aims to provide a hassle-free grocery shopping experience for its customers.
+
+With a commitment to continuously improve and expand its services, Ent3 Systems ensures the highest standards of quality and reliability.
+
+Ent3 Systems is dedicated to serving its customers and growing its business and organization in the years to come. Experience the ease and convenience of grocery shopping with just one tap, and enjoy the convenience of doorstep delivery with Ent3 Systems.
               </p>
-              <p className="pb-3 bg-slate-100 p-2 relative">
-                owered by I'M RICH Corporation, a leading meat trade company
-                known for supplying quality meats to manufacturing companies,
-                hotels, restaurants, institutions, city wet markets, and other
-                neighboring areas across Northern Mindanao, Imerich Roving
-                Market ensures the highest standards of quality and reliability.
-              </p>
-              <p className="pb-3 bg-slate-100 p-2 relative">
-                With a commitment to continuously improve and expand its
-                services, Imerich Roving Market is dedicated to serving its
-                customers and growing its business and organization in the years
-                to come. Experience the ease and convenience of grocery shopping
-                with just one tap, and enjoy the convenience of doorstep
-                delivery with Imerich Roving Market.
-              </p>
+            
             </div>
             <div>
               <Image

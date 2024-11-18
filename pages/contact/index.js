@@ -7,11 +7,11 @@ export default function Contact(){
               Contact Us
             </h3>
             <p>
-              We, in Imerich Roving Market would like to give you a hassle free
-              grocery shopping experience. ​ Take advantage of our Chat & Shop
-              platform with a door-to-door delivery service! ​ For your orders,
-              please reach us to any of the contact information below for
-              immediate response.
+             We, at Ent3 Systems, would like to give you a hassle-free grocery shopping experience.
+
+Take advantage of our innovative Chat & Shop platform, which offers a door-to-door delivery service!
+
+For your orders, please reach out to us through any of the contact information provided below for an immediate response.
             </p>
           </div>
 
@@ -21,8 +21,8 @@ export default function Contact(){
                 Contact
               </span>
                 <ul>
-                  <li> Globe: +63 906 033 8933 +63 991 316 1837</li>
-                  <li>Email: imerichrovingmarket@gmail.com</li>
+                  <li> Globe: +63 9171579672</li>
+                  <li>Email: wedevelop088@gmail.com</li>
                 </ul>
             </div>
             <div>
